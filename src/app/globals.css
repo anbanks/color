@@ -123,6 +123,7 @@
   }
   body {
     @apply bg-background text-foreground;
+    padding-top: 70px;
   }
   html {
     @apply font-sans;
@@ -130,10 +131,37 @@
 }
 
 .site-container {
-  max-width: 1536px;
+  max-width: 1700px;
   margin-left: auto;
   margin-right: auto;
   width: 100%;
+}
+
+.feed-grid {
+  padding: 5px 20px 30px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-column-gap: 3%;
+  grid-row-gap: 24px;
+}
+
+@media screen and (max-width: 1500px) {
+  .feed-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .feed-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-column-gap: 4%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .feed-grid {
+    padding: 10px 8px 70px;
+  }
 }
 
 .scrollbar-hide {

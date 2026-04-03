@@ -66,10 +66,10 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-gray-100/80">
-      <div className="h-[60px] flex items-center">
-        {/* Logo — mesma largura da sidebar */}
-        <div className="w-[200px] shrink-0 hidden md:block pl-6 pr-2">
+    <header className="fixed top-0 left-0 w-full z-10 bg-white" style={{ padding: "10px 0" }}>
+      <div className="site-container flex items-center">
+        {/* Logo — .left min-width:200px */}
+        <div className="min-w-[200px] shrink-0 hidden md:block px-5 box-border">
           <Link href={`/${locale}`} className="flex items-center gap-2.5 group">
             <span className="text-[26px] group-hover:scale-105 transition-transform">🎨</span>
             <span className="text-[17px] font-bold text-gray-900 tracking-[-0.01em]">
@@ -85,8 +85,8 @@ export function Header() {
           </Link>
         </div>
 
-        {/* Search — mesma largura do feed */}
-        <div className="flex-1 relative px-5">
+        {/* Search — .middle width:100% */}
+        <div className="w-full relative px-5 box-border">
           <div className="relative flex items-center h-[42px] border border-gray-200/80 rounded-full bg-[#fafafa] hover:bg-white hover:border-gray-300 focus-within:bg-white focus-within:border-gray-300 focus-within:shadow-sm transition-all">
             {activeTag ? (
               <div className="flex items-center ml-3">
@@ -156,8 +156,8 @@ export function Header() {
           )}
         </div>
 
-        {/* Menu — colado à direita */}
-        <div className="shrink-0 flex items-center gap-2 pr-5">
+        {/* Menu — .right min-width:340px */}
+        <div className="min-w-[340px] max-w-[340px] shrink-0 hidden xl:flex items-center justify-end gap-2 px-5 box-border">
           {/* Avatar quando logado */}
           {session?.user && (
             <div className="h-[32px] w-[32px] rounded-full bg-gray-100 flex items-center justify-center text-[13px] font-semibold text-gray-500">

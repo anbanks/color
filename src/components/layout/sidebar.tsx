@@ -28,7 +28,7 @@ export function Sidebar() {
 
   return (
     <nav>
-      <div className="space-y-[1px]">
+      <div>
         {navItems.map((item) => {
           const Icon = item.icon;
           const href = `/${locale}${item.path}`;
@@ -43,18 +43,16 @@ export function Sidebar() {
               key={item.label}
               href={href}
               className={cn(
-                "flex items-center gap-[10px] px-[12px] py-[12px] rounded-[10px] text-[16px] transition-all duration-150",
+                "flex items-center gap-[4px] h-[42px] text-[17px] rounded-[10px] px-[14px] mb-[6px] transition-all duration-200 cursor-pointer relative overflow-hidden",
                 isActive
-                  ? "text-gray-900 font-semibold bg-gray-100/80"
-                  : "text-gray-800 hover:bg-gray-100/60"
+                  ? "font-medium text-black"
+                  : "opacity-80 text-black/90 hover:opacity-100"
               )}
+              style={isActive ? { background: "linear-gradient(90deg, #F4F4F4 0%, #EFEFEF 100%)" } : {}}
             >
               <Icon
-                className={cn(
-                  "w-[22px] h-[22px]",
-                  isActive ? "text-gray-900" : "text-gray-500"
-                )}
-                strokeWidth={isActive ? 2.2 : 1.5}
+                className="w-[20px] h-[20px] -ml-[2px] mr-[2px] shrink-0"
+                strokeWidth={isActive ? 2 : 1.5}
               />
               {item.label}
             </Link>
@@ -62,26 +60,28 @@ export function Sidebar() {
         })}
       </div>
 
-      <div className="mt-4 ml-[12px] pt-3 border-t border-gray-100">
-        <div className="space-y-[1px]">
-          {tags.map((tag) => {
-            const isActive = activeTag === tag.toLowerCase();
-            return (
-              <Link
-                key={tag}
-                href={`/${locale}/palettes/${tag.toLowerCase()}`}
-                className={cn(
-                  "block py-[6px] text-[15px] transition-colors",
-                  isActive
-                    ? "text-gray-900 font-semibold"
-                    : "text-gray-500 hover:text-gray-800"
-                )}
-              >
-                {tag}
-              </Link>
-            );
-          })}
-        </div>
+      <div className="mt-[10px]">
+        {tags.map((tag, i) => {
+          const isActive = activeTag === tag.toLowerCase();
+          return (
+            <Link
+              key={tag}
+              href={`/${locale}/palettes/${tag.toLowerCase()}`}
+              className={cn(
+                "flex items-center h-[42px] text-[17px] rounded-[10px] pl-[16px] transition-all duration-200 cursor-pointer",
+                isActive
+                  ? "font-medium text-black"
+                  : "text-black/90 hover:opacity-80"
+              )}
+              style={{
+                opacity: isActive ? 1 : Math.max(0.1, 0.8 - (i * 0.05)),
+                ...(isActive ? { background: "linear-gradient(90deg, #F4F4F4 0%, #EFEFEF 100%)" } : {}),
+              }}
+            >
+              {tag}
+            </Link>
+          );
+        })}
       </div>
     </nav>
   );

@@ -37,20 +37,21 @@ export function LikeButton({ paletteId, initialCount, initialLiked = false }: Li
       onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleLike(); }}
       disabled={isPending}
       className={cn(
-        "inline-flex items-center gap-[6px] h-[34px] px-[14px] rounded-full border-[1.5px] text-[14px] transition-all duration-200 select-none",
+        "inline-flex items-center gap-[6px] h-[38px] px-[14px] rounded-[10px] border text-[14px] cursor-pointer relative overflow-hidden transition-all duration-200 select-none shrink-0",
         liked
-          ? "border-red-300 text-red-500 bg-red-50/40"
-          : "border-gray-300 text-gray-500 bg-white hover:border-gray-400 hover:text-gray-700"
+          ? "border-transparent text-red-500"
+          : "border-[#ececec] text-black/90 hover:text-black"
       )}
+      style={liked ? { background: "linear-gradient(90deg, #FFF0F0 0%, #FFE8E8 100%)" } : { background: "white" }}
     >
       <Heart
         className={cn(
-          "h-[16px] w-[16px] transition-all duration-200",
-          liked && "fill-current scale-110"
+          "h-[16px] w-[16px] transition-all duration-200 -ml-[4px]",
+          liked && "fill-current"
         )}
         strokeWidth={liked ? 2 : 1.5}
       />
-      <span className="font-medium tabular-nums leading-none">{formatted}</span>
+      <span className="font-normal tabular-nums">{formatted}</span>
     </button>
   );
 }

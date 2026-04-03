@@ -21,23 +21,25 @@ export function PaletteFeed({ palettes }: PaletteFeedProps) {
         <Header />
       </Suspense>
       <div className="flex">
-        {/* Sidebar — sticky com scroll próprio */}
-        <div className="w-[200px] shrink-0 hidden md:block pl-6 pr-2">
-          <div className="sticky top-[60px] h-[calc(100vh-60px)] overflow-y-auto scrollbar-hide pt-6 pb-8">
+        {/* Sidebar — 200px, sticky, scroll próprio */}
+        <div className="min-w-[200px] shrink-0 hidden md:block px-5 box-border">
+          <div className="sticky top-[70px] h-[calc(100vh-90px)] overflow-y-auto scrollbar-hide">
             <Suspense>
               <Sidebar />
             </Suspense>
           </div>
         </div>
 
-        {/* Feed — scroll da página */}
-        <main className="flex-1 min-w-0 pt-6 pb-16 px-5">
-          <PaletteGridInteractive palettes={palettes} />
+        {/* Feed */}
+        <main className="flex-1 min-w-0 box-border">
+          <div className="feed-grid">
+            <PaletteGridInteractive palettes={palettes} />
+          </div>
         </main>
 
-        {/* Right panel — sticky */}
-        <div className="w-[320px] shrink-0 hidden xl:block pr-6 pl-2">
-          <div className="sticky top-[60px] pt-6">
+        {/* Right panel — 340px, sticky */}
+        <div className="min-w-[340px] max-w-[340px] shrink-0 hidden xl:block px-5 box-border">
+          <div className="sticky top-[70px] h-[calc(100vh-90px)]">
             <Suspense>
               <RightPanel />
             </Suspense>
