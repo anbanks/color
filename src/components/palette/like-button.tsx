@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { MaterialIcon } from "@/components/ui/material-icon";
+import { Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface LikeButtonProps {
@@ -43,12 +43,12 @@ export function LikeButton({ paletteId, initialCount, initialLiked = false }: Li
           : "border-gray-300 text-gray-500 bg-white hover:border-gray-400 hover:text-gray-700"
       )}
     >
-      <MaterialIcon
-        name="favorite"
-        size={18}
-        weight={liked ? 400 : 300}
-        filled={liked}
-        className={cn("transition-all duration-200", liked && "scale-110")}
+      <Heart
+        className={cn(
+          "h-[16px] w-[16px] transition-all duration-200",
+          liked && "fill-current scale-110"
+        )}
+        strokeWidth={liked ? 2 : 1.5}
       />
       <span className="font-medium tabular-nums leading-none">{formatted}</span>
     </button>
