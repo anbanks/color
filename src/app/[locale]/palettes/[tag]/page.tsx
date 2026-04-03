@@ -5,7 +5,7 @@ import { PaletteGridInteractive } from "@/components/palette/palette-grid-intera
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { getDb } from "@/db";
 import { palettes } from "@/db/schema";
-import { desc, eq, like } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { Suspense } from "react";
 import type { Metadata } from "next";
 

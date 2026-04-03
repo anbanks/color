@@ -12,11 +12,13 @@ export default async function AdminLayout({
   const session = await auth();
 
   if (!session?.user) {
-    redirect("/api/auth/signin");
+    redirect("/en/login");
   }
 
-  // For now, allow any logged-in user as admin
-  // In production, check session.user.role === "admin"
+  // TODO: enable role check when more users exist
+  // if ((session.user as { role?: string }).role !== "admin") {
+  //   redirect("/en");
+  // }
 
   return (
     <>

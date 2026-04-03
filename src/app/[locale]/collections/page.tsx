@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Trash2, ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 import Link from "next/link";
+import { useLocale } from "@/lib/locale-context";
 import { Suspense } from "react";
 
 interface Collection {
@@ -28,6 +29,7 @@ export default function CollectionsPage() {
   const [selected, setSelected] = useState<string | null>(null);
   const [palettes, setPalettes] = useState<Palette[]>([]);
   const [selectedName, setSelectedName] = useState("");
+  const { locale } = useLocale();
   const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
@@ -90,7 +92,7 @@ export default function CollectionsPage() {
                 <p className="text-sm mt-1">
                   Save palettes using the bookmark icon on any palette card.
                 </p>
-                <Link href="/">
+                <Link href={`/${locale}`}>
                   <Button variant="outline" className="mt-4">Browse Palettes</Button>
                 </Link>
               </div>

@@ -13,28 +13,31 @@ export async function PATCH(
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { id } = await params;
-  const body = (await request.json()) as { status?: string };
+  try {
+    const { id } = await params;
+    const body = (await request.json()) as { status?: string };
 
-  if (!body.status || !["approved", "rejected"].includes(body.status)) {
-    return Response.json({ error: "Invalid status" }, { status: 400 });
+    if (!body.status || !["approved", "rejected"].includes(body.status)) {
+      return Response.json({ error: "Invalid status" }, { status: 400 });
+    }
+
+    const { env } = await getCloudflareContext({ async: true });
+    const db = getDb(env.DB);
+
+    if (body.status === "approved") {
+      await db
+        .update(palettes)
+        .set({ status: "published", publishedAt: new Date() })
+        .where(eq(palettes.id, id));
+    } else {
+      await db
+        .update(palettes)
+        .set({ status: body.status as "rejected" })
+        .where(eq(palettes.id, id));
+    }
+
+    return Response.json({ success: true });
+  } catch {
+    return Response.json({ error: "Server error" }, { status: 500 });
   }
-
-  const { env } = await getCloudflareContext({ async: true });
-  const db = getDb(env.DB);
-
-  if (body.status === "approved") {
-    // Approve = publish directly
-    await db
-      .update(palettes)
-      .set({ status: "published", publishedAt: new Date() })
-      .where(eq(palettes.id, id));
-  } else {
-    await db
-      .update(palettes)
-      .set({ status: body.status as "rejected" })
-      .where(eq(palettes.id, id));
-  }
-
-  return Response.json({ success: true });
 }

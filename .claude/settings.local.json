@@ -13,7 +13,11 @@
       "Bash(node -e \"process.dlopen\\({exports:{}}, require\\(''path''\\).resolve\\(''node_modules/@ast-grep/napi-win32-x64-msvc/ast-grep-napi.win32-x64-msvc.node''\\)\\)\")",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(grep:*)",
+      "Bash(head:*)",
+      "Bash(cat /c/Users/micro/desktop/projetos/color/src/app/[locale]/collections/page.tsx)",
+      "Bash(find:*)"
     ]
   },
   "hooks": {

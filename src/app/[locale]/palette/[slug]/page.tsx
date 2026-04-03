@@ -17,7 +17,7 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
 interface PageProps {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale: string }>;
 }
 
 async function getPalette(slug: string) {
@@ -97,7 +97,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function PalettePage({ params }: PageProps) {
-  const { slug } = await params;
+  const { slug, locale } = await params;
 
   let palette;
   let content;
@@ -130,7 +130,7 @@ export default async function PalettePage({ params }: PageProps) {
       <main className="flex-1 max-w-2xl mx-auto px-4 py-8 w-full">
         {/* Back link */}
         <Link
-          href="/"
+          href={`/${locale}`}
           className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-600 mb-6 transition-colors"
         >
           <ArrowLeft className="h-4 w-4" />
