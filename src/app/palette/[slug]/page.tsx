@@ -3,6 +3,8 @@ import { Footer } from "@/components/layout/footer";
 import { PaletteDetail } from "@/components/palette/palette-detail";
 import { PaletteContent } from "@/components/seo/palette-content";
 import { LikeButton } from "@/components/palette/like-button";
+import { ContrastChecker } from "@/components/palette/contrast-checker";
+import { SiteMockup } from "@/components/preview/site-mockup";
 import { PaletteGrid } from "@/components/palette/palette-grid";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { getDb } from "@/db";
@@ -144,6 +146,12 @@ export default async function PalettePage({ params }: PageProps) {
             paletteId={palette.id}
             initialCount={palette.likesCount}
           />
+        </div>
+
+        {/* Mockup preview + Contrast checker */}
+        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <SiteMockup colors={colors} />
+          <ContrastChecker colors={colors} />
         </div>
 
         {/* Schema.org structured data */}

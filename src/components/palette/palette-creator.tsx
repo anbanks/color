@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PaletteCard } from "./palette-card";
+import { ContrastChecker } from "./contrast-checker";
+import { SiteMockup } from "@/components/preview/site-mockup";
 import { toast } from "sonner";
 import { Shuffle } from "lucide-react";
 
@@ -87,6 +89,10 @@ export function PaletteCreator() {
           likesCount={0}
         />
       </div>
+
+      {/* Mockup + Contrast */}
+      <SiteMockup colors={colors} />
+      <ContrastChecker colors={colors} />
 
       {/* Color pickers */}
       <div className="space-y-3">

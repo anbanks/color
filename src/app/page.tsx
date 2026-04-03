@@ -1,6 +1,6 @@
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
-import { PaletteGrid } from "@/components/palette/palette-grid";
+import { PaletteGridInteractive } from "@/components/palette/palette-grid-interactive";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { getDb } from "@/db";
 import { palettes } from "@/db/schema";
@@ -76,7 +76,7 @@ export default async function Home({ searchParams }: HomeProps) {
         <Header />
       </Suspense>
       <main className="flex-1 max-w-6xl mx-auto px-4 py-8 w-full">
-        <PaletteGrid palettes={paletteData} />
+        <PaletteGridInteractive palettes={paletteData} />
       </main>
       <Footer />
     </>

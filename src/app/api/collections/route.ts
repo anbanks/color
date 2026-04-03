@@ -1,6 +1,6 @@
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { getDb } from "@/db";
-import { collections, collectionPalettes, palettes } from "@/db/schema";
+import { collections, collectionPalettes } from "@/db/schema";
 import { eq, desc } from "drizzle-orm";
 import { auth } from "@/auth";
 import { createId } from "@paralleldrive/cuid2";

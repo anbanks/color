@@ -1,7 +1,7 @@
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { getDb } from "@/db";
 import { palettes, paletteContent } from "@/db/schema";
-import { eq, and } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { auth } from "@/auth";
 import { createId } from "@paralleldrive/cuid2";
 import { generatePaletteContent } from "@/lib/generate-content";

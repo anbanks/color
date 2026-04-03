@@ -55,3 +55,53 @@ export function getContrastColor(hex: string): "white" | "black" {
   const luminance = (0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b) / 255;
   return luminance > 0.5 ? "black" : "white";
 }
+
+// WCAG 2.1 relative luminance
+function linearize(channel: number): number {
+  const c = channel / 255;
+  return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+}
+
+export function relativeLuminance(hex: string): number {
+  const rgb = hexToRgb(hex);
+  if (!rgb) return 0;
+  return 0.2126 * linearize(rgb.r) + 0.7152 * linearize(rgb.g) + 0.0722 * linearize(rgb.b);
+}
+
+export function contrastRatio(hex1: string, hex2: string): number {
+  const l1 = relativeLuminance(hex1);
+  const l2 = relativeLuminance(hex2);
+  const lighter = Math.max(l1, l2);
+  const darker = Math.min(l1, l2);
+  return (lighter + 0.05) / (darker + 0.05);
+}
+
+export type WcagLevel = "AAA" | "AA" | "AA Large" | "Fail";
+
+export function wcagLevel(ratio: number): WcagLevel {
+  if (ratio >= 7) return "AAA";
+  if (ratio >= 4.5) return "AA";
+  if (ratio >= 3) return "AA Large";
+  return "Fail";
+}
+
+export function getContrastPairs(colors: string[]): {
+  color1: string;
+  color2: string;
+  ratio: number;
+  level: WcagLevel;
+}[] {
+  const pairs = [];
+  for (let i = 0; i < colors.length; i++) {
+    for (let j = i + 1; j < colors.length; j++) {
+      const ratio = contrastRatio(colors[i], colors[j]);
+      pairs.push({
+        color1: colors[i],
+        color2: colors[j],
+        ratio: Math.round(ratio * 100) / 100,
+        level: wcagLevel(ratio),
+      });
+    }
+  }
+  return pairs;
+}
