@@ -15,6 +15,27 @@ import { useSession, signOut } from "next-auth/react";
 import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 
+const SEARCH_COLORS = [
+  { name: "Blue", hex: "#5B9BD5" },
+  { name: "Teal", hex: "#2BBBB0" },
+  { name: "Mint", hex: "#7DDDB3" },
+  { name: "Green", hex: "#5CB85C" },
+  { name: "Sage", hex: "#9CAF88" },
+  { name: "Yellow", hex: "#F0D264" },
+  { name: "Beige", hex: "#E8D8B8" },
+  { name: "Brown", hex: "#8B6914" },
+  { name: "Orange", hex: "#D4922A" },
+  { name: "Peach", hex: "#E8927C" },
+  { name: "Red", hex: "#E8524A" },
+  { name: "Maroon", hex: "#800000" },
+  { name: "Pink", hex: "#E88CB4" },
+  { name: "Purple", hex: "#B47CC7" },
+  { name: "Navy", hex: "#2C3E7B" },
+  { name: "Black", hex: "#333333" },
+  { name: "Grey", hex: "#CCCCCC" },
+  { name: "White", hex: "#F5F5F0" },
+];
+
 const SEARCH_COLLECTIONS = [
   "Pastel", "Vintage", "Retro", "Neon", "Gold", "Light", "Dark",
   "Warm", "Cold", "Summer", "Fall", "Winter", "Spring", "Happy",
@@ -95,7 +116,23 @@ export function Header() {
           {/* Dropdown */}
           {searchOpen && !activeTag && (
             <div className="absolute top-[calc(100%+6px)] left-0 right-0 bg-white border border-gray-200/80 rounded-2xl shadow-xl shadow-black/[0.06] p-5 z-50">
-              <p className="text-[12px] font-semibold text-gray-900 uppercase tracking-wide mb-3">Collections</p>
+              {/* Colors */}
+              <p className="text-[14px] font-semibold text-gray-900 mb-3">Colors</p>
+              <div className="flex flex-wrap gap-[10px] mb-6">
+                {SEARCH_COLORS.map((c) => (
+                  <button
+                    key={c.name}
+                    onMouseDown={(e) => { e.preventDefault(); selectTag(c.name); }}
+                    className="inline-flex items-center gap-[6px] text-[13px] text-gray-700 hover:text-gray-900 transition-colors"
+                  >
+                    <span className="w-[14px] h-[14px] rounded-full shrink-0 border border-black/[0.06]" style={{ backgroundColor: c.hex }} />
+                    {c.name}
+                  </button>
+                ))}
+              </div>
+
+              {/* Collections */}
+              <p className="text-[14px] font-semibold text-gray-900 mb-3">Collections</p>
               <div className="flex flex-wrap gap-[7px]">
                 {SEARCH_COLLECTIONS.map((tag) => (
                   <button
