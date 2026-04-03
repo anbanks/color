@@ -42,7 +42,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
 
   return (
     <LocaleProvider locale={locale as Locale} dictionary={dictionary}>
-      <div className="max-w-[1540px] mx-auto">
+      <div className="max-w-[1920px] mx-auto">
         {children}
       </div>
     </LocaleProvider>
