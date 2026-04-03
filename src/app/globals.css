@@ -129,6 +129,15 @@
   }
 }
 
+.material-symbols-rounded {
+  overflow: hidden;
+  width: 1em;
+  height: 1em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
