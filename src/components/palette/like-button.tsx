@@ -37,20 +37,20 @@ export function LikeButton({ paletteId, initialCount, initialLiked = false }: Li
       onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleLike(); }}
       disabled={isPending}
       className={cn(
-        "inline-flex items-center gap-[5px] px-[10px] py-[5px] rounded-full border text-[13px] transition-all duration-200",
+        "inline-flex items-center gap-[6px] h-[34px] px-[14px] rounded-full border-[1.5px] text-[14px] transition-all duration-200 select-none",
         liked
-          ? "border-red-200 bg-red-50/50 text-red-500"
-          : "border-gray-200 bg-white text-gray-500 hover:border-gray-300 hover:text-gray-700"
+          ? "border-red-300 text-red-500 bg-red-50/40"
+          : "border-gray-300 text-gray-500 bg-white hover:border-gray-400 hover:text-gray-700"
       )}
     >
       <MaterialIcon
         name="favorite"
-        size={16}
+        size={18}
         weight={liked ? 400 : 300}
         filled={liked}
         className={cn("transition-all duration-200", liked && "scale-110")}
       />
-      <span className="font-medium tabular-nums">{formatted}</span>
+      <span className="font-medium tabular-nums leading-none">{formatted}</span>
     </button>
   );
 }

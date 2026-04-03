@@ -2,7 +2,6 @@
 
 import { LikeButton } from "./like-button";
 import { useCopyColor } from "@/hooks/use-copy-color";
-import { getContrastColor } from "@/lib/color-utils";
 import { useLocale } from "@/lib/locale-context";
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
@@ -23,7 +22,6 @@ export function PaletteCard({ id, slug, colors, likesCount, liked, timeAgo }: Pa
   const didCopy = useRef(false);
 
   const handleCardClick = () => {
-    // Se acabou de copiar uma cor, não navega
     if (didCopy.current) {
       didCopy.current = false;
       return;
@@ -40,34 +38,29 @@ export function PaletteCard({ id, slug, colors, likesCount, liked, timeAgo }: Pa
   return (
     <div className="w-full max-w-[280px]">
       <div
-        className="rounded-[8px] overflow-hidden cursor-pointer shadow-[0_1px_4px_rgba(0,0,0,0.06)] hover:shadow-[0_4px_16px_rgba(0,0,0,0.1)] transition-shadow duration-200"
+        className="overflow-hidden cursor-pointer border border-gray-200/60 rounded-[4px] hover:border-gray-300/80 transition-all duration-150"
         onClick={handleCardClick}
       >
-        {colors.map((color, i) => {
-          const textColor = getContrastColor(color);
-          return (
-            <div
-              key={i}
-              className="h-[75px] relative group/strip"
-              style={{ backgroundColor: color }}
-              onClick={(e) => handleColorClick(e, color)}
-            >
-              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/strip:opacity-100 transition-opacity">
-                <span
-                  className="text-[11px] font-mono font-medium tracking-[0.08em]"
-                  style={{ color: textColor === "white" ? "rgba(255,255,255,0.85)" : "rgba(0,0,0,0.45)" }}
-                >
-                  {color.toUpperCase()}
-                </span>
-              </div>
+        {colors.map((color, i) => (
+          <div
+            key={i}
+            className="h-[80px] relative group/strip"
+            style={{ backgroundColor: color }}
+            onClick={(e) => handleColorClick(e, color)}
+          >
+            {/* HEX tooltip — bottom-left, dark bg */}
+            <div className="absolute bottom-0 left-0 right-0 px-[10px] py-[6px] opacity-0 group-hover/strip:opacity-100 transition-opacity duration-150">
+              <span className="inline-block px-[8px] py-[3px] rounded-[4px] bg-black/50 text-white text-[11px] font-mono font-medium tracking-wide backdrop-blur-sm">
+                {color.toUpperCase()}
+              </span>
             </div>
-          );
-        })}
+          </div>
+        ))}
       </div>
-      <div className="flex items-center justify-between mt-[10px] px-[2px]">
+      <div className="flex items-center justify-between mt-[10px]">
         <LikeButton paletteId={id} initialCount={likesCount} initialLiked={liked} />
         {timeAgo && (
-          <span className="text-[12px] text-gray-400">{timeAgo}</span>
+          <span className="text-[13px] text-gray-400">{timeAgo}</span>
         )}
       </div>
     </div>
