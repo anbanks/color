@@ -1,5 +1,6 @@
 import { ColorStrip } from "./color-strip";
 import { LikeButton } from "./like-button";
+import { SaveButton } from "./save-button";
 import Link from "next/link";
 
 interface PaletteCardProps {
@@ -25,7 +26,8 @@ export function PaletteCard({ id, slug, colors, likesCount, liked }: PaletteCard
           ))}
         </div>
       </Link>
-      <div className="flex items-center justify-end mt-2 px-1">
+      <div className="flex items-center justify-between mt-2 px-1">
+        <SaveButton paletteId={id} />
         <LikeButton paletteId={id} initialCount={likesCount} initialLiked={liked} />
       </div>
     </div>
