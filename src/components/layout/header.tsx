@@ -67,7 +67,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-gray-100/80">
-      <div className="max-w-[1540px] mx-auto px-5 sm:px-8 h-[60px] flex items-center gap-5">
+      <div className="px-5 sm:px-8 h-[60px] flex items-center gap-5">
         {/* Logo */}
         <Link href={`/${locale}`} className="flex items-center gap-2.5 shrink-0 group">
           <span className="text-[26px] group-hover:scale-105 transition-transform">🎨</span>

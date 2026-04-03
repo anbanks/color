@@ -88,7 +88,7 @@ export default async function PalettePage({ params }: PageProps) {
       <Suspense>
         <Header />
       </Suspense>
-      <div className="max-w-[1540px] mx-auto flex min-h-[calc(100vh-60px)]">
+      <div className="flex min-h-[calc(100vh-60px)]">
         {/* Sidebar */}
         <div className="w-[170px] shrink-0 hidden md:block overflow-y-auto scrollbar-hide pl-5 pr-2 pt-6 pb-8">
           <Suspense>
