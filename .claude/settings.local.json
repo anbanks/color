@@ -1,0 +1,52 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx:*)",
+      "Bash(cp -r /tmp/color-nextjs/src /c/Users/micro/desktop/projetos/color/)",
+      "Bash(cp -r /tmp/color-nextjs/public /c/Users/micro/desktop/projetos/color/)",
+      "Bash(cp /tmp/color-nextjs/package.json /c/Users/micro/desktop/projetos/color/)",
+      "Bash(cp /tmp/color-nextjs/tsconfig.json /c/Users/micro/desktop/projetos/color/)",
+      "Bash(cp /tmp/color-nextjs/next.config.ts /c/Users/micro/desktop/projetos/color/)",
+      "Bash(npm install:*)",
+      "Bash(npm run:*)",
+      "Bash(ls node_modules/@ast-grep/napi-win32-x64-msvc/*.node)",
+      "Bash(node -e \"process.dlopen\\({exports:{}}, require\\(''path''\\).resolve\\(''node_modules/@ast-grep/napi-win32-x64-msvc/ast-grep-napi.win32-x64-msvc.node''\\)\\)\")"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\\\Users\\\\micro\\\\Desktop\\\\Projetos\\\\color\\\\.claude\\\\hooks\\\\code-intel-pretool.cjs\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\\\Users\\\\micro\\\\Desktop\\\\Projetos\\\\color\\\\.claude\\\\hooks\\\\precompact-session-digest.cjs\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"C:\\\\Users\\\\micro\\\\Desktop\\\\Projetos\\\\color\\\\.claude\\\\hooks\\\\synapse-engine.cjs\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

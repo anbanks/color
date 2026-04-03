@@ -1,0 +1,24 @@
+#:schema node_modules/wrangler/config-schema.json
+
+name = "color"
+compatibility_date = "2024-12-01"
+compatibility_flags = ["nodejs_compat"]
+main = ".open-next/worker.js"
+assets = { directory = ".open-next/assets", binding = "ASSETS" }
+
+[[d1_databases]]
+binding = "DB"
+database_name = "color-db"
+database_id = "37e597a4-db6a-4f05-be5c-e4c0b34568ec"
+
+[[kv_namespaces]]
+binding = "CACHE"
+id = "03e54a04595c467e8a0e60b545e8fbcb"
+
+# R2 - habilitar no Cloudflare Dashboard antes de usar
+# [[r2_buckets]]
+# binding = "STORAGE"
+# bucket_name = "color-assets"
+
+[triggers]
+crons = ["0 */4 * * *"]
