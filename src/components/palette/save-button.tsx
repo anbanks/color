@@ -83,10 +83,8 @@ export function SaveButton({ paletteId }: SaveButtonProps) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger>
-        <Button variant="ghost" size="sm" className="text-gray-400 hover:text-gray-600">
-          <Bookmark className="h-4 w-4" />
-        </Button>
+      <DialogTrigger className="p-1.5 rounded-md text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-colors">
+        <Bookmark className="h-4 w-4" />
       </DialogTrigger>
       <DialogContent className="sm:max-w-sm">
         <DialogHeader>

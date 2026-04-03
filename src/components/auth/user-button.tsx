@@ -1,7 +1,6 @@
 "use client";
 
 import { signOut, useSession } from "next-auth/react";
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,23 +21,21 @@ export function UserButton() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
-        <Button variant="ghost" size="sm" className="gap-2">
-          {session.user.image ? (
-            <img
-              src={session.user.image}
-              alt=""
-              className="h-6 w-6 rounded-full"
-            />
-          ) : (
-            <div className="h-6 w-6 rounded-full bg-gray-200 flex items-center justify-center text-xs font-medium text-gray-600">
-              {session.user.name?.[0]?.toUpperCase() || "?"}
-            </div>
-          )}
-          <span className="text-sm text-gray-700 hidden sm:inline">
-            {session.user.name}
-          </span>
-        </Button>
+      <DropdownMenuTrigger className="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm hover:bg-gray-50 transition-colors outline-none">
+        {session.user.image ? (
+          <img
+            src={session.user.image}
+            alt=""
+            className="h-6 w-6 rounded-full"
+          />
+        ) : (
+          <div className="h-6 w-6 rounded-full bg-gray-200 flex items-center justify-center text-xs font-medium text-gray-600">
+            {session.user.name?.[0]?.toUpperCase() || "?"}
+          </div>
+        )}
+        <span className="text-sm text-gray-700 hidden sm:inline">
+          {session.user.name}
+        </span>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem>

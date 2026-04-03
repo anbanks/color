@@ -10,7 +10,10 @@
       "Bash(npm install:*)",
       "Bash(npm run:*)",
       "Bash(ls node_modules/@ast-grep/napi-win32-x64-msvc/*.node)",
-      "Bash(node -e \"process.dlopen\\({exports:{}}, require\\(''path''\\).resolve\\(''node_modules/@ast-grep/napi-win32-x64-msvc/ast-grep-napi.win32-x64-msvc.node''\\)\\)\")"
+      "Bash(node -e \"process.dlopen\\({exports:{}}, require\\(''path''\\).resolve\\(''node_modules/@ast-grep/napi-win32-x64-msvc/ast-grep-napi.win32-x64-msvc.node''\\)\\)\")",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
     ]
   },
   "hooks": {
