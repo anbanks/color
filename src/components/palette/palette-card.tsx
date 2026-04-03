@@ -28,9 +28,9 @@ export function PaletteCard({ id, slug, colors, likesCount, liked, timeAgo }: Pa
               className="h-[62px] relative group/strip"
               style={{ backgroundColor: color }}
             >
-              <div className="absolute bottom-0 left-0 right-0 px-[10px] py-[6px] opacity-0 group-hover/strip:opacity-100 transition-opacity duration-150">
+              <div className="absolute bottom-[4px] left-[6px] opacity-0 group-hover/strip:opacity-100 transition-opacity duration-150">
                 <span
-                  className="inline-block px-[8px] py-[3px] rounded-[4px] bg-black/50 text-white text-[11px] font-mono font-medium tracking-wide backdrop-blur-sm cursor-copy"
+                  className="inline-block px-[6px] py-[2px] rounded-[3px] bg-black/40 text-white/90 text-[11px] font-mono font-medium tracking-wide cursor-copy"
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();

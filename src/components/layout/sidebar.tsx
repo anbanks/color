@@ -3,13 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useLocale } from "@/lib/locale-context";
-import { Sparkles, Clock, Shuffle, Heart } from "lucide-react";
+import { Sparkles, Flame, Orbit, Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
   { path: "", label: "New", icon: Sparkles },
-  { path: "/popular", label: "Popular", icon: Clock },
-  { path: "/random", label: "Random", icon: Shuffle },
+  { path: "/popular", label: "Popular", icon: Flame },
+  { path: "/random", label: "Random", icon: Orbit },
   { path: "/collections", label: "Collection", icon: Heart },
 ];
 
