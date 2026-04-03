@@ -3,7 +3,7 @@
 import { useCopyColor } from "@/hooks/use-copy-color";
 import { LikeButton } from "./like-button";
 import { getContrastColor } from "@/lib/color-utils";
-import { Link2, ArrowLeft } from "lucide-react";
+import { MaterialIcon } from "@/components/ui/material-icon";
 import { useState } from "react";
 
 interface PaletteExpandedProps {
@@ -33,7 +33,7 @@ export function PaletteExpanded({ palette, onClose }: PaletteExpandedProps) {
         onClick={onClose}
         className="flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-600 mb-6 transition-colors"
       >
-        <ArrowLeft className="h-4 w-4" />
+        <MaterialIcon name="arrow_back" size={18} weight={300} />
         Back
       </button>
 
@@ -73,7 +73,7 @@ export function PaletteExpanded({ palette, onClose }: PaletteExpandedProps) {
             onClick={handleCopyLink}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-gray-200 text-sm text-gray-500 hover:border-gray-300 hover:text-gray-700 transition-colors"
           >
-            <Link2 className="h-3.5 w-3.5" />
+            <MaterialIcon name="link" size={16} weight={300} />
             Link
           </button>
         </div>

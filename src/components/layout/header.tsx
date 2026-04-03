@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useLocale } from "@/lib/locale-context";
-import { Search, MoreHorizontal, X } from "lucide-react";
+import { X } from "lucide-react";
+import { MaterialIcon } from "@/components/ui/material-icon";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -69,7 +70,7 @@ export function Header() {
                 </span>
               </div>
             ) : (
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-[15px] w-[15px] text-gray-400" />
+              <MaterialIcon name="search" size={18} weight={300} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
             )}
             <input
               type="text"
@@ -113,7 +114,7 @@ export function Header() {
         {/* Menu */}
         <DropdownMenu>
           <DropdownMenuTrigger className="h-9 w-9 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors outline-none shrink-0">
-            <MoreHorizontal className="h-[18px] w-[18px] text-gray-700" />
+            <MaterialIcon name="more_horiz" size={22} weight={400} className="text-gray-700" />
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-48 rounded-xl shadow-xl shadow-black/[0.06] border-gray-200/80 p-1.5">
             <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">

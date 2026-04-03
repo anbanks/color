@@ -3,14 +3,14 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useLocale } from "@/lib/locale-context";
+import { MaterialIcon } from "@/components/ui/material-icon";
 import { cn } from "@/lib/utils";
-import { Sparkles, Clock, Shuffle, Heart } from "lucide-react";
 
 const navItems = [
-  { path: "", label: "New", icon: Sparkles },
-  { path: "/popular", label: "Popular", icon: Clock },
-  { path: "/random", label: "Random", icon: Shuffle },
-  { path: "/collections", label: "Collection", icon: Heart },
+  { path: "", label: "New", icon: "auto_awesome" },
+  { path: "/popular", label: "Popular", icon: "schedule" },
+  { path: "/random", label: "Random", icon: "shuffle" },
+  { path: "/collections", label: "Collection", icon: "favorite" },
 ];
 
 const tags = [
@@ -31,7 +31,6 @@ export function Sidebar() {
       <nav className="sticky top-[76px]">
         <div className="space-y-[2px]">
           {navItems.map((item) => {
-            const Icon = item.icon;
             const href = `/${locale}${item.path}`;
             const isActive =
               !activeTag && (
@@ -50,7 +49,12 @@ export function Sidebar() {
                     : "text-gray-500 hover:text-gray-900"
                 )}
               >
-                <Icon className="h-[18px] w-[18px]" strokeWidth={isActive ? 2.2 : 1.5} />
+                <MaterialIcon
+                  name={item.icon}
+                  size={22}
+                  weight={isActive ? 400 : 300}
+                  filled={isActive}
+                />
                 {item.label}
               </Link>
             );
