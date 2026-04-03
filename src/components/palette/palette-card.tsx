@@ -21,11 +21,11 @@ export function PaletteCard({ id, slug, colors, likesCount, liked, timeAgo }: Pa
   return (
     <div className="w-full">
       <Link href={`/${locale}/palette/${slug}`} className="block">
-        <div className="overflow-hidden cursor-pointer border border-gray-200/60 rounded-[4px] hover:border-gray-300/80 transition-all duration-150">
+        <div className="overflow-hidden cursor-pointer rounded-[10px] shadow-[0_1px_6px_rgba(0,0,0,0.07)] hover:shadow-[0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-200">
           {colors.map((color, i) => (
             <div
               key={i}
-              className="h-[80px] relative group/strip"
+              className="h-[62px] relative group/strip"
               style={{ backgroundColor: color }}
             >
               <div className="absolute bottom-0 left-0 right-0 px-[10px] py-[6px] opacity-0 group-hover/strip:opacity-100 transition-opacity duration-150">
