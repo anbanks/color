@@ -28,7 +28,7 @@ export function Sidebar() {
 
   return (
     <nav>
-      <div className="space-y-[2px]">
+      <div className="space-y-[1px]">
         {navItems.map((item) => {
           const href = `/${locale}${item.path}`;
           const isActive =
@@ -42,17 +42,18 @@ export function Sidebar() {
               key={item.label}
               href={href}
               className={cn(
-                "flex items-center gap-3 py-[10px] text-[15px] transition-colors",
+                "flex items-center gap-[10px] px-[12px] py-[12px] rounded-[10px] text-[16px] transition-all duration-150",
                 isActive
-                  ? "text-gray-900 font-semibold"
-                  : "text-gray-500 hover:text-gray-900"
+                  ? "text-gray-900 font-semibold bg-gray-100/80"
+                  : "text-gray-800 hover:bg-gray-100/60"
               )}
             >
               <MaterialIcon
                 name={item.icon}
-                size={22}
-                weight={isActive ? 400 : 300}
+                size={24}
+                weight={isActive ? 400 : 250}
                 filled={isActive}
+                className={isActive ? "text-gray-900" : "text-gray-600"}
               />
               {item.label}
             </Link>
@@ -60,7 +61,7 @@ export function Sidebar() {
         })}
       </div>
 
-      <div className="mt-5 pt-3 border-t border-gray-100">
+      <div className="mt-4 ml-[12px] pt-3 border-t border-gray-100">
         <div className="space-y-[1px]">
           {tags.map((tag) => {
             const isActive = activeTag === tag.toLowerCase();
@@ -69,10 +70,10 @@ export function Sidebar() {
                 key={tag}
                 href={`/${locale}/palettes/${tag.toLowerCase()}`}
                 className={cn(
-                  "block py-[5px] text-[14px] transition-colors",
+                  "block py-[6px] text-[15px] transition-colors",
                   isActive
-                    ? "text-gray-900 font-medium"
-                    : "text-gray-400 hover:text-gray-700"
+                    ? "text-gray-900 font-semibold"
+                    : "text-gray-500 hover:text-gray-800"
                 )}
               >
                 {tag}
