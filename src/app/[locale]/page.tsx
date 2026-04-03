@@ -51,7 +51,7 @@ export default async function Home({ searchParams }: HomeProps) {
       <Suspense>
         <Header />
       </Suspense>
-      <div className="max-w-[1400px] mx-auto px-4 py-6 flex gap-6">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-6 flex gap-8">
         <Suspense>
           <Sidebar />
         </Suspense>

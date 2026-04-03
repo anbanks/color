@@ -52,7 +52,7 @@ export function Sidebar() {
           {tags.map((tag) => (
             <Link
               key={tag}
-              href={`/${locale}?tag=${tag.toLowerCase()}`}
+              href={`/${locale}/palettes/${tag.toLowerCase()}`}
               className={cn(
                 "block px-2 py-1 text-sm transition-colors",
                 currentTag === tag.toLowerCase()

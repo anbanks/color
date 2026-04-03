@@ -1,8 +1,6 @@
 "use client";
 
-import { useState } from "react";
 import { PaletteCard } from "./palette-card";
-import { PaletteExpanded } from "./palette-expanded";
 
 interface Palette {
   id: string;
@@ -29,29 +27,18 @@ function timeAgo(date?: string): string {
   if (days < 7) return `${days} days`;
   const weeks = Math.floor(days / 7);
   if (weeks === 1) return "1 week";
-  return `${weeks} weeks`;
+  if (weeks < 5) return `${weeks} weeks`;
+  const months = Math.floor(days / 30);
+  if (months === 1) return "1 month";
+  return `${months} months`;
 }
 
 export function PaletteGridInteractive({ palettes }: PaletteGridInteractiveProps) {
-  const [expandedId, setExpandedId] = useState<string | null>(null);
-
   if (palettes.length === 0) {
     return (
       <div className="text-center py-20 text-gray-400">
-        <p className="text-lg">No palettes yet</p>
-        <p className="text-sm mt-1">Be the first to create one!</p>
+        <p className="text-lg">No palettes found</p>
       </div>
-    );
-  }
-
-  const expanded = expandedId ? palettes.find((p) => p.id === expandedId) : null;
-
-  if (expanded) {
-    return (
-      <PaletteExpanded
-        palette={expanded}
-        onClose={() => setExpandedId(null)}
-      />
     );
   }
 
@@ -65,7 +52,6 @@ export function PaletteGridInteractive({ palettes }: PaletteGridInteractiveProps
           colors={palette.colors}
           likesCount={palette.likesCount}
           timeAgo={timeAgo(palette.createdAt)}
-          onExpand={setExpandedId}
         />
       ))}
     </div>
