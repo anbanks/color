@@ -23,14 +23,14 @@ export function PaletteCard({ id, slug, colors, likesCount, liked, timeAgo }: Pa
 
   return (
     <div>
-      <Link href={`/${locale}/palette/${slug}`}>
-        <div className="rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition-shadow">
+      <Link href={`/${locale}/palette/${slug}`} className="block">
+        <div className="rounded-[10px] overflow-hidden cursor-pointer shadow-[0_1px_3px_rgba(0,0,0,0.06)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.1)] transition-shadow duration-200">
           {colors.map((color, i) => {
             const textColor = getContrastColor(color);
             return (
               <div
                 key={i}
-                className="h-[72px] relative"
+                className="h-[82px] relative"
                 style={{ backgroundColor: color }}
                 onMouseEnter={() => setHoveredIndex(i)}
                 onMouseLeave={() => setHoveredIndex(null)}
@@ -41,10 +41,10 @@ export function PaletteCard({ id, slug, colors, likesCount, liked, timeAgo }: Pa
                 }}
               >
                 {hoveredIndex === i && (
-                  <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/[0.04]">
                     <span
-                      className="text-xs font-mono tracking-wider"
-                      style={{ color: textColor === "white" ? "rgba(255,255,255,0.9)" : "rgba(0,0,0,0.5)" }}
+                      className="text-[12px] font-mono font-medium tracking-[0.08em]"
+                      style={{ color: textColor === "white" ? "rgba(255,255,255,0.85)" : "rgba(0,0,0,0.45)" }}
                     >
                       {color.toUpperCase()}
                     </span>
@@ -55,10 +55,10 @@ export function PaletteCard({ id, slug, colors, likesCount, liked, timeAgo }: Pa
           })}
         </div>
       </Link>
-      <div className="flex items-center justify-between mt-2 px-0.5">
+      <div className="flex items-center justify-between mt-[10px] px-[2px]">
         <LikeButton paletteId={id} initialCount={likesCount} initialLiked={liked} />
         {timeAgo && (
-          <span className="text-xs text-gray-400">{timeAgo}</span>
+          <span className="text-[12px] text-gray-400 font-normal">{timeAgo}</span>
         )}
       </div>
     </div>

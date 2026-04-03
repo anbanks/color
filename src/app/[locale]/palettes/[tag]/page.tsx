@@ -63,7 +63,7 @@ export default async function TagPage({ params }: PageProps) {
       <Suspense>
         <Header />
       </Suspense>
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-6 flex gap-8">
+      <div className="max-w-[1440px] mx-auto px-5 sm:px-8 py-8 flex gap-10">
         <Suspense>
           <Sidebar />
         </Suspense>

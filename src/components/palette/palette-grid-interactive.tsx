@@ -19,8 +19,9 @@ function timeAgo(date?: string): string {
   const now = Date.now();
   const then = new Date(date).getTime();
   const diff = now - then;
-  const hours = Math.floor(diff / (1000 * 60 * 60));
-  if (hours < 1) return "Just now";
+  const mins = Math.floor(diff / 60000);
+  if (mins < 60) return `${mins} min`;
+  const hours = Math.floor(mins / 60);
   if (hours < 24) return `${hours} hours`;
   const days = Math.floor(hours / 24);
   if (days === 1) return "Yesterday";
@@ -36,14 +37,15 @@ function timeAgo(date?: string): string {
 export function PaletteGridInteractive({ palettes }: PaletteGridInteractiveProps) {
   if (palettes.length === 0) {
     return (
-      <div className="text-center py-20 text-gray-400">
-        <p className="text-lg">No palettes found</p>
+      <div className="flex flex-col items-center justify-center py-24 text-gray-400">
+        <p className="text-[16px]">No palettes found</p>
+        <p className="text-[13px] mt-1">Try a different filter or create one!</p>
       </div>
     );
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-8">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-7 gap-y-10">
       {palettes.map((palette) => (
         <PaletteCard
           key={palette.id}
