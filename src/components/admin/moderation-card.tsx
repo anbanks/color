@@ -27,6 +27,20 @@ export function ModerationCard({ id, colors, status, createdAt }: ModerationCard
         });
         if (res.ok) {
           toast.success(`Palette ${action}`);
+
+          // Trigger AI content generation on approval
+          if (action === "approved") {
+            fetch("/api/generate", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ paletteId: id }),
+            }).then(() => {
+              toast.success("AI content generated");
+            }).catch(() => {
+              toast.error("Content generation failed");
+            });
+          }
+
           router.refresh();
         } else {
           toast.error("Action failed");
