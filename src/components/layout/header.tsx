@@ -78,7 +78,7 @@ export function Header() {
         </Link>
 
         {/* Search */}
-        <div className="flex-1 max-w-[640px] mx-auto relative">
+        <div className="flex-1 relative">
           <div className="relative flex items-center h-[42px] border border-gray-200/80 rounded-full bg-[#fafafa] hover:bg-white hover:border-gray-300 focus-within:bg-white focus-within:border-gray-300 focus-within:shadow-sm transition-all">
             {activeTag ? (
               <div className="flex items-center ml-3">
@@ -118,14 +118,14 @@ export function Header() {
             <div className="absolute top-[calc(100%+6px)] left-0 right-0 bg-white border border-gray-200/80 rounded-2xl shadow-xl shadow-black/[0.06] p-5 z-50">
               {/* Colors */}
               <p className="text-[14px] font-semibold text-gray-900 mb-3">Colors</p>
-              <div className="flex flex-wrap gap-[10px] mb-6">
+              <div className="flex flex-wrap gap-[7px] mb-6">
                 {SEARCH_COLORS.map((c) => (
                   <button
                     key={c.name}
                     onMouseDown={(e) => { e.preventDefault(); selectTag(c.name); }}
-                    className="inline-flex items-center gap-[6px] text-[13px] text-gray-700 hover:text-gray-900 transition-colors"
+                    className="inline-flex items-center gap-[7px] px-3 py-[6px] text-[13px] border border-gray-200 rounded-full text-gray-700 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-900 transition-all"
                   >
-                    <span className="w-[14px] h-[14px] rounded-full shrink-0 border border-black/[0.06]" style={{ backgroundColor: c.hex }} />
+                    <span className="w-[13px] h-[13px] rounded-full shrink-0 border border-black/[0.06]" style={{ backgroundColor: c.hex }} />
                     {c.name}
                   </button>
                 ))}
