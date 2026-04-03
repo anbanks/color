@@ -32,9 +32,7 @@ export function PaletteFeed({ palettes }: PaletteFeedProps) {
 
         {/* Feed */}
         <main className="flex-1 min-w-0 box-border">
-          <div className="feed-grid">
-            <PaletteGridInteractive palettes={palettes} />
-          </div>
+          <PaletteGridInteractive palettes={palettes} />
         </main>
 
         {/* Right panel — 340px, sticky */}
