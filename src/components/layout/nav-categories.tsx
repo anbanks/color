@@ -2,25 +2,27 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { useLocale } from "@/lib/locale-context";
 import { cn } from "@/lib/utils";
-
-const categories = [
-  { label: "Trending", value: "trending" },
-  { label: "Popular", value: "popular" },
-  { label: "New", value: "new" },
-  { label: "Random", value: "random" },
-];
 
 export function NavCategories() {
   const searchParams = useSearchParams();
   const current = searchParams.get("sort") || "trending";
+  const { locale, t } = useLocale();
+
+  const categories = [
+    { label: t.nav.trending, value: "trending" },
+    { label: t.nav.popular, value: "popular" },
+    { label: t.nav.new, value: "new" },
+    { label: t.nav.random, value: "random" },
+  ];
 
   return (
     <nav className="hidden sm:flex items-center gap-1">
       {categories.map((cat) => (
         <Link
           key={cat.value}
-          href={`/?sort=${cat.value}`}
+          href={`/${locale}?sort=${cat.value}`}
           className={cn(
             "px-3 py-1.5 text-sm rounded-full transition-colors",
             current === cat.value

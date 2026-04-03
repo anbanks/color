@@ -1,0 +1,91 @@
+{
+  "site": {
+    "title": "Color — Descubra Paletas de Cores Incríveis",
+    "description": "Descubra, crie e compartilhe paletas de cores. Uma coleção curada de inspiração de cores para designers e desenvolvedores."
+  },
+  "nav": {
+    "trending": "Em Alta",
+    "popular": "Populares",
+    "new": "Novas",
+    "random": "Aleatórias"
+  },
+  "auth": {
+    "login": "Entrar",
+    "signIn": "Entre na sua conta",
+    "signUp": "Crie sua conta",
+    "email": "Email",
+    "password": "Senha",
+    "confirmPassword": "Confirmar senha",
+    "name": "Nome",
+    "signInButton": "Entrar",
+    "createAccount": "Criar Conta",
+    "signingIn": "Entrando...",
+    "creatingAccount": "Criando conta...",
+    "or": "ou",
+    "continueGoogle": "Continuar com Google",
+    "noAccount": "Não tem uma conta?",
+    "hasAccount": "Já tem uma conta?",
+    "createOne": "Crie uma",
+    "signInLink": "Entrar",
+    "invalidCredentials": "Email ou senha inválidos",
+    "passwordMinLength": "Senha (mínimo 6 caracteres)"
+  },
+  "palette": {
+    "back": "Voltar",
+    "createTitle": "Criar uma Paleta",
+    "colors": "Cores",
+    "randomize": "Aleatorizar",
+    "tags": "Tags",
+    "tagPlaceholder": "Digite uma tag e pressione Enter",
+    "submit": "Enviar Paleta",
+    "submitting": "Enviando...",
+    "submitNote": "Sua paleta será revisada antes de ser publicada.",
+    "copied": "Copiado",
+    "contrastCheck": "Verificação de Contraste (WCAG 2.1)",
+    "livePreview": "Pré-visualização",
+    "relatedPalettes": "Paletas Relacionadas",
+    "noPalettes": "Nenhuma paleta ainda",
+    "beFirst": "Seja o primeiro a criar uma!",
+    "practicalApps": "Aplicações Práticas",
+    "colorPsychology": "Psicologia das Cores"
+  },
+  "collections": {
+    "title": "Minhas Coleções",
+    "empty": "Nenhuma coleção ainda",
+    "emptyHint": "Salve paletas usando o ícone de favorito em qualquer card.",
+    "browse": "Explorar Paletas",
+    "saveToCollection": "Salvar na Coleção",
+    "newCollection": "Nome da nova coleção",
+    "create": "Criar",
+    "backToCollections": "Voltar às coleções",
+    "deleted": "Coleção excluída"
+  },
+  "admin": {
+    "title": "Admin",
+    "moderation": "Moderação",
+    "pendingReview": "Aguardando Revisão",
+    "noPending": "Nenhuma paleta aguardando revisão.",
+    "approve": "Aprovar",
+    "reject": "Rejeitar",
+    "pending": "Pendente",
+    "approved": "Aprovada",
+    "published": "Publicada",
+    "rejected": "Rejeitada"
+  },
+  "footer": {
+    "rights": "Todos os direitos reservados.",
+    "language": "Idioma"
+  },
+  "preview": {
+    "color1": "Fundo",
+    "color2": "Navegação",
+    "color3": "Destaque",
+    "color4": "Texto"
+  },
+  "keyboard": {
+    "navigate": "navegar",
+    "copyColor": "copiar cor",
+    "copyAll": "copiar tudo",
+    "deselect": "desselecionar"
+  }
+}

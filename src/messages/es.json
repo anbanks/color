@@ -1,0 +1,91 @@
+{
+  "site": {
+    "title": "Color — Descubre Paletas de Colores Hermosas",
+    "description": "Descubre, crea y comparte paletas de colores. Una colección curada de inspiración cromática para diseñadores y desarrolladores."
+  },
+  "nav": {
+    "trending": "Tendencia",
+    "popular": "Populares",
+    "new": "Nuevas",
+    "random": "Aleatorias"
+  },
+  "auth": {
+    "login": "Ingresar",
+    "signIn": "Ingresa a tu cuenta",
+    "signUp": "Crea tu cuenta",
+    "email": "Email",
+    "password": "Contraseña",
+    "confirmPassword": "Confirmar contraseña",
+    "name": "Nombre",
+    "signInButton": "Ingresar",
+    "createAccount": "Crear Cuenta",
+    "signingIn": "Ingresando...",
+    "creatingAccount": "Creando cuenta...",
+    "or": "o",
+    "continueGoogle": "Continuar con Google",
+    "noAccount": "¿No tienes una cuenta?",
+    "hasAccount": "¿Ya tienes una cuenta?",
+    "createOne": "Crea una",
+    "signInLink": "Ingresar",
+    "invalidCredentials": "Email o contraseña inválidos",
+    "passwordMinLength": "Contraseña (mínimo 6 caracteres)"
+  },
+  "palette": {
+    "back": "Volver",
+    "createTitle": "Crear una Paleta",
+    "colors": "Colores",
+    "randomize": "Aleatorizar",
+    "tags": "Tags",
+    "tagPlaceholder": "Escribe un tag y presiona Enter",
+    "submit": "Enviar Paleta",
+    "submitting": "Enviando...",
+    "submitNote": "Tu paleta será revisada antes de ser publicada.",
+    "copied": "Copiado",
+    "contrastCheck": "Verificación de Contraste (WCAG 2.1)",
+    "livePreview": "Vista Previa",
+    "relatedPalettes": "Paletas Relacionadas",
+    "noPalettes": "Aún no hay paletas",
+    "beFirst": "¡Sé el primero en crear una!",
+    "practicalApps": "Aplicaciones Prácticas",
+    "colorPsychology": "Psicología del Color"
+  },
+  "collections": {
+    "title": "Mis Colecciones",
+    "empty": "Aún no hay colecciones",
+    "emptyHint": "Guarda paletas usando el ícono de favorito en cualquier tarjeta.",
+    "browse": "Explorar Paletas",
+    "saveToCollection": "Guardar en Colección",
+    "newCollection": "Nombre de la nueva colección",
+    "create": "Crear",
+    "backToCollections": "Volver a colecciones",
+    "deleted": "Colección eliminada"
+  },
+  "admin": {
+    "title": "Admin",
+    "moderation": "Moderación",
+    "pendingReview": "Revisión Pendiente",
+    "noPending": "No hay paletas pendientes de revisión.",
+    "approve": "Aprobar",
+    "reject": "Rechazar",
+    "pending": "Pendiente",
+    "approved": "Aprobada",
+    "published": "Publicada",
+    "rejected": "Rechazada"
+  },
+  "footer": {
+    "rights": "Todos los derechos reservados.",
+    "language": "Idioma"
+  },
+  "preview": {
+    "color1": "Fondo",
+    "color2": "Navegación",
+    "color3": "Acento",
+    "color4": "Texto"
+  },
+  "keyboard": {
+    "navigate": "navegar",
+    "copyColor": "copiar color",
+    "copyAll": "copiar todo",
+    "deselect": "deseleccionar"
+  }
+}

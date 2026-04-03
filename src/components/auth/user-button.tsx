@@ -10,10 +10,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { SignInButton } from "./sign-in-button";
 import { LogOut, Plus, Bookmark } from "lucide-react";
+import { useLocale } from "@/lib/locale-context";
 import Link from "next/link";
 
 export function UserButton() {
   const { data: session } = useSession();
+  const { locale, t } = useLocale();
 
   if (!session?.user) {
     return <SignInButton />;
@@ -39,15 +41,15 @@ export function UserButton() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem>
-          <Link href="/create" className="flex items-center w-full">
+          <Link href={`/${locale}/create`} className="flex items-center w-full">
             <Plus className="h-4 w-4 mr-2" />
-            Create Palette
+            {t.palette.createTitle}
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <Link href="/collections" className="flex items-center w-full">
+          <Link href={`/${locale}/collections`} className="flex items-center w-full">
             <Bookmark className="h-4 w-4 mr-2" />
-            My Collections
+            {t.collections.title}
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />

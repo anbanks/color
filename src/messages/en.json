@@ -1,0 +1,91 @@
+{
+  "site": {
+    "title": "Color — Discover Beautiful Color Palettes",
+    "description": "Discover, create and share beautiful color palettes. A curated collection of color inspiration for designers and developers."
+  },
+  "nav": {
+    "trending": "Trending",
+    "popular": "Popular",
+    "new": "New",
+    "random": "Random"
+  },
+  "auth": {
+    "login": "Login",
+    "signIn": "Sign in to your account",
+    "signUp": "Create your account",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "name": "Name",
+    "signInButton": "Sign In",
+    "createAccount": "Create Account",
+    "signingIn": "Signing in...",
+    "creatingAccount": "Creating account...",
+    "or": "or",
+    "continueGoogle": "Continue with Google",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "createOne": "Create one",
+    "signInLink": "Sign in",
+    "invalidCredentials": "Invalid email or password",
+    "passwordMinLength": "Password (min 6 characters)"
+  },
+  "palette": {
+    "back": "Back",
+    "createTitle": "Create a Palette",
+    "colors": "Colors",
+    "randomize": "Randomize",
+    "tags": "Tags",
+    "tagPlaceholder": "Type a tag and press Enter",
+    "submit": "Submit Palette",
+    "submitting": "Submitting...",
+    "submitNote": "Your palette will be reviewed before publishing.",
+    "copied": "Copied",
+    "contrastCheck": "Contrast Check (WCAG 2.1)",
+    "livePreview": "Live Preview",
+    "relatedPalettes": "Related Palettes",
+    "noPalettes": "No palettes yet",
+    "beFirst": "Be the first to create one!",
+    "practicalApps": "Practical Applications",
+    "colorPsychology": "Color Psychology"
+  },
+  "collections": {
+    "title": "My Collections",
+    "empty": "No collections yet",
+    "emptyHint": "Save palettes using the bookmark icon on any palette card.",
+    "browse": "Browse Palettes",
+    "saveToCollection": "Save to Collection",
+    "newCollection": "New collection name",
+    "create": "Create",
+    "backToCollections": "Back to collections",
+    "deleted": "Collection deleted"
+  },
+  "admin": {
+    "title": "Admin",
+    "moderation": "Moderation",
+    "pendingReview": "Pending Review",
+    "noPending": "No palettes pending review.",
+    "approve": "Approve",
+    "reject": "Reject",
+    "pending": "Pending",
+    "approved": "Approved",
+    "published": "Published",
+    "rejected": "Rejected"
+  },
+  "footer": {
+    "rights": "All rights reserved.",
+    "language": "Language"
+  },
+  "preview": {
+    "color1": "Background",
+    "color2": "Navigation",
+    "color3": "Accent",
+    "color4": "Text"
+  },
+  "keyboard": {
+    "navigate": "navigate",
+    "copyColor": "copy color",
+    "copyAll": "copy all",
+    "deselect": "deselect"
+  }
+}
