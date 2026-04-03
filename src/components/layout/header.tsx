@@ -156,45 +156,20 @@ export function Header() {
           )}
         </div>
 
-        {/* Menu — mesma largura do right panel */}
-        <div className="w-[320px] shrink-0 hidden xl:block pr-6 pl-2 flex items-center justify-end">
-        <DropdownMenu>
-          <DropdownMenuTrigger className="h-9 w-9 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors outline-none shrink-0">
-            <MoreHorizontal className="h-[20px] w-[20px] text-gray-700" strokeWidth={2} />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-48 rounded-xl shadow-xl shadow-black/[0.06] border-gray-200/80 p-1.5">
-            <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
-              <Link href={`/${locale}`} className="w-full">Palettes</Link>
-            </DropdownMenuItem>
-            {session?.user ? (
-              <>
-                <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
-                  <Link href={`/${locale}/create`} className="w-full">Create</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
-                  <Link href={`/${locale}/collections`} className="w-full">Collection</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
-                  <Link href={`/${locale}/admin`} className="w-full">Admin</Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]" onClick={() => signOut()}>
-                  Sign Out
-                </DropdownMenuItem>
-              </>
-            ) : (
-              <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
-                <Link href={`/${locale}/login`} className="w-full">Login</Link>
-              </DropdownMenuItem>
-            )}
-          </DropdownMenuContent>
-        </DropdownMenu>
-        </div>
-        {/* Menu mobile */}
-        <div className="xl:hidden pr-4">
+        {/* Menu — colado à direita */}
+        <div className="shrink-0 flex items-center gap-2 pr-5">
+          {/* Avatar quando logado */}
+          {session?.user && (
+            <div className="h-[32px] w-[32px] rounded-full bg-gray-100 flex items-center justify-center text-[13px] font-semibold text-gray-500">
+              {session.user.name?.[0]?.toUpperCase() || "?"}
+            </div>
+          )}
+
           <DropdownMenu>
-            <DropdownMenuTrigger className="h-9 w-9 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors outline-none">
-              <MoreHorizontal className="h-[20px] w-[20px] text-gray-700" strokeWidth={2} />
+            <DropdownMenuTrigger className="flex items-center gap-0.5 outline-none">
+              <div className="h-9 w-9 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors">
+                <MoreHorizontal className="h-[20px] w-[20px] text-gray-700" strokeWidth={2} />
+              </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48 rounded-xl shadow-xl shadow-black/[0.06] border-gray-200/80 p-1.5">
               <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
@@ -208,6 +183,10 @@ export function Header() {
                   <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
                     <Link href={`/${locale}/collections`} className="w-full">Collection</Link>
                   </DropdownMenuItem>
+                  <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
+                    <Link href={`/${locale}/admin`} className="w-full">Admin</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
                   <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]" onClick={() => signOut()}>
                     Sign Out
                   </DropdownMenuItem>
