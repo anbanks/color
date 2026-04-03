@@ -1,5 +1,4 @@
 import { Header } from "@/components/layout/header";
-import { Footer } from "@/components/layout/footer";
 import { Sidebar } from "@/components/layout/sidebar";
 import { RightPanel } from "@/components/layout/right-panel";
 import { PaletteGridInteractive } from "@/components/palette/palette-grid-interactive";
@@ -17,22 +16,30 @@ interface PaletteFeedProps {
 
 export function PaletteFeed({ palettes }: PaletteFeedProps) {
   return (
-    <>
+    <div className="h-screen flex flex-col overflow-hidden">
       <Suspense>
         <Header />
       </Suspense>
-      <div className="px-5 sm:px-8 py-8 flex">
-        <Suspense>
-          <Sidebar />
-        </Suspense>
-        <main className="flex-1 min-w-0 px-4">
+      <div className="flex-1 flex overflow-hidden px-5 sm:px-8">
+        {/* Sidebar — scroll independente */}
+        <div className="w-[160px] shrink-0 hidden md:block overflow-y-auto pt-6 pb-8">
+          <Suspense>
+            <Sidebar />
+          </Suspense>
+        </div>
+
+        {/* Feed — scroll independente */}
+        <main className="flex-1 min-w-0 overflow-y-auto px-4 pt-6 pb-8">
           <PaletteGridInteractive palettes={palettes} />
         </main>
-        <Suspense>
-          <RightPanel />
-        </Suspense>
+
+        {/* Right panel — scroll independente */}
+        <div className="w-[260px] shrink-0 hidden xl:block overflow-y-auto pt-6 pb-8">
+          <Suspense>
+            <RightPanel />
+          </Suspense>
+        </div>
       </div>
-      <Footer />
-    </>
+    </div>
   );
 }

@@ -27,62 +27,60 @@ export function Sidebar() {
   const activeTag = tagMatch ? tagMatch[1] : null;
 
   return (
-    <aside className="w-[160px] shrink-0 hidden md:block pt-2">
-      <nav className="sticky top-[76px]">
-        <div className="space-y-[2px]">
-          {navItems.map((item) => {
-            const href = `/${locale}${item.path}`;
-            const isActive =
-              !activeTag && (
-                (item.path === "" && (pathname === `/${locale}` || pathname === `/${locale}/` || pathname === `/${locale}/new`)) ||
-                (item.path !== "" && pathname.startsWith(href))
-              );
+    <nav>
+      <div className="space-y-[2px]">
+        {navItems.map((item) => {
+          const href = `/${locale}${item.path}`;
+          const isActive =
+            !activeTag && (
+              (item.path === "" && (pathname === `/${locale}` || pathname === `/${locale}/` || pathname === `/${locale}/new`)) ||
+              (item.path !== "" && pathname.startsWith(href))
+            );
 
+          return (
+            <Link
+              key={item.label}
+              href={href}
+              className={cn(
+                "flex items-center gap-3 py-[10px] text-[15px] transition-colors",
+                isActive
+                  ? "text-gray-900 font-semibold"
+                  : "text-gray-500 hover:text-gray-900"
+              )}
+            >
+              <MaterialIcon
+                name={item.icon}
+                size={22}
+                weight={isActive ? 400 : 300}
+                filled={isActive}
+              />
+              {item.label}
+            </Link>
+          );
+        })}
+      </div>
+
+      <div className="mt-5 pt-3 border-t border-gray-100">
+        <div className="space-y-[1px]">
+          {tags.map((tag) => {
+            const isActive = activeTag === tag.toLowerCase();
             return (
               <Link
-                key={item.label}
-                href={href}
+                key={tag}
+                href={`/${locale}/palettes/${tag.toLowerCase()}`}
                 className={cn(
-                  "flex items-center gap-3 py-[10px] text-[15px] transition-colors",
+                  "block py-[5px] text-[14px] transition-colors",
                   isActive
-                    ? "text-gray-900 font-semibold"
-                    : "text-gray-500 hover:text-gray-900"
+                    ? "text-gray-900 font-medium"
+                    : "text-gray-400 hover:text-gray-700"
                 )}
               >
-                <MaterialIcon
-                  name={item.icon}
-                  size={22}
-                  weight={isActive ? 400 : 300}
-                  filled={isActive}
-                />
-                {item.label}
+                {tag}
               </Link>
             );
           })}
         </div>
-
-        <div className="mt-5 pt-3 border-t border-gray-100">
-          <div className="space-y-[1px]">
-            {tags.map((tag) => {
-              const isActive = activeTag === tag.toLowerCase();
-              return (
-                <Link
-                  key={tag}
-                  href={`/${locale}/palettes/${tag.toLowerCase()}`}
-                  className={cn(
-                    "block py-[5px] text-[14px] transition-colors",
-                    isActive
-                      ? "text-gray-900 font-medium"
-                      : "text-gray-400 hover:text-gray-700"
-                  )}
-                >
-                  {tag}
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-      </nav>
-    </aside>
+      </div>
+    </nav>
   );
 }
