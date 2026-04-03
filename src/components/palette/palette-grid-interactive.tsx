@@ -1,22 +1,39 @@
 "use client";
 
-import { useKeyboardNav } from "@/hooks/use-keyboard-nav";
+import { useState } from "react";
 import { PaletteCard } from "./palette-card";
-import { cn } from "@/lib/utils";
+import { PaletteExpanded } from "./palette-expanded";
 
 interface Palette {
   id: string;
   slug: string;
   colors: string[];
   likesCount: number;
+  createdAt?: string;
 }
 
 interface PaletteGridInteractiveProps {
   palettes: Palette[];
 }
 
+function timeAgo(date?: string): string {
+  if (!date) return "";
+  const now = Date.now();
+  const then = new Date(date).getTime();
+  const diff = now - then;
+  const hours = Math.floor(diff / (1000 * 60 * 60));
+  if (hours < 1) return "Just now";
+  if (hours < 24) return `${hours} hours`;
+  const days = Math.floor(hours / 24);
+  if (days === 1) return "Yesterday";
+  if (days < 7) return `${days} days`;
+  const weeks = Math.floor(days / 7);
+  if (weeks === 1) return "1 week";
+  return `${weeks} weeks`;
+}
+
 export function PaletteGridInteractive({ palettes }: PaletteGridInteractiveProps) {
-  const { selectedIndex } = useKeyboardNav({ palettes });
+  const [expandedId, setExpandedId] = useState<string | null>(null);
 
   if (palettes.length === 0) {
     return (
@@ -27,34 +44,30 @@ export function PaletteGridInteractive({ palettes }: PaletteGridInteractiveProps
     );
   }
 
+  const expanded = expandedId ? palettes.find((p) => p.id === expandedId) : null;
+
+  if (expanded) {
+    return (
+      <PaletteExpanded
+        palette={expanded}
+        onClose={() => setExpandedId(null)}
+      />
+    );
+  }
+
   return (
-    <div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {palettes.map((palette, i) => (
-          <div
-            key={palette.id}
-            className={cn(
-              "rounded-xl transition-all",
-              selectedIndex === i && "ring-2 ring-gray-300 ring-offset-2"
-            )}
-          >
-            <PaletteCard
-              id={palette.id}
-              slug={palette.slug}
-              colors={palette.colors}
-              likesCount={palette.likesCount}
-            />
-          </div>
-        ))}
-      </div>
-      {selectedIndex >= 0 && (
-        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-xs px-4 py-2 rounded-full shadow-lg flex gap-3">
-          <span><kbd className="font-mono bg-gray-700 px-1 rounded">↑↓</kbd> navigate</span>
-          <span><kbd className="font-mono bg-gray-700 px-1 rounded">1-4</kbd> copy color</span>
-          <span><kbd className="font-mono bg-gray-700 px-1 rounded">c</kbd> copy all</span>
-          <span><kbd className="font-mono bg-gray-700 px-1 rounded">esc</kbd> deselect</span>
-        </div>
-      )}
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-8">
+      {palettes.map((palette) => (
+        <PaletteCard
+          key={palette.id}
+          id={palette.id}
+          slug={palette.slug}
+          colors={palette.colors}
+          likesCount={palette.likesCount}
+          timeAgo={timeAgo(palette.createdAt)}
+          onExpand={setExpandedId}
+        />
+      ))}
     </div>
   );
 }
