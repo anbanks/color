@@ -23,10 +23,18 @@ export async function PATCH(
   const { env } = await getCloudflareContext({ async: true });
   const db = getDb(env.DB);
 
-  await db
-    .update(palettes)
-    .set({ status: body.status as "approved" | "rejected" })
-    .where(eq(palettes.id, id));
+  if (body.status === "approved") {
+    // Approve = publish directly
+    await db
+      .update(palettes)
+      .set({ status: "published", publishedAt: new Date() })
+      .where(eq(palettes.id, id));
+  } else {
+    await db
+      .update(palettes)
+      .set({ status: body.status as "rejected" })
+      .where(eq(palettes.id, id));
+  }
 
   return Response.json({ success: true });
 }
