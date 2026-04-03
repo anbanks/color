@@ -19,7 +19,7 @@ export function PaletteCard({ id, slug, colors, likesCount, liked, timeAgo }: Pa
   const { locale } = useLocale();
 
   return (
-    <div className="w-full max-w-[280px]">
+    <div className="w-full">
       <Link href={`/${locale}/palette/${slug}`} className="block">
         <div className="overflow-hidden cursor-pointer border border-gray-200/60 rounded-[4px] hover:border-gray-300/80 transition-all duration-150">
           {colors.map((color, i) => (

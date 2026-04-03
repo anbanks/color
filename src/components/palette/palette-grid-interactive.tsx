@@ -31,7 +31,10 @@ function timeAgo(date?: string): string {
   if (weeks < 5) return `${weeks} weeks`;
   const months = Math.floor(days / 30);
   if (months === 1) return "1 month";
-  return `${months} months`;
+  if (months < 12) return `${months} months`;
+  const years = Math.floor(days / 365);
+  if (years === 1) return "1 year";
+  return `${years} years`;
 }
 
 export function PaletteGridInteractive({ palettes }: PaletteGridInteractiveProps) {
@@ -45,7 +48,7 @@ export function PaletteGridInteractive({ palettes }: PaletteGridInteractiveProps
   }
 
   return (
-    <div className="flex flex-wrap gap-x-6 gap-y-10 justify-start">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-5 gap-y-8">
       {palettes.map((palette) => (
         <PaletteCard
           key={palette.id}
