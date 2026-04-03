@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { NavCategories } from "./nav-categories";
+import { UserButton } from "@/components/auth/user-button";
 
 export function Header() {
   return (
@@ -11,10 +12,7 @@ export function Header() {
 
         <NavCategories />
 
-        <div className="flex items-center gap-2">
-          {/* Auth button placeholder — Story 2.1 */}
-          <span className="text-sm text-gray-400">Login</span>
-        </div>
+        <UserButton />
       </div>
     </header>
   );
