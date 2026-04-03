@@ -10,6 +10,7 @@ assets = { directory = ".open-next/assets", binding = "ASSETS" }
 binding = "DB"
 database_name = "color-db"
 database_id = "37e597a4-db6a-4f05-be5c-e4c0b34568ec"
+migrations_dir = "src/db/migrations"
 
 [[kv_namespaces]]
 binding = "CACHE"
