@@ -67,17 +67,26 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-gray-100/80">
-      <div className="px-5 sm:px-8 h-[60px] flex items-center gap-5">
-        {/* Logo */}
-        <Link href={`/${locale}`} className="flex items-center gap-2.5 shrink-0 group">
-          <span className="text-[26px] group-hover:scale-105 transition-transform">🎨</span>
-          <span className="text-[17px] font-bold text-gray-900 tracking-[-0.01em] hidden sm:inline">
-            Color
-          </span>
-        </Link>
+      <div className="h-[60px] flex items-center">
+        {/* Logo — mesma largura da sidebar */}
+        <div className="w-[200px] shrink-0 hidden md:block pl-6 pr-2">
+          <Link href={`/${locale}`} className="flex items-center gap-2.5 group">
+            <span className="text-[26px] group-hover:scale-105 transition-transform">🎨</span>
+            <span className="text-[17px] font-bold text-gray-900 tracking-[-0.01em]">
+              Color
+            </span>
+          </Link>
+        </div>
+        {/* Logo mobile */}
+        <div className="md:hidden pl-4 pr-2">
+          <Link href={`/${locale}`} className="flex items-center gap-2 group">
+            <span className="text-[24px]">🎨</span>
+            <span className="text-[16px] font-bold text-gray-900">Color</span>
+          </Link>
+        </div>
 
-        {/* Search */}
-        <div className="flex-1 relative">
+        {/* Search — mesma largura do feed */}
+        <div className="flex-1 relative px-5">
           <div className="relative flex items-center h-[42px] border border-gray-200/80 rounded-full bg-[#fafafa] hover:bg-white hover:border-gray-300 focus-within:bg-white focus-within:border-gray-300 focus-within:shadow-sm transition-all">
             {activeTag ? (
               <div className="flex items-center ml-3">
@@ -147,7 +156,8 @@ export function Header() {
           )}
         </div>
 
-        {/* Menu */}
+        {/* Menu — mesma largura do right panel */}
+        <div className="w-[320px] shrink-0 hidden xl:block pr-6 pl-2 flex items-center justify-end">
         <DropdownMenu>
           <DropdownMenuTrigger className="h-9 w-9 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors outline-none shrink-0">
             <MoreHorizontal className="h-[20px] w-[20px] text-gray-700" strokeWidth={2} />
@@ -179,6 +189,37 @@ export function Header() {
             )}
           </DropdownMenuContent>
         </DropdownMenu>
+        </div>
+        {/* Menu mobile */}
+        <div className="xl:hidden pr-4">
+          <DropdownMenu>
+            <DropdownMenuTrigger className="h-9 w-9 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors outline-none">
+              <MoreHorizontal className="h-[20px] w-[20px] text-gray-700" strokeWidth={2} />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48 rounded-xl shadow-xl shadow-black/[0.06] border-gray-200/80 p-1.5">
+              <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
+                <Link href={`/${locale}`} className="w-full">Palettes</Link>
+              </DropdownMenuItem>
+              {session?.user ? (
+                <>
+                  <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
+                    <Link href={`/${locale}/create`} className="w-full">Create</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
+                    <Link href={`/${locale}/collections`} className="w-full">Collection</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]" onClick={() => signOut()}>
+                    Sign Out
+                  </DropdownMenuItem>
+                </>
+              ) : (
+                <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
+                  <Link href={`/${locale}/login`} className="w-full">Login</Link>
+                </DropdownMenuItem>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </div>
     </header>
   );
