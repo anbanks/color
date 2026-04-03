@@ -16,30 +16,34 @@ interface PaletteFeedProps {
 
 export function PaletteFeed({ palettes }: PaletteFeedProps) {
   return (
-    <div className="h-screen flex flex-col overflow-hidden">
+    <>
       <Suspense>
         <Header />
       </Suspense>
-      <div className="flex-1 flex overflow-hidden">
-        {/* Sidebar */}
-        <div className="w-[170px] shrink-0 hidden md:block overflow-y-auto pl-6 pr-2 pt-6 pb-8 scrollbar-hide">
-          <Suspense>
-            <Sidebar />
-          </Suspense>
+      <div className="flex pl-6 pr-6">
+        {/* Sidebar — sticky, sem scroll proprio */}
+        <div className="w-[160px] shrink-0 hidden md:block">
+          <div className="sticky top-[68px] pt-6">
+            <Suspense>
+              <Sidebar />
+            </Suspense>
+          </div>
         </div>
 
-        {/* Feed */}
-        <main className="flex-1 min-w-0 overflow-y-auto px-6 pt-6 pb-8">
+        {/* Feed — scroll normal da pagina */}
+        <main className="flex-1 min-w-0 px-6 pt-6 pb-16">
           <PaletteGridInteractive palettes={palettes} />
         </main>
 
-        {/* Right panel */}
-        <div className="w-[280px] shrink-0 hidden xl:block overflow-y-auto pr-6 pl-4 pt-6 pb-8">
-          <Suspense>
-            <RightPanel />
-          </Suspense>
+        {/* Right panel — sticky, sem scroll proprio */}
+        <div className="w-[280px] shrink-0 hidden xl:block">
+          <div className="sticky top-[68px] pt-6">
+            <Suspense>
+              <RightPanel />
+            </Suspense>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
