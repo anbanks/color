@@ -3,5 +3,5 @@ import { getPopularPalettes } from "@/lib/get-palettes";
 
 export default async function PopularPage() {
   const palettes = await getPopularPalettes();
-  return <PaletteFeed palettes={palettes} />;
+  return <PaletteFeed palettes={palettes} sort="popular" />;
 }

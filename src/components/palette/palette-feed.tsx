@@ -12,9 +12,10 @@ interface PaletteFeedProps {
     likesCount: number;
     createdAt?: string;
   }[];
+  sort?: string;
 }
 
-export function PaletteFeed({ palettes }: PaletteFeedProps) {
+export function PaletteFeed({ palettes, sort = "new" }: PaletteFeedProps) {
   return (
     <>
       <Suspense>
@@ -32,7 +33,7 @@ export function PaletteFeed({ palettes }: PaletteFeedProps) {
 
         {/* Feed */}
         <main className="flex-1 min-w-0 box-border">
-          <PaletteGridInteractive palettes={palettes} />
+          <PaletteGridInteractive palettes={palettes} sort={sort} />
         </main>
 
         {/* Right panel — 340px, sticky */}
