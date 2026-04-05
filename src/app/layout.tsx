@@ -32,7 +32,7 @@ export default function RootLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body className="min-h-full flex flex-col font-sans bg-white dark:bg-[#1a1a1a] text-gray-800 dark:text-white/90 transition-colors">
+      <body className="min-h-full flex flex-col font-sans bg-white dark:bg-[#1a1a1a] text-gray-800 dark:text-white/90">
         <Providers>
           <TooltipProvider>
             {children}
