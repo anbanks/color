@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useLocale } from "@/lib/locale-context";
-import { X, Search, MoreHorizontal, Sun, Moon } from "lucide-react";
+import { X, Search, MoreHorizontal, Sun, Moon, Globe } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
 import {
   DropdownMenu,
@@ -159,7 +160,34 @@ export function Header() {
         </div>
 
         {/* Menu — .right min-width:340px */}
-        <div className="min-w-[340px] max-w-[340px] shrink-0 hidden xl:flex items-center justify-end gap-2 px-5 box-border">
+        <div className="min-w-[340px] max-w-[340px] shrink-0 hidden xl:flex items-center justify-end gap-1.5 px-5 box-border">
+          {/* Language selector */}
+          <DropdownMenu>
+            <DropdownMenuTrigger className="h-[38px] px-[10px] rounded-full flex items-center gap-[5px] hover:bg-black/5 dark:hover:bg-white/10 transition-colors outline-none text-[13px] text-gray-500 dark:text-white/60">
+              <Globe className="h-[15px] w-[15px]" strokeWidth={1.5} />
+              {locale.toUpperCase()}
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-36 rounded-xl shadow-xl shadow-black/[0.06] border-gray-200/80 p-1.5">
+              {[
+                { code: "en", label: "English" },
+                { code: "pt", label: "Português" },
+                { code: "es", label: "Español" },
+              ].map((lang) => (
+                <DropdownMenuItem
+                  key={lang.code}
+                  className={cn("rounded-lg px-3 py-2 text-[13px] cursor-pointer", locale === lang.code && "font-medium")}
+                  onClick={() => {
+                    const segments = pathname.split("/");
+                    segments[1] = lang.code;
+                    router.push(segments.join("/"));
+                  }}
+                >
+                  {lang.label}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           {/* Theme toggle */}
           <button
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
