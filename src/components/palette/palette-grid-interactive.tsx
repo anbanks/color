@@ -100,8 +100,22 @@ export function PaletteGridInteractive({ palettes: initialPalettes, sort = "new"
 
   if (palettes.length === 0 && !loading) {
     return (
-      <div className="flex flex-col items-center justify-center py-24" style={{ color: "rgba(0,0,0,0.4)" }}>
-        <p className="text-[16px]">No palettes found</p>
+      <div className="flex flex-col items-center justify-center py-32">
+        <div className="flex gap-2 mb-6">
+          {["#E8E8E8", "#D4D4D4", "#C0C0C0", "#ACACAC"].map((c, i) => (
+            <div
+              key={i}
+              className="w-10 h-10 rounded-full dark:opacity-20"
+              style={{ backgroundColor: c }}
+            />
+          ))}
+        </div>
+        <p className="text-[17px] font-medium text-gray-400 dark:text-white/25">
+          No palettes found
+        </p>
+        <p className="text-[13px] text-gray-300 dark:text-white/15 mt-1">
+          Try a different filter or create your own
+        </p>
       </div>
     );
   }
