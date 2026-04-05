@@ -3,6 +3,7 @@
 import { PaletteCard } from "./palette-card";
 import { PaletteSkeleton } from "./palette-skeleton";
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useLocale } from "@/lib/locale-context";
 
 interface Palette {
   id: string;
@@ -46,6 +47,7 @@ export function PaletteGridInteractive({ palettes: initialPalettes, sort = "new"
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
   const sentinelRef = useRef<HTMLDivElement>(null);
+  const { t } = useLocale();
 
   // Reset on route change
   useEffect(() => {
@@ -111,10 +113,10 @@ export function PaletteGridInteractive({ palettes: initialPalettes, sort = "new"
           ))}
         </div>
         <p className="text-[17px] font-medium text-gray-400 dark:text-white/25">
-          No palettes found
+          {t.empty.title}
         </p>
         <p className="text-[13px] text-gray-300 dark:text-white/15 mt-1">
-          Try a different filter or create your own
+          {t.empty.subtitle}
         </p>
       </div>
     );

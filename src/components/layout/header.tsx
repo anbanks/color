@@ -217,27 +217,27 @@ export function Header() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48 rounded-xl shadow-xl shadow-black/[0.06] border-gray-200/80 dark:border-white/10 dark:bg-[#252525] p-1.5">
               <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
-                <Link href={`/${locale}`} className="w-full">Palettes</Link>
+                <Link href={`/${locale}`} className="w-full">{t.menu.palettes}</Link>
               </DropdownMenuItem>
               {session?.user ? (
                 <>
                   <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
-                    <Link href={`/${locale}/create`} className="w-full">Create</Link>
+                    <Link href={`/${locale}/create`} className="w-full">{t.menu.create}</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
-                    <Link href={`/${locale}/collections`} className="w-full">Collection</Link>
+                    <Link href={`/${locale}/collections`} className="w-full">{t.menu.collection}</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
-                    <Link href={`/${locale}/admin`} className="w-full">Admin</Link>
+                    <Link href={`/${locale}/admin`} className="w-full">{t.menu.admin}</Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]" onClick={() => signOut()}>
-                    Sign Out
+                    {t.menu.signOut}
                   </DropdownMenuItem>
                 </>
               ) : (
                 <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
-                  <Link href={`/${locale}/login`} className="w-full">Login</Link>
+                  <Link href={`/${locale}/login`} className="w-full">{t.menu.login}</Link>
                 </DropdownMenuItem>
               )}
             </DropdownMenuContent>

@@ -93,5 +93,21 @@
     "copyColor": "copy color",
     "copyAll": "copy all",
     "deselect": "deselect"
+  },
+  "rightPanel": {
+    "title": "Color Palettes for Designers and Artists",
+    "description": "Discover the newest hand-picked palettes of Color"
+  },
+  "empty": {
+    "title": "No palettes found",
+    "subtitle": "Try a different filter or create your own"
+  },
+  "menu": {
+    "palettes": "Palettes",
+    "create": "Create",
+    "collection": "Collection",
+    "admin": "Admin",
+    "signOut": "Sign Out",
+    "login": "Login"
   }
 }
