@@ -77,7 +77,7 @@ export function Sidebar() {
               key={tag}
               href={`/${locale}/palettes/${tag.toLowerCase()}`}
               className={cn(
-                "flex items-center h-[42px] text-[17px] rounded-[10px] pl-[16px] transition-all duration-200 cursor-pointer",
+                "flex items-center h-[36px] text-[14px] rounded-[10px] pl-[16px] transition-all duration-200 cursor-pointer",
                 isActive
                   ? "font-medium text-black dark:text-white"
                   : "text-black/90 dark:text-white/80 hover:opacity-80"
