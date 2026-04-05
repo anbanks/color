@@ -26,11 +26,13 @@ export function PaletteCard({ id, slug, colors, likesCount, liked, timeAgo }: Pa
           style={{ boxShadow: "0 10px 20px 0 rgba(0,0,0,0.05)" }}
         >
           <div className="absolute inset-0 flex flex-col">
-            {colors.map((color, i) => (
+            {colors.map((color, i) => {
+              const heights = ["41%", "26%", "18%", "15%"];
+              return (
               <div
                 key={i}
-                className="flex-1 relative group/strip w-full"
-                style={{ backgroundColor: color }}
+                className="relative group/strip w-full"
+                style={{ backgroundColor: color, height: heights[i] || "25%" }}
               >
                 <span
                   className="absolute bottom-0 left-0 px-[6px] py-[3px] rounded-[0_6px_0_0] text-white text-[14px] font-mono tracking-[1px] opacity-0 group-hover/strip:opacity-100 cursor-pointer transition-opacity duration-200"
@@ -44,7 +46,8 @@ export function PaletteCard({ id, slug, colors, likesCount, liked, timeAgo }: Pa
                   {color.toUpperCase()}
                 </span>
               </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </Link>
