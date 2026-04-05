@@ -8,11 +8,17 @@ import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
 
 const navItems = [
-  { path: "", label: "New", icon: Sparkles },
-  { path: "/popular", label: "Popular", icon: Flame },
-  { path: "/random", label: "Random", icon: Orbit },
-  { path: "/collections", label: "Collection", icon: Heart },
+  { path: "", key: "new" as const, icon: Sparkles },
+  { path: "/popular", key: "popular" as const, icon: Flame },
+  { path: "/random", key: "random" as const, icon: Orbit },
+  { path: "/collections", key: "collection" as const, icon: Heart },
 ];
+
+const navLabels: Record<string, Record<string, string>> = {
+  en: { new: "New", popular: "Popular", random: "Random", collection: "Collection" },
+  pt: { new: "Novas", popular: "Populares", random: "Aleatórias", collection: "Coleção" },
+  es: { new: "Nuevas", popular: "Populares", random: "Aleatorias", collection: "Colección" },
+};
 
 const tags = [
   "Pastel", "Vintage", "Retro", "Neon", "Gold", "Light", "Dark",
@@ -43,7 +49,7 @@ export function Sidebar() {
 
           return (
             <Link
-              key={item.label}
+              key={item.key}
               href={href}
               className={cn(
                 "flex items-center gap-[4px] h-[42px] text-[17px] rounded-[10px] px-[14px] mb-[6px] transition-all duration-200 cursor-pointer relative overflow-hidden",
@@ -57,7 +63,7 @@ export function Sidebar() {
                 className="w-[20px] h-[20px] -ml-[2px] mr-[2px] shrink-0"
                 strokeWidth={isActive ? 2 : 1.5}
               />
-              {item.label}
+              {navLabels[locale]?.[item.key] || item.key}
             </Link>
           );
         })}

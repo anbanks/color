@@ -40,9 +40,9 @@ export function LikeButton({ paletteId, initialCount, initialLiked = false }: Li
         "inline-flex items-center gap-[6px] h-[38px] px-[14px] rounded-[10px] border text-[14px] cursor-pointer relative overflow-hidden transition-all duration-200 select-none shrink-0",
         liked
           ? "border-transparent text-red-500"
-          : "border-[#ececec] text-black/90 hover:text-black"
+          : "border-[#ececec] dark:border-white/15 text-black/90 dark:text-white/80 hover:text-black dark:hover:text-white"
       )}
-      style={liked ? { background: "linear-gradient(90deg, #FFF0F0 0%, #FFE8E8 100%)" } : { background: "white" }}
+      style={liked ? { background: "linear-gradient(90deg, #FFF0F0 0%, #FFE8E8 100%)" } : {}}
     >
       <Heart
         className={cn(

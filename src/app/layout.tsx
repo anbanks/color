@@ -19,14 +19,20 @@ export const metadata: Metadata = {
     "Discover, create and share beautiful color palettes. A curated collection of color inspiration for designers and developers.",
 };
 
+// Script to prevent FOUC — runs before React hydration
+const themeScript = `(function(){try{var t=localStorage.getItem('theme');if(t==='dark')document.documentElement.classList.add('dark');else document.documentElement.classList.remove('dark')}catch(e){}})()`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col font-sans bg-white text-gray-800">
+    <html lang="en" className={`${inter.variable} h-full antialiased`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
+      <body className="min-h-full flex flex-col font-sans bg-white dark:bg-[#1a1a1a] text-gray-800 dark:text-white/90 transition-colors">
         <Providers>
           <TooltipProvider>
             {children}
