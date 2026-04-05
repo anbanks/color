@@ -89,7 +89,8 @@ export function Header() {
         </div>
 
         {/* Search — .middle width:100% */}
-        <div className="w-full relative px-5 box-border">
+        <div className="w-full px-5 box-border">
+          <div className="relative">
           <div className="relative flex items-center h-[42px] border border-gray-200/80 dark:border-white/10 rounded-full bg-[#fafafa] dark:bg-white/5 hover:bg-white dark:hover:bg-white/10 hover:border-gray-300 dark:hover:border-white/20 focus-within:bg-white dark:focus-within:bg-white/10 focus-within:border-gray-300 dark:focus-within:border-white/20 focus-within:shadow-sm transition-all">
             {activeTag ? (
               <div className="flex items-center ml-3">
@@ -156,6 +157,7 @@ export function Header() {
               </div>
             </div>
           )}
+          </div>
         </div>
 
         {/* Menu — .right min-width:340px */}
