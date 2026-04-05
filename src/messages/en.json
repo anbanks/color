@@ -3,6 +3,12 @@
     "title": "Color — Discover Beautiful Color Palettes",
     "description": "Discover, create and share beautiful color palettes. A curated collection of color inspiration for designers and developers."
   },
+  "search": {
+    "placeholder": "Search palettes",
+    "addTag": "Add tag",
+    "colors": "Colors",
+    "collections": "Collections"
+  },
   "nav": {
     "trending": "Trending",
     "popular": "Popular",

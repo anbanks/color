@@ -46,7 +46,7 @@ const SEARCH_COLLECTIONS = [
 ];
 
 export function Header() {
-  const { locale } = useLocale();
+  const { locale, t } = useLocale();
   const { data: session } = useSession();
   const { theme, setTheme } = useTheme();
   const [searchOpen, setSearchOpen] = useState(false);
@@ -106,7 +106,7 @@ export function Header() {
             )}
             <input
               type="text"
-              placeholder={activeTag ? "Add tag" : "Search palettes"}
+              placeholder={activeTag ? t.search.addTag : t.search.placeholder}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               onFocus={() => setSearchOpen(true)}
@@ -115,7 +115,7 @@ export function Header() {
                 if (e.key === "Enter" && query.trim()) selectTag(query.trim());
                 if (e.key === "Escape") setSearchOpen(false);
               }}
-              className={`w-full h-full pr-4 text-[14px] text-gray-700 placeholder:text-gray-400 focus:outline-none bg-transparent ${activeTag ? "pl-2.5" : "pl-[42px]"}`}
+              className={`w-full h-full pr-4 text-[14px] text-gray-700 dark:text-white/90 placeholder:text-gray-400 dark:placeholder:text-white/30 focus:outline-none bg-transparent ${activeTag ? "pl-2.5" : "pl-[42px]"}`}
             />
             {activeTag && (
               <button onClick={clearTag} className="pr-3.5 text-gray-400 hover:text-gray-500 transition-colors">
@@ -126,15 +126,15 @@ export function Header() {
 
           {/* Dropdown */}
           {searchOpen && !activeTag && (
-            <div className="absolute top-[calc(100%+6px)] left-0 right-0 bg-white border border-gray-200/80 rounded-2xl shadow-xl shadow-black/[0.06] p-5 z-50">
+            <div className="absolute top-[calc(100%+6px)] left-0 right-0 bg-white dark:bg-[#252525] border border-gray-200/80 dark:border-white/10 rounded-2xl shadow-xl shadow-black/[0.06] p-5 z-50">
               {/* Colors */}
-              <p className="text-[14px] font-semibold text-gray-900 mb-3">Colors</p>
+              <p className="text-[14px] font-semibold text-gray-900 dark:text-white mb-3">{t.search.colors}</p>
               <div className="flex flex-wrap gap-[7px] mb-6">
                 {SEARCH_COLORS.map((c) => (
                   <button
                     key={c.name}
                     onMouseDown={(e) => { e.preventDefault(); selectTag(c.name); }}
-                    className="inline-flex items-center gap-[7px] px-3 py-[6px] text-[13px] border border-gray-200 rounded-full text-gray-700 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-900 transition-all"
+                    className="inline-flex items-center gap-[7px] px-3 py-[6px] text-[13px] border border-gray-200 dark:border-white/15 rounded-full text-gray-700 dark:text-white/70 hover:border-gray-300 dark:hover:border-white/25 hover:bg-gray-50 dark:hover:bg-white/10 hover:text-gray-900 dark:hover:text-white transition-all"
                   >
                     <span className="w-[13px] h-[13px] rounded-full shrink-0 border border-black/[0.06]" style={{ backgroundColor: c.hex }} />
                     {c.name}
@@ -143,13 +143,13 @@ export function Header() {
               </div>
 
               {/* Collections */}
-              <p className="text-[14px] font-semibold text-gray-900 mb-3">Collections</p>
+              <p className="text-[14px] font-semibold text-gray-900 dark:text-white mb-3">{t.search.collections}</p>
               <div className="flex flex-wrap gap-[7px]">
                 {SEARCH_COLLECTIONS.map((tag) => (
                   <button
                     key={tag}
                     onMouseDown={(e) => { e.preventDefault(); selectTag(tag); }}
-                    className="px-3.5 py-[7px] text-[13px] border border-gray-200 rounded-full text-gray-600 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800 transition-all"
+                    className="px-3.5 py-[7px] text-[13px] border border-gray-200 dark:border-white/15 rounded-full text-gray-600 dark:text-white/60 hover:border-gray-300 dark:hover:border-white/25 hover:bg-gray-50 dark:hover:bg-white/10 hover:text-gray-800 dark:hover:text-white transition-all"
                   >
                     {tag}
                   </button>
@@ -167,7 +167,7 @@ export function Header() {
               <Globe className="h-[15px] w-[15px]" strokeWidth={1.5} />
               {locale.toUpperCase()}
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-36 rounded-xl shadow-xl shadow-black/[0.06] border-gray-200/80 p-1.5">
+            <DropdownMenuContent align="end" className="w-36 rounded-xl shadow-xl shadow-black/[0.06] border-gray-200/80 dark:border-white/10 dark:bg-[#252525] p-1.5">
               {[
                 { code: "en", label: "English" },
                 { code: "pt", label: "Português" },
@@ -214,7 +214,7 @@ export function Header() {
                 <MoreHorizontal className="h-[20px] w-[20px] text-gray-700 dark:text-white/70" strokeWidth={2} />
               </div>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48 rounded-xl shadow-xl shadow-black/[0.06] border-gray-200/80 p-1.5">
+            <DropdownMenuContent align="end" className="w-48 rounded-xl shadow-xl shadow-black/[0.06] border-gray-200/80 dark:border-white/10 dark:bg-[#252525] p-1.5">
               <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
                 <Link href={`/${locale}`} className="w-full">Palettes</Link>
               </DropdownMenuItem>

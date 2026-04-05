@@ -3,6 +3,12 @@
     "title": "Color — Descubre Paletas de Colores Hermosas",
     "description": "Descubre, crea y comparte paletas de colores. Una colección curada de inspiración cromática para diseñadores y desarrolladores."
   },
+  "search": {
+    "placeholder": "Buscar paletas",
+    "addTag": "Agregar tag",
+    "colors": "Colores",
+    "collections": "Colecciones"
+  },
   "nav": {
     "trending": "Tendencia",
     "popular": "Populares",
