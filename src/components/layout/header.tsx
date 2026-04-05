@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useLocale } from "@/lib/locale-context";
-import { X, Search, MoreHorizontal } from "lucide-react";
+import { X, Search, MoreHorizontal, Sun, Moon } from "lucide-react";
+import { useTheme } from "next-themes";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -46,6 +47,7 @@ const SEARCH_COLLECTIONS = [
 export function Header() {
   const { locale } = useLocale();
   const { data: session } = useSession();
+  const { theme, setTheme } = useTheme();
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
   const router = useRouter();
@@ -158,9 +160,22 @@ export function Header() {
 
         {/* Menu — .right min-width:340px */}
         <div className="min-w-[340px] max-w-[340px] shrink-0 hidden xl:flex items-center justify-end gap-2 px-5 box-border">
+          {/* Theme toggle */}
+          <button
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            className="h-[38px] w-[38px] rounded-full flex items-center justify-center hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+            title={theme === "dark" ? "Light mode" : "Dark mode"}
+          >
+            {theme === "dark" ? (
+              <Sun className="h-[18px] w-[18px] text-yellow-400" strokeWidth={1.5} />
+            ) : (
+              <Moon className="h-[18px] w-[18px] text-gray-500" strokeWidth={1.5} />
+            )}
+          </button>
+
           {/* Avatar quando logado */}
           {session?.user && (
-            <div className="h-[32px] w-[32px] rounded-full bg-gray-100 flex items-center justify-center text-[13px] font-semibold text-gray-500">
+            <div className="h-[32px] w-[32px] rounded-full bg-gray-100 dark:bg-white/10 flex items-center justify-center text-[13px] font-semibold text-gray-500 dark:text-white/70">
               {session.user.name?.[0]?.toUpperCase() || "?"}
             </div>
           )}

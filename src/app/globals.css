@@ -185,3 +185,33 @@
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+/* Dark mode overrides */
+.dark body,
+.dark {
+  background-color: #1a1a1a;
+  color: rgba(255,255,255,0.9);
+}
+
+.dark header {
+  background-color: #1a1a1a;
+  border-color: rgba(255,255,255,0.06);
+}
+
+.dark .palette {
+  box-shadow: 0 10px 20px 0 rgba(0,0,0,0.3) !important;
+}
+
+.dark .site-container {
+  background-color: #1a1a1a;
+}
+
+.dark input {
+  background-color: #252525;
+  border-color: rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.9);
+}
+
+.dark input::placeholder {
+  color: rgba(255,255,255,0.3);
+}
