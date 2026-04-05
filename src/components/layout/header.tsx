@@ -93,10 +93,9 @@ export function Header() {
           <div className="relative flex items-center h-[42px] border border-gray-200/80 dark:border-white/10 rounded-full bg-[#fafafa] dark:bg-white/5 hover:bg-white dark:hover:bg-white/10 hover:border-gray-300 dark:hover:border-white/20 focus-within:bg-white dark:focus-within:bg-white/10 focus-within:border-gray-300 dark:focus-within:border-white/20 focus-within:shadow-sm transition-all">
             {activeTag ? (
               <div className="flex items-center ml-3">
-                <span className="inline-flex items-center gap-1.5 pl-2 pr-1.5 py-[3px] rounded-full text-[13px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200/60">
-                  <span className="w-[7px] h-[7px] rounded-full bg-emerald-400" />
+                <span className="inline-flex items-center gap-1 pl-3 pr-1 py-[3px] rounded-full text-[13px] font-medium bg-gray-100 dark:bg-white/10 text-gray-800 dark:text-white/90 border border-gray-200 dark:border-white/15">
                   {activeTag.charAt(0).toUpperCase() + activeTag.slice(1)}
-                  <button onClick={clearTag} className="ml-0.5 p-0.5 rounded-full hover:bg-emerald-100 transition-colors">
+                  <button onClick={clearTag} className="ml-1 p-0.5 rounded-full hover:bg-gray-200 dark:hover:bg-white/15 transition-colors">
                     <X className="h-3 w-3" />
                   </button>
                 </span>
