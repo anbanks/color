@@ -63,7 +63,7 @@ export function PaletteTableWithFilters({ palettes, counts }: Props) {
         })}
       </div>
 
-      <PaletteTable palettes={filtered} showActions={active === "all" || active === "pending"} />
+      <PaletteTable palettes={filtered} />
     </div>
   );
 }
