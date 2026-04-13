@@ -76,7 +76,31 @@
     "pending": "Pendente",
     "approved": "Aprovada",
     "published": "Publicada",
-    "rejected": "Rejeitada"
+    "rejected": "Rejeitada",
+    "all": "Todas",
+    "dashboard": "Painel",
+    "palettesTitle": "Paletas",
+    "palettesTotal": "paletas no total",
+    "table": {
+      "palette": "Paleta",
+      "slug": "Slug",
+      "status": "Status",
+      "likes": "Curtidas",
+      "date": "Data",
+      "actions": "Ações"
+    },
+    "noPalettes": "Nenhuma paleta encontrada",
+    "overview": "Visão geral da sua plataforma de paletas",
+    "totalPalettes": "Total de Paletas",
+    "pendingReview2": "Revisão Pendente",
+    "users": "Usuários",
+    "quickStats": "Estatísticas",
+    "totalLikes": "Total de Curtidas",
+    "approvalRate": "Taxa de Aprovação",
+    "quickActions": "Ações Rápidas",
+    "managePalettes": "Gerenciar todas as paletas",
+    "reviewPending": "Revisar pendentes",
+    "backToSite": "Voltar ao site"
   },
   "footer": {
     "rights": "Todos os direitos reservados.",

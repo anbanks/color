@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useTransition } from "react";
 import { useRouter } from "next/navigation";
+import { useLocale } from "@/lib/locale-context";
 import {
   Table,
   TableBody,
@@ -40,6 +41,7 @@ const statusColors: Record<string, string> = {
 export function PaletteTable({ palettes, showActions = true }: PaletteTableProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const { t } = useLocale();
 
   const handleAction = (id: string, status: "approved" | "rejected") => {
     startTransition(async () => {
@@ -62,7 +64,7 @@ export function PaletteTable({ palettes, showActions = true }: PaletteTableProps
   if (palettes.length === 0) {
     return (
       <div className="text-center py-16 text-gray-400 dark:text-white/30">
-        <p className="text-[15px]">No palettes found</p>
+        <p className="text-[15px]">{t.admin.noPalettes}</p>
       </div>
     );
   }
@@ -72,12 +74,12 @@ export function PaletteTable({ palettes, showActions = true }: PaletteTableProps
       <Table>
         <TableHeader>
           <TableRow className="border-gray-200/60 dark:border-white/[0.06]">
-            <TableHead className="text-[13px] text-gray-500 dark:text-white/40 w-[200px]">Palette</TableHead>
-            <TableHead className="text-[13px] text-gray-500 dark:text-white/40">Slug</TableHead>
-            <TableHead className="text-[13px] text-gray-500 dark:text-white/40">Status</TableHead>
-            <TableHead className="text-[13px] text-gray-500 dark:text-white/40 text-right">Likes</TableHead>
-            <TableHead className="text-[13px] text-gray-500 dark:text-white/40">Date</TableHead>
-            {showActions && <TableHead className="text-[13px] text-gray-500 dark:text-white/40 text-right">Actions</TableHead>}
+            <TableHead className="text-[13px] text-gray-500 dark:text-white/40 w-[200px]">{t.admin.table.palette}</TableHead>
+            <TableHead className="text-[13px] text-gray-500 dark:text-white/40">{t.admin.table.slug}</TableHead>
+            <TableHead className="text-[13px] text-gray-500 dark:text-white/40">{t.admin.table.status}</TableHead>
+            <TableHead className="text-[13px] text-gray-500 dark:text-white/40 text-right">{t.admin.table.likes}</TableHead>
+            <TableHead className="text-[13px] text-gray-500 dark:text-white/40">{t.admin.table.date}</TableHead>
+            {showActions && <TableHead className="text-[13px] text-gray-500 dark:text-white/40 text-right">{t.admin.table.actions}</TableHead>}
           </TableRow>
         </TableHeader>
         <TableBody>

@@ -37,8 +37,8 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
   const base = `/${locale}/admin`;
 
   const navItems = [
-    { href: "", label: "Dashboard", icon: LayoutDashboard },
-    { href: "/palettes", label: t.menu.palettes, icon: Palette },
+    { href: "", label: t.admin.dashboard, icon: LayoutDashboard },
+    { href: "/palettes", label: t.admin.palettesTitle, icon: Palette },
   ];
 
   const languages = [

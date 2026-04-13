@@ -76,7 +76,31 @@
     "pending": "Pending",
     "approved": "Approved",
     "published": "Published",
-    "rejected": "Rejected"
+    "rejected": "Rejected",
+    "all": "All",
+    "dashboard": "Dashboard",
+    "palettesTitle": "Palettes",
+    "palettesTotal": "palettes total",
+    "table": {
+      "palette": "Palette",
+      "slug": "Slug",
+      "status": "Status",
+      "likes": "Likes",
+      "date": "Date",
+      "actions": "Actions"
+    },
+    "noPalettes": "No palettes found",
+    "overview": "Overview of your color palette platform",
+    "totalPalettes": "Total Palettes",
+    "pendingReview2": "Pending Review",
+    "users": "Users",
+    "quickStats": "Quick Stats",
+    "totalLikes": "Total Likes",
+    "approvalRate": "Approval Rate",
+    "quickActions": "Quick Actions",
+    "managePalettes": "Manage all palettes",
+    "reviewPending": "Review pending",
+    "backToSite": "Back to site"
   },
   "footer": {
     "rights": "All rights reserved.",

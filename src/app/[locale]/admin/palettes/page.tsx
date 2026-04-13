@@ -1,8 +1,9 @@
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { getDb } from "@/db";
 import { palettes } from "@/db/schema";
-import { desc, eq, sql } from "drizzle-orm";
+import { desc, sql } from "drizzle-orm";
 import { PaletteTableWithFilters } from "@/components/admin/palette-table-filters";
+import { getDictionary, type Locale } from "@/lib/i18n";
 
 async function getAllPalettes() {
   try {
@@ -31,15 +32,17 @@ async function getAllPalettes() {
   } catch { return { palettes: [], counts: {} }; }
 }
 
-export default async function PalettesPage() {
+export default async function PalettesPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+  const t = getDictionary(locale as Locale);
   const { palettes, counts } = await getAllPalettes();
   const total = Object.values(counts).reduce((a, b) => a + b, 0);
 
   return (
     <div className="p-8">
       <div className="mb-6">
-        <h1 className="text-[24px] font-bold text-gray-900 dark:text-white">Palettes</h1>
-        <p className="text-[14px] text-gray-500 dark:text-white/40 mt-1">{total} palettes total</p>
+        <h1 className="text-[24px] font-bold text-gray-900 dark:text-white">{t.admin.palettesTitle}</h1>
+        <p className="text-[14px] text-gray-500 dark:text-white/40 mt-1">{total} {t.admin.palettesTotal}</p>
       </div>
       <PaletteTableWithFilters
         palettes={palettes}

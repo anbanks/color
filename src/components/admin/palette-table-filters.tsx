@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { PaletteTable } from "./palette-table";
+import { useLocale } from "@/lib/locale-context";
 import { cn } from "@/lib/utils";
 
 interface PaletteRow {
@@ -18,15 +19,16 @@ interface Props {
   counts: Record<string, number>;
 }
 
-const filters = [
-  { key: "all", label: "All" },
-  { key: "published", label: "Published" },
-  { key: "pending", label: "Pending" },
-  { key: "rejected", label: "Rejected" },
-];
-
 export function PaletteTableWithFilters({ palettes, counts }: Props) {
   const [active, setActive] = useState("all");
+  const { t } = useLocale();
+
+  const filters = [
+    { key: "all", label: t.admin.all },
+    { key: "published", label: t.admin.published },
+    { key: "pending", label: t.admin.pending },
+    { key: "rejected", label: t.admin.rejected },
+  ];
 
   const filtered = active === "all"
     ? palettes
@@ -34,7 +36,6 @@ export function PaletteTableWithFilters({ palettes, counts }: Props) {
 
   return (
     <div>
-      {/* Filter tabs */}
       <div className="flex items-center gap-1 mb-5">
         {filters.map((f) => {
           const count = counts[f.key] || 0;
