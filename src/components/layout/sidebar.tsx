@@ -57,7 +57,7 @@ export function Sidebar() {
                   ? "font-medium text-black dark:text-white"
                   : "opacity-80 text-black/90 dark:text-white/80 hover:opacity-100"
               )}
-              style={isActive ? { background: theme === "dark" ? "rgba(255,255,255,0.08)" : "linear-gradient(90deg, #F4F4F4 0%, #EFEFEF 100%)" } : {}}
+              style={isActive ? { background: theme === "dark" ? "rgba(255,255,255,0.10)" : "linear-gradient(90deg, #ECECEC 0%, #E6E6E6 100%)" } : {}}
             >
               <Icon
                 className="w-[20px] h-[20px] -ml-[2px] mr-[2px] shrink-0"
@@ -84,7 +84,7 @@ export function Sidebar() {
               )}
               style={{
                 opacity: isActive ? 1 : Math.max(0.1, 0.8 - (i * 0.05)),
-                ...(isActive ? { background: theme === "dark" ? "rgba(255,255,255,0.08)" : "linear-gradient(90deg, #F4F4F4 0%, #EFEFEF 100%)" } : {}),
+                ...(isActive ? { background: theme === "dark" ? "rgba(255,255,255,0.10)" : "linear-gradient(90deg, #ECECEC 0%, #E6E6E6 100%)" } : {}),
               }}
             >
               {tag}
