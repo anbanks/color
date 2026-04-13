@@ -7,7 +7,6 @@ import { cn } from "@/lib/utils";
 import {
   LayoutDashboard,
   Palette,
-  ArrowLeft,
   Sun,
   Moon,
   Globe,
@@ -56,8 +55,6 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
     { code: "es", label: "Español" },
   ];
 
-  const backLabel = locale === "pt" ? "Voltar ao site" : locale === "es" ? "Volver al sitio" : "Back to site";
-
   const switchLocale = (code: string) => {
     const segments = pathname.split("/");
     segments[1] = code;
@@ -69,22 +66,33 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
       "shrink-0 h-screen sticky top-0 bg-white dark:bg-[#1a1a1a] border-r border-gray-200/60 dark:border-white/[0.06] flex flex-col transition-all duration-200",
       collapsed ? "w-[68px]" : "w-[260px]"
     )}>
-      {/* Header */}
-      <div className={cn("flex items-center", collapsed ? "p-3 justify-center" : "p-5 pb-3")}>
+      {/* Header + Collapse toggle */}
+      <div className={cn("flex items-center", collapsed ? "p-3 justify-center" : "p-4 pb-3")}>
         {collapsed ? (
-          <div className="h-9 w-9 rounded-lg bg-gray-900 dark:bg-white/10 flex items-center justify-center">
-            <Palette className="h-5 w-5 text-white dark:text-white/80" />
-          </div>
+          <button
+            onClick={() => setCollapsed(false)}
+            className="h-9 w-9 rounded-lg bg-gray-900 dark:bg-white/10 flex items-center justify-center hover:opacity-80 transition-opacity"
+          >
+            <PanelLeftOpen className="h-4 w-4 text-white dark:text-white/80" />
+          </button>
         ) : (
-          <div className="flex items-center gap-3 flex-1">
-            <div className="h-9 w-9 rounded-lg bg-gray-900 dark:bg-white/10 flex items-center justify-center shrink-0">
-              <Palette className="h-5 w-5 text-white dark:text-white/80" />
+          <>
+            <div className="flex items-center gap-3 flex-1 min-w-0">
+              <div className="h-9 w-9 rounded-lg bg-gray-900 dark:bg-white/10 flex items-center justify-center shrink-0">
+                <Palette className="h-5 w-5 text-white dark:text-white/80" />
+              </div>
+              <div className="min-w-0">
+                <h2 className="text-[15px] font-semibold text-gray-900 dark:text-white">Color Admin</h2>
+                <p className="text-[11px] text-gray-400">{t.admin.moderation}</p>
+              </div>
             </div>
-            <div className="min-w-0">
-              <h2 className="text-[15px] font-semibold text-gray-900 dark:text-white">Color Admin</h2>
-              <p className="text-[11px] text-gray-400">{t.admin.moderation}</p>
-            </div>
-          </div>
+            <button
+              onClick={() => setCollapsed(true)}
+              className="h-8 w-8 rounded-lg flex items-center justify-center text-gray-400 dark:text-white/40 hover:bg-gray-100 dark:hover:bg-white/[0.06] transition-colors shrink-0"
+            >
+              <PanelLeftClose className="h-4 w-4" />
+            </button>
+          </>
         )}
       </div>
 
@@ -101,7 +109,6 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
 
           const link = (
             <Link
-              key={item.href}
               href={href}
               className={cn(
                 "flex items-center rounded-lg transition-all duration-150",
@@ -119,62 +126,20 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
           if (collapsed) {
             return (
               <Tooltip key={item.href}>
-                <TooltipTrigger>{link}</TooltipTrigger>
+                <TooltipTrigger className="w-full">{link}</TooltipTrigger>
                 <TooltipContent side="right" className="text-[12px]">{item.label}</TooltipContent>
               </Tooltip>
             );
           }
 
-          return link;
+          return <div key={item.href}>{link}</div>;
         })}
       </nav>
 
       <Separator className="dark:bg-white/[0.06]" />
 
-      {/* Collapse toggle */}
-      <div className={cn("px-2 pt-2", collapsed && "flex justify-center")}>
-        <button
-          onClick={() => setCollapsed(!collapsed)}
-          className={cn(
-            "flex items-center rounded-lg text-[13px] text-gray-400 dark:text-white/40 hover:bg-gray-50 dark:hover:bg-white/[0.04] hover:text-gray-600 dark:hover:text-white/60 transition-all",
-            collapsed ? "h-10 w-10 justify-center" : "gap-3 px-3 py-2.5 w-full"
-          )}
-        >
-          {collapsed ? (
-            <PanelLeftOpen className="h-4 w-4" />
-          ) : (
-            <>
-              <PanelLeftClose className="h-4 w-4" />
-              {locale === "pt" ? "Recolher" : locale === "es" ? "Colapsar" : "Collapse"}
-            </>
-          )}
-        </button>
-      </div>
-
-      {/* Back to site */}
-      <div className={cn("px-2", collapsed && "flex justify-center")}>
-        {collapsed ? (
-          <Tooltip>
-            <TooltipTrigger>
-              <Link href={`/${locale}`} className="flex items-center justify-center h-10 w-10 rounded-lg text-gray-400 dark:text-white/40 hover:bg-gray-50 dark:hover:bg-white/[0.04] transition-all">
-                <ArrowLeft className="h-4 w-4" />
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent side="right" className="text-[12px]">{backLabel}</TooltipContent>
-          </Tooltip>
-        ) : (
-          <Link
-            href={`/${locale}`}
-            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[13px] text-gray-400 dark:text-white/40 hover:bg-gray-50 dark:hover:bg-white/[0.04] hover:text-gray-600 dark:hover:text-white/60 transition-all"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            {backLabel}
-          </Link>
-        )}
-      </div>
-
       {/* User menu */}
-      <div className={cn("p-2 pt-1", collapsed && "flex justify-center")}>
+      <div className={cn("p-2", collapsed && "flex justify-center")}>
         <DropdownMenu>
           <DropdownMenuTrigger className={cn(
             "flex items-center rounded-lg hover:bg-gray-50 dark:hover:bg-white/[0.04] transition-all outline-none",

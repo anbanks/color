@@ -186,9 +186,9 @@
   display: none;
 }
 
-/* Admin panel — 110% scale */
+/* Admin panel — 110% scale (same as browser zoom 110%) */
 .admin-scale {
-  font-size: 110%;
+  zoom: 1.1;
 }
 
 /* Dark mode — minimal overrides not covered by Tailwind dark: */
