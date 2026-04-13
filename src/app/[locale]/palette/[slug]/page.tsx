@@ -16,6 +16,7 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, Link2, Download } from "lucide-react";
+import { getDictionary, type Locale } from "@/lib/i18n";
 
 interface PageProps {
   params: Promise<{ slug: string; locale: string }>;
@@ -83,6 +84,8 @@ export default async function PalettePage({ params }: PageProps) {
     ? (JSON.parse(palette.colors) as string[])
     : palette.colors;
 
+  const t = getDictionary(locale as Locale);
+
   return (
     <>
       <Suspense>
@@ -114,11 +117,11 @@ export default async function PalettePage({ params }: PageProps) {
               <LikeButton paletteId={palette.id} initialCount={palette.likesCount} />
               <button className="inline-flex items-center gap-[6px] h-[34px] px-[14px] rounded-full border-[1.5px] border-gray-300 text-[14px] text-gray-500 bg-white hover:border-gray-400 hover:text-gray-700 transition-all">
                 <Download className="h-4 w-4" />
-                Image
+                {t.single.image}
               </button>
               <button className="inline-flex items-center gap-[6px] h-[34px] px-[14px] rounded-full border-[1.5px] border-gray-300 text-[14px] text-gray-500 bg-white hover:border-gray-400 hover:text-gray-700 transition-all">
                 <Link2 className="h-4 w-4" />
-                Link
+                {t.single.link}
               </button>
               <span className="ml-auto text-[13px] text-gray-400">
                 {palette.publishedAt ? new Date(typeof palette.publishedAt === "number" ? palette.publishedAt * 1000 : palette.publishedAt).toLocaleDateString() : ""}
@@ -169,7 +172,7 @@ export default async function PalettePage({ params }: PageProps) {
             {/* Related */}
             {related.length > 0 && (
               <section className="mt-12 pt-8 border-t border-gray-100">
-                <h2 className="text-lg font-semibold text-gray-700 mb-6">Related Palettes</h2>
+                <h2 className="text-lg font-semibold text-gray-700 mb-6">{t.single.relatedPalettes}</h2>
                 <PaletteGrid palettes={related} />
               </section>
             )}

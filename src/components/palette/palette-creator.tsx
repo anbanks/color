@@ -8,7 +8,7 @@ import { Search } from "lucide-react";
 
 export function PaletteCreator() {
   const router = useRouter();
-  const { locale } = useLocale();
+  const { locale, t } = useLocale();
   const [colors, setColors] = useState<string[]>([
     "#c0c0c0", "#b8b8b8", "#d0d0d0", "#d8d8d8",
   ]);
@@ -46,9 +46,9 @@ export function PaletteCreator() {
 
   return (
     <div className="max-w-2xl mx-auto text-center">
-      <h1 className="text-xl font-semibold text-gray-800">New Color Palette</h1>
-      <p className="text-sm text-gray-400 mt-1 mb-8">
-        Create a new palette and contribute to our collection
+      <h1 className="text-xl font-semibold text-gray-800 dark:text-white">{t.creator.title}</h1>
+      <p className="text-sm text-gray-400 dark:text-white/40 mt-1 mb-8">
+        {t.creator.subtitle}
       </p>
 
       {/* Color strips */}
@@ -74,7 +74,7 @@ export function PaletteCreator() {
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
         <input
           type="text"
-          placeholder="Add tags"
+          placeholder={t.creator.addTags}
           value={tagInput}
           onChange={(e) => setTagInput(e.target.value)}
           className="w-full h-10 pl-10 pr-4 rounded-lg border border-gray-200 text-sm placeholder:text-gray-400 focus:outline-none focus:border-gray-300 transition-colors"
@@ -87,7 +87,7 @@ export function PaletteCreator() {
         disabled={isPending}
         className="mt-6 px-8 py-2.5 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors disabled:opacity-50"
       >
-        {isPending ? "Submitting..." : "Submit Palette"}
+        {isPending ? t.creator.submitting : t.creator.submit}
       </button>
     </div>
   );

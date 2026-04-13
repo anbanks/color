@@ -102,6 +102,32 @@
     "title": "No palettes found",
     "subtitle": "Try a different filter or create your own"
   },
+  "time": {
+    "justNow": "Just now",
+    "min": "min",
+    "hours": "hours",
+    "yesterday": "Yesterday",
+    "days": "days",
+    "week": "1 week",
+    "weeks": "weeks",
+    "month": "1 month",
+    "months": "months",
+    "year": "1 year",
+    "years": "years"
+  },
+  "single": {
+    "image": "Image",
+    "link": "Link",
+    "clickToCopy": "Click a color to copy",
+    "relatedPalettes": "Related Palettes"
+  },
+  "creator": {
+    "title": "New Color Palette",
+    "subtitle": "Create a new palette and contribute to our collection",
+    "addTags": "Add tags",
+    "submit": "Submit Palette",
+    "submitting": "Submitting..."
+  },
   "menu": {
     "palettes": "Palettes",
     "create": "Create",

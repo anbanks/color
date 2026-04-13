@@ -18,27 +18,27 @@ interface PaletteGridInteractiveProps {
   sort?: string;
 }
 
-function timeAgo(date?: string): string {
+function timeAgo(date: string | undefined, time: { justNow: string; min: string; hours: string; yesterday: string; days: string; week: string; weeks: string; month: string; months: string; year: string; years: string }): string {
   if (!date) return "";
   const now = Date.now();
   const then = new Date(date).getTime();
   const diff = now - then;
   const mins = Math.floor(diff / 60000);
-  if (mins < 60) return `${mins} min`;
+  if (mins < 60) return `${mins} ${time.min}`;
   const hours = Math.floor(mins / 60);
-  if (hours < 24) return `${hours} hours`;
+  if (hours < 24) return `${hours} ${time.hours}`;
   const days = Math.floor(hours / 24);
-  if (days === 1) return "Yesterday";
-  if (days < 7) return `${days} days`;
+  if (days === 1) return time.yesterday;
+  if (days < 7) return `${days} ${time.days}`;
   const weeks = Math.floor(days / 7);
-  if (weeks === 1) return "1 week";
-  if (weeks < 5) return `${weeks} weeks`;
+  if (weeks === 1) return time.week;
+  if (weeks < 5) return `${weeks} ${time.weeks}`;
   const months = Math.floor(days / 30);
-  if (months === 1) return "1 month";
-  if (months < 12) return `${months} months`;
+  if (months === 1) return time.month;
+  if (months < 12) return `${months} ${time.months}`;
   const years = Math.floor(days / 365);
-  if (years === 1) return "1 year";
-  return `${years} years`;
+  if (years === 1) return time.year;
+  return `${years} ${time.years}`;
 }
 
 export function PaletteGridInteractive({ palettes: initialPalettes, sort = "new" }: PaletteGridInteractiveProps) {
@@ -132,7 +132,7 @@ export function PaletteGridInteractive({ palettes: initialPalettes, sort = "new"
             slug={palette.slug}
             colors={palette.colors}
             likesCount={palette.likesCount}
-            timeAgo={timeAgo(palette.createdAt)}
+            timeAgo={timeAgo(palette.createdAt, t.time)}
           />
         ))}
         {loading && Array.from({ length: 4 }).map((_, i) => <PaletteSkeleton key={`sk${i}`} />)}
