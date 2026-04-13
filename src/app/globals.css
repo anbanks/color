@@ -186,8 +186,8 @@
   display: none;
 }
 
-/* Admin panel — 110% scale (same as browser zoom 110%) */
-.admin-scale {
+/* Admin panel — zoom only on content, not sidebar */
+.admin-main {
   zoom: 1.1;
 }
 

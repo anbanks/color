@@ -14,10 +14,10 @@ export default async function AdminLayout({
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#111] admin-scale" style={{ paddingTop: 0, marginTop: "-70px" }}>
+    <div className="min-h-screen bg-white dark:bg-[#111]" style={{ paddingTop: 0, marginTop: "-70px" }}>
       <div className="flex">
         <AdminSidebar user={session.user} />
-        <main className="flex-1 min-w-0">
+        <main className="flex-1 min-w-0 admin-main">
           {children}
         </main>
       </div>
