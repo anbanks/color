@@ -47,14 +47,14 @@ export function PaletteTableWithFilters({ palettes, counts }: Props) {
               className={cn(
                 "px-4 py-2 rounded-lg text-[13px] font-medium transition-all",
                 isActive
-                  ? "bg-gray-900 dark:bg-white/10 text-white dark:text-white"
+                  ? "bg-gray-200 dark:bg-white/10 text-gray-900 dark:text-white"
                   : "text-gray-500 dark:text-white/40 hover:bg-gray-100 dark:hover:bg-white/[0.06]"
               )}
             >
               {f.label}
               <span className={cn(
                 "ml-1.5 text-[11px]",
-                isActive ? "text-white/60" : "text-gray-400 dark:text-white/25"
+                isActive ? "text-gray-500 dark:text-white/60" : "text-gray-400 dark:text-white/25"
               )}>
                 {count}
               </span>
