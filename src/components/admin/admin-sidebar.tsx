@@ -60,7 +60,7 @@ export function AdminSidebar({ user, collapsed }: AdminSidebarProps) {
 
   return (
     <aside className={cn(
-      "shrink-0 h-screen sticky top-0 bg-white dark:bg-[#1a1a1a] border-r border-gray-200/60 dark:border-white/[0.06] flex flex-col transition-all duration-200",
+      "shrink-0 h-screen sticky top-0 bg-white dark:bg-[#111] border-r border-gray-200/60 dark:border-white/[0.06] flex flex-col transition-all duration-200",
       collapsed ? "w-[68px]" : "w-[260px]"
     )}>
       {/* Header */}
