@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import { AdminSidebar } from "@/components/admin/admin-sidebar";
+import { AdminLayoutClient } from "@/components/admin/admin-layout-client";
 
 export default async function AdminLayout({
   children,
@@ -15,12 +15,9 @@ export default async function AdminLayout({
 
   return (
     <div className="min-h-screen bg-white dark:bg-[#111]" style={{ paddingTop: 0, marginTop: "-70px" }}>
-      <div className="flex">
-        <AdminSidebar user={session.user} />
-        <main className="flex-1 min-w-0 admin-main">
-          {children}
-        </main>
-      </div>
+      <AdminLayoutClient user={session.user}>
+        {children}
+      </AdminLayoutClient>
     </div>
   );
 }

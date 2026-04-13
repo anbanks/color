@@ -12,8 +12,6 @@ import {
   Globe,
   LogOut,
   ChevronUp,
-  PanelLeftClose,
-  PanelLeftOpen,
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -30,18 +28,17 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useTheme } from "next-themes";
 import { signOut } from "next-auth/react";
-import { useState } from "react";
 
 interface AdminSidebarProps {
   user: { name?: string | null; email?: string | null; image?: string | null };
+  collapsed: boolean;
 }
 
-export function AdminSidebar({ user }: AdminSidebarProps) {
+export function AdminSidebar({ user, collapsed }: AdminSidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
   const { locale, t } = useLocale();
   const { theme, setTheme } = useTheme();
-  const [collapsed, setCollapsed] = useState(false);
   const base = `/${locale}/admin`;
 
   const navItems = [
@@ -148,64 +145,25 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
             align={collapsed ? "end" : "start"}
             className="w-[220px] rounded-xl shadow-xl border-gray-200/80 dark:border-white/10 dark:bg-[#252525] p-1.5 mb-1"
           >
-            <DropdownMenuItem
-              className="rounded-lg px-3 py-2.5 text-[13px] cursor-pointer"
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            >
-              {theme === "dark" ? (
-                <Sun className="h-4 w-4 mr-2.5 text-yellow-400" />
-              ) : (
-                <Moon className="h-4 w-4 mr-2.5 text-gray-500" />
-              )}
-              {theme === "dark"
-                ? (locale === "pt" ? "Modo claro" : locale === "es" ? "Modo claro" : "Light mode")
-                : (locale === "pt" ? "Modo escuro" : locale === "es" ? "Modo oscuro" : "Dark mode")}
+            <DropdownMenuItem className="rounded-lg px-3 py-2.5 text-[13px] cursor-pointer" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
+              {theme === "dark" ? <Sun className="h-4 w-4 mr-2.5 text-yellow-400" /> : <Moon className="h-4 w-4 mr-2.5 text-gray-500" />}
+              {theme === "dark" ? (locale === "pt" ? "Modo claro" : locale === "es" ? "Modo claro" : "Light mode") : (locale === "pt" ? "Modo escuro" : locale === "es" ? "Modo oscuro" : "Dark mode")}
             </DropdownMenuItem>
             <DropdownMenuSeparator className="dark:bg-white/[0.06]" />
             {languages.map((lang) => (
-              <DropdownMenuItem
-                key={lang.code}
-                className={cn("rounded-lg px-3 py-2 text-[13px] cursor-pointer", locale === lang.code && "font-medium")}
-                onClick={() => switchLocale(lang.code)}
-              >
+              <DropdownMenuItem key={lang.code} className={cn("rounded-lg px-3 py-2 text-[13px] cursor-pointer", locale === lang.code && "font-medium")} onClick={() => switchLocale(lang.code)}>
                 <Globe className="h-4 w-4 mr-2.5 text-gray-400" />
                 {lang.label}
                 {locale === lang.code && <span className="ml-auto text-[11px] text-gray-400">✓</span>}
               </DropdownMenuItem>
             ))}
             <DropdownMenuSeparator className="dark:bg-white/[0.06]" />
-            <DropdownMenuItem
-              className="rounded-lg px-3 py-2.5 text-[13px] text-red-600 dark:text-red-400 cursor-pointer"
-              onClick={() => signOut()}
-            >
+            <DropdownMenuItem className="rounded-lg px-3 py-2.5 text-[13px] text-red-600 dark:text-red-400 cursor-pointer" onClick={() => signOut()}>
               <LogOut className="h-4 w-4 mr-2.5" />
               {t.menu.signOut}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      </div>
-
-      {/* Collapse toggle — footer style */}
-      <div className={cn(
-        "border-t border-gray-200/60 dark:border-white/[0.06]",
-        collapsed ? "p-2 flex justify-center" : "px-4 py-2 flex items-center gap-2"
-      )}>
-        <button
-          onClick={() => setCollapsed(!collapsed)}
-          className="h-8 w-8 rounded-lg flex items-center justify-center text-gray-400 dark:text-white/30 hover:bg-gray-100 dark:hover:bg-white/[0.06] hover:text-gray-600 dark:hover:text-white/50 transition-colors shrink-0"
-        >
-          {collapsed ? (
-            <PanelLeftOpen className="h-[15px] w-[15px]" />
-          ) : (
-            <PanelLeftClose className="h-[15px] w-[15px]" />
-          )}
-        </button>
-        {!collapsed && (
-          <>
-            <div className="w-px h-4 bg-gray-200 dark:bg-white/10" />
-            <span className="text-[12px] text-gray-400 dark:text-white/30">Color Admin</span>
-          </>
-        )}
       </div>
     </aside>
   );
