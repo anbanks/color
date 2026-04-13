@@ -186,6 +186,11 @@
   display: none;
 }
 
+/* Admin panel — 110% scale */
+.admin-scale {
+  font-size: 110%;
+}
+
 /* Dark mode — minimal overrides not covered by Tailwind dark: */
 .dark .palette {
   box-shadow: 0 10px 20px 0 rgba(0,0,0,0.3) !important;
