@@ -13,8 +13,15 @@ import {
   Globe,
   LogOut,
   ChevronUp,
+  PanelLeftClose,
+  PanelLeftOpen,
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,6 +31,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useTheme } from "next-themes";
 import { signOut } from "next-auth/react";
+import { useState } from "react";
 
 interface AdminSidebarProps {
   user: { name?: string | null; email?: string | null; image?: string | null };
@@ -34,6 +42,7 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
   const router = useRouter();
   const { locale, t } = useLocale();
   const { theme, setTheme } = useTheme();
+  const [collapsed, setCollapsed] = useState(false);
   const base = `/${locale}/admin`;
 
   const navItems = [
@@ -47,6 +56,8 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
     { code: "es", label: "Español" },
   ];
 
+  const backLabel = locale === "pt" ? "Voltar ao site" : locale === "es" ? "Volver al sitio" : "Back to site";
+
   const switchLocale = (code: string) => {
     const segments = pathname.split("/");
     segments[1] = code;
@@ -54,24 +65,33 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
   };
 
   return (
-    <aside className="w-[260px] shrink-0 h-screen sticky top-0 bg-white dark:bg-[#1a1a1a] border-r border-gray-200/60 dark:border-white/[0.06] flex flex-col">
+    <aside className={cn(
+      "shrink-0 h-screen sticky top-0 bg-white dark:bg-[#1a1a1a] border-r border-gray-200/60 dark:border-white/[0.06] flex flex-col transition-all duration-200",
+      collapsed ? "w-[68px]" : "w-[260px]"
+    )}>
       {/* Header */}
-      <div className="p-5 pb-3">
-        <div className="flex items-center gap-3 mb-1">
+      <div className={cn("flex items-center", collapsed ? "p-3 justify-center" : "p-5 pb-3")}>
+        {collapsed ? (
           <div className="h-9 w-9 rounded-lg bg-gray-900 dark:bg-white/10 flex items-center justify-center">
             <Palette className="h-5 w-5 text-white dark:text-white/80" />
           </div>
-          <div>
-            <h2 className="text-[15px] font-semibold text-gray-900 dark:text-white">Color Admin</h2>
-            <p className="text-[11px] text-gray-400">{t.admin.moderation}</p>
+        ) : (
+          <div className="flex items-center gap-3 flex-1">
+            <div className="h-9 w-9 rounded-lg bg-gray-900 dark:bg-white/10 flex items-center justify-center shrink-0">
+              <Palette className="h-5 w-5 text-white dark:text-white/80" />
+            </div>
+            <div className="min-w-0">
+              <h2 className="text-[15px] font-semibold text-gray-900 dark:text-white">Color Admin</h2>
+              <p className="text-[11px] text-gray-400">{t.admin.moderation}</p>
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       <Separator className="dark:bg-white/[0.06]" />
 
       {/* Nav */}
-      <nav className="flex-1 p-3 space-y-0.5 overflow-y-auto">
+      <nav className={cn("flex-1 space-y-0.5 overflow-y-auto", collapsed ? "p-2" : "p-3")}>
         {navItems.map((item) => {
           const Icon = item.icon;
           const href = `${base}${item.href}`;
@@ -79,57 +99,106 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
             ? pathname === base || pathname === `${base}/`
             : pathname.startsWith(href);
 
-          return (
+          const link = (
             <Link
               key={item.href}
               href={href}
               className={cn(
-                "flex items-center gap-3 px-3 py-2.5 rounded-lg text-[14px] transition-all duration-150",
+                "flex items-center rounded-lg transition-all duration-150",
+                collapsed ? "justify-center h-10 w-10 mx-auto" : "gap-3 px-3 py-2.5",
                 isActive
                   ? "bg-gray-100 dark:bg-white/[0.08] text-gray-900 dark:text-white font-medium"
                   : "text-gray-600 dark:text-white/60 hover:bg-gray-50 dark:hover:bg-white/[0.04] hover:text-gray-900 dark:hover:text-white"
               )}
             >
               <Icon className="h-[18px] w-[18px] shrink-0" strokeWidth={isActive ? 2 : 1.5} />
-              {item.label}
+              {!collapsed && item.label}
             </Link>
           );
+
+          if (collapsed) {
+            return (
+              <Tooltip key={item.href}>
+                <TooltipTrigger>{link}</TooltipTrigger>
+                <TooltipContent side="right" className="text-[12px]">{item.label}</TooltipContent>
+              </Tooltip>
+            );
+          }
+
+          return link;
         })}
       </nav>
 
       <Separator className="dark:bg-white/[0.06]" />
 
-      {/* Back to site */}
-      <div className="px-3 pt-2">
-        <Link
-          href={`/${locale}`}
-          className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[13px] text-gray-500 dark:text-white/50 hover:bg-gray-50 dark:hover:bg-white/[0.04] hover:text-gray-700 dark:hover:text-white/70 transition-all"
+      {/* Collapse toggle */}
+      <div className={cn("px-2 pt-2", collapsed && "flex justify-center")}>
+        <button
+          onClick={() => setCollapsed(!collapsed)}
+          className={cn(
+            "flex items-center rounded-lg text-[13px] text-gray-400 dark:text-white/40 hover:bg-gray-50 dark:hover:bg-white/[0.04] hover:text-gray-600 dark:hover:text-white/60 transition-all",
+            collapsed ? "h-10 w-10 justify-center" : "gap-3 px-3 py-2.5 w-full"
+          )}
         >
-          <ArrowLeft className="h-4 w-4" />
-          {locale === "pt" ? "Voltar ao site" : locale === "es" ? "Volver al sitio" : "Back to site"}
-        </Link>
+          {collapsed ? (
+            <PanelLeftOpen className="h-4 w-4" />
+          ) : (
+            <>
+              <PanelLeftClose className="h-4 w-4" />
+              {locale === "pt" ? "Recolher" : locale === "es" ? "Colapsar" : "Collapse"}
+            </>
+          )}
+        </button>
+      </div>
+
+      {/* Back to site */}
+      <div className={cn("px-2", collapsed && "flex justify-center")}>
+        {collapsed ? (
+          <Tooltip>
+            <TooltipTrigger>
+              <Link href={`/${locale}`} className="flex items-center justify-center h-10 w-10 rounded-lg text-gray-400 dark:text-white/40 hover:bg-gray-50 dark:hover:bg-white/[0.04] transition-all">
+                <ArrowLeft className="h-4 w-4" />
+              </Link>
+            </TooltipTrigger>
+            <TooltipContent side="right" className="text-[12px]">{backLabel}</TooltipContent>
+          </Tooltip>
+        ) : (
+          <Link
+            href={`/${locale}`}
+            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[13px] text-gray-400 dark:text-white/40 hover:bg-gray-50 dark:hover:bg-white/[0.04] hover:text-gray-600 dark:hover:text-white/60 transition-all"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            {backLabel}
+          </Link>
+        )}
       </div>
 
       {/* User menu */}
-      <div className="p-3 pt-1">
+      <div className={cn("p-2 pt-1", collapsed && "flex justify-center")}>
         <DropdownMenu>
-          <DropdownMenuTrigger className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-50 dark:hover:bg-white/[0.04] transition-all outline-none">
+          <DropdownMenuTrigger className={cn(
+            "flex items-center rounded-lg hover:bg-gray-50 dark:hover:bg-white/[0.04] transition-all outline-none",
+            collapsed ? "h-10 w-10 justify-center" : "w-full gap-3 px-3 py-2.5"
+          )}>
             <div className="h-8 w-8 rounded-full bg-gray-200 dark:bg-white/10 flex items-center justify-center text-[12px] font-semibold text-gray-600 dark:text-white/60 shrink-0">
               {user.name?.[0]?.toUpperCase() || "?"}
             </div>
-            <div className="min-w-0 text-left flex-1">
-              <p className="text-[13px] font-medium text-gray-800 dark:text-white/80 truncate">{user.name}</p>
-              <p className="text-[11px] text-gray-400 dark:text-white/30 truncate">{user.email}</p>
-            </div>
-            <ChevronUp className="h-4 w-4 text-gray-400 dark:text-white/30 shrink-0" />
+            {!collapsed && (
+              <>
+                <div className="min-w-0 text-left flex-1">
+                  <p className="text-[13px] font-medium text-gray-800 dark:text-white/80 truncate">{user.name}</p>
+                  <p className="text-[11px] text-gray-400 dark:text-white/30 truncate">{user.email}</p>
+                </div>
+                <ChevronUp className="h-4 w-4 text-gray-400 dark:text-white/30 shrink-0" />
+              </>
+            )}
           </DropdownMenuTrigger>
 
           <DropdownMenuContent
-            side="top"
-            align="start"
-            className="w-[236px] rounded-xl shadow-xl border-gray-200/80 dark:border-white/10 dark:bg-[#252525] p-1.5 mb-1"
+            side={collapsed ? "right" : "top"}
+            align={collapsed ? "end" : "start"}
+            className="w-[220px] rounded-xl shadow-xl border-gray-200/80 dark:border-white/10 dark:bg-[#252525] p-1.5 mb-1"
           >
-            {/* Theme */}
             <DropdownMenuItem
               className="rounded-lg px-3 py-2.5 text-[13px] cursor-pointer"
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
@@ -146,14 +215,10 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
 
             <DropdownMenuSeparator className="dark:bg-white/[0.06]" />
 
-            {/* Language */}
             {languages.map((lang) => (
               <DropdownMenuItem
                 key={lang.code}
-                className={cn(
-                  "rounded-lg px-3 py-2 text-[13px] cursor-pointer",
-                  locale === lang.code && "font-medium"
-                )}
+                className={cn("rounded-lg px-3 py-2 text-[13px] cursor-pointer", locale === lang.code && "font-medium")}
                 onClick={() => switchLocale(lang.code)}
               >
                 <Globe className="h-4 w-4 mr-2.5 text-gray-400" />
@@ -164,7 +229,6 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
 
             <DropdownMenuSeparator className="dark:bg-white/[0.06]" />
 
-            {/* Sign out */}
             <DropdownMenuItem
               className="rounded-lg px-3 py-2.5 text-[13px] text-red-600 dark:text-red-400 cursor-pointer"
               onClick={() => signOut()}
