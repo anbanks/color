@@ -66,34 +66,19 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
       "shrink-0 h-screen sticky top-0 bg-white dark:bg-[#1a1a1a] border-r border-gray-200/60 dark:border-white/[0.06] flex flex-col transition-all duration-200",
       collapsed ? "w-[68px]" : "w-[260px]"
     )}>
-      {/* Header + Collapse toggle */}
+      {/* Header */}
       <div className={cn("flex items-center", collapsed ? "p-3 justify-center" : "p-4 pb-3")}>
-        {collapsed ? (
-          <button
-            onClick={() => setCollapsed(false)}
-            className="h-9 w-9 rounded-lg bg-gray-900 dark:bg-white/10 flex items-center justify-center hover:opacity-80 transition-opacity"
-          >
-            <PanelLeftOpen className="h-4 w-4 text-white dark:text-white/80" />
-          </button>
-        ) : (
-          <>
-            <div className="flex items-center gap-3 flex-1 min-w-0">
-              <div className="h-9 w-9 rounded-lg bg-gray-900 dark:bg-white/10 flex items-center justify-center shrink-0">
-                <Palette className="h-5 w-5 text-white dark:text-white/80" />
-              </div>
-              <div className="min-w-0">
-                <h2 className="text-[15px] font-semibold text-gray-900 dark:text-white">Color Admin</h2>
-                <p className="text-[11px] text-gray-400">{t.admin.moderation}</p>
-              </div>
+        <div className={cn("flex items-center gap-3", collapsed && "justify-center")}>
+          <div className="h-9 w-9 rounded-lg bg-gray-900 dark:bg-white/10 flex items-center justify-center shrink-0">
+            <Palette className="h-5 w-5 text-white dark:text-white/80" />
+          </div>
+          {!collapsed && (
+            <div className="min-w-0">
+              <h2 className="text-[15px] font-semibold text-gray-900 dark:text-white">Color Admin</h2>
+              <p className="text-[11px] text-gray-400">{t.admin.moderation}</p>
             </div>
-            <button
-              onClick={() => setCollapsed(true)}
-              className="h-8 w-8 rounded-lg flex items-center justify-center text-gray-400 dark:text-white/40 hover:bg-gray-100 dark:hover:bg-white/[0.06] transition-colors shrink-0"
-            >
-              <PanelLeftClose className="h-4 w-4" />
-            </button>
-          </>
-        )}
+          )}
+        </div>
       </div>
 
       <Separator className="dark:bg-white/[0.06]" />
@@ -131,7 +116,6 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
               </Tooltip>
             );
           }
-
           return <div key={item.href}>{link}</div>;
         })}
       </nav>
@@ -177,9 +161,7 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
                 ? (locale === "pt" ? "Modo claro" : locale === "es" ? "Modo claro" : "Light mode")
                 : (locale === "pt" ? "Modo escuro" : locale === "es" ? "Modo oscuro" : "Dark mode")}
             </DropdownMenuItem>
-
             <DropdownMenuSeparator className="dark:bg-white/[0.06]" />
-
             {languages.map((lang) => (
               <DropdownMenuItem
                 key={lang.code}
@@ -191,9 +173,7 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
                 {locale === lang.code && <span className="ml-auto text-[11px] text-gray-400">✓</span>}
               </DropdownMenuItem>
             ))}
-
             <DropdownMenuSeparator className="dark:bg-white/[0.06]" />
-
             <DropdownMenuItem
               className="rounded-lg px-3 py-2.5 text-[13px] text-red-600 dark:text-red-400 cursor-pointer"
               onClick={() => signOut()}
@@ -203,6 +183,29 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+      </div>
+
+      {/* Collapse toggle — footer style */}
+      <div className={cn(
+        "border-t border-gray-200/60 dark:border-white/[0.06]",
+        collapsed ? "p-2 flex justify-center" : "px-4 py-2 flex items-center gap-2"
+      )}>
+        <button
+          onClick={() => setCollapsed(!collapsed)}
+          className="h-8 w-8 rounded-lg flex items-center justify-center text-gray-400 dark:text-white/30 hover:bg-gray-100 dark:hover:bg-white/[0.06] hover:text-gray-600 dark:hover:text-white/50 transition-colors shrink-0"
+        >
+          {collapsed ? (
+            <PanelLeftOpen className="h-[15px] w-[15px]" />
+          ) : (
+            <PanelLeftClose className="h-[15px] w-[15px]" />
+          )}
+        </button>
+        {!collapsed && (
+          <>
+            <div className="w-px h-4 bg-gray-200 dark:bg-white/10" />
+            <span className="text-[12px] text-gray-400 dark:text-white/30">Color Admin</span>
+          </>
+        )}
       </div>
     </aside>
   );
