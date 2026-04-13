@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import { useLocale } from "@/lib/locale-context";
 import { Sparkles, Flame, Orbit, Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useTheme } from "next-themes";
 
 const navItems = [
   { path: "", key: "new" as const, icon: Sparkles },
@@ -30,7 +29,6 @@ export function Sidebar() {
   const pathname = usePathname();
   const { locale } = useLocale();
 
-  const { theme } = useTheme();
   const tagMatch = pathname.match(/\/palettes\/([^/]+)/);
 
   const activeTag = tagMatch ? tagMatch[1] : null;
@@ -54,10 +52,9 @@ export function Sidebar() {
               className={cn(
                 "flex items-center gap-[4px] h-[42px] text-[17px] rounded-[10px] px-[14px] mb-[6px] transition-all duration-200 cursor-pointer relative overflow-hidden",
                 isActive
-                  ? "font-medium text-black dark:text-white"
+                  ? "font-medium text-black dark:text-white bg-[#F0F0F0] dark:bg-[#2a2a2a]"
                   : "opacity-80 text-black/90 dark:text-white/80 hover:opacity-100"
               )}
-              style={isActive ? { background: theme === "dark" ? "rgba(255,255,255,0.06)" : "linear-gradient(90deg, #F0F0F0 0%, #EAEAEA 100%)" } : {}}
             >
               <Icon
                 className="w-[20px] h-[20px] -ml-[2px] mr-[2px] shrink-0"
@@ -79,12 +76,11 @@ export function Sidebar() {
               className={cn(
                 "flex items-center h-[36px] text-[14px] rounded-[10px] pl-[16px] transition-all duration-200 cursor-pointer",
                 isActive
-                  ? "font-medium text-black dark:text-white"
+                  ? "font-medium text-black dark:text-white bg-[#F0F0F0] dark:bg-[#2a2a2a]"
                   : "text-black/90 dark:text-white/80 hover:opacity-80"
               )}
               style={{
                 opacity: isActive ? 1 : Math.max(0.1, 0.8 - (i * 0.05)),
-                ...(isActive ? { background: theme === "dark" ? "rgba(255,255,255,0.10)" : "linear-gradient(90deg, #ECECEC 0%, #E6E6E6 100%)" } : {}),
               }}
             >
               {tag}
