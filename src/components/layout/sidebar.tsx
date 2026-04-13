@@ -57,7 +57,7 @@ export function Sidebar() {
                   ? "font-medium text-black dark:text-white"
                   : "opacity-80 text-black/90 dark:text-white/80 hover:opacity-100"
               )}
-              style={isActive ? { background: theme === "dark" ? "rgba(255,255,255,0.10)" : "linear-gradient(90deg, #ECECEC 0%, #E6E6E6 100%)" } : {}}
+              style={isActive ? { background: theme === "dark" ? "rgba(255,255,255,0.06)" : "linear-gradient(90deg, #F0F0F0 0%, #EAEAEA 100%)" } : {}}
             >
               <Icon
                 className="w-[20px] h-[20px] -ml-[2px] mr-[2px] shrink-0"
