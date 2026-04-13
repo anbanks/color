@@ -7,11 +7,6 @@ import { cn } from "@/lib/utils";
 import {
   LayoutDashboard,
   Palette,
-  Clock,
-  CheckCircle,
-  XCircle,
-  Globe,
-  Users,
   ArrowLeft,
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
@@ -22,10 +17,7 @@ interface AdminSidebarProps {
 
 const navItems = [
   { href: "", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/palettes", label: "All Palettes", icon: Palette },
-  { href: "/pending", label: "Pending", icon: Clock },
-  { href: "/published", label: "Published", icon: CheckCircle },
-  { href: "/rejected", label: "Rejected", icon: XCircle },
+  { href: "/palettes", label: "Palettes", icon: Palette },
 ];
 
 export function AdminSidebar({ user }: AdminSidebarProps) {
