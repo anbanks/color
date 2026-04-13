@@ -28,9 +28,9 @@ interface PaletteTableProps {
 }
 
 const statusColors: Record<string, string> = {
-  pending: "bg-amber-100 text-amber-800 dark:bg-amber-500/10 dark:text-amber-400",
-  published: "bg-green-100 text-green-800 dark:bg-green-500/10 dark:text-green-400",
-  rejected: "bg-red-100 text-red-800 dark:bg-red-500/10 dark:text-red-400",
+  pending: "bg-amber-50 text-amber-600 border border-amber-200/60 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/20",
+  published: "bg-gray-50 text-gray-600 border border-gray-200/60 dark:bg-white/[0.06] dark:text-white/60 dark:border-white/10",
+  rejected: "bg-red-50 text-red-600 border border-red-200/60 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20",
 };
 
 export function PaletteTable({ palettes }: PaletteTableProps) {
