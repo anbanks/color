@@ -12,6 +12,7 @@ export type PaletteItem = {
   liked?: boolean;
   saved?: boolean;
   createdAt?: string;
+  publishedAt?: string;
 };
 
 const DEMO: PaletteItem[] = [
@@ -32,6 +33,7 @@ function format(results: typeof palettes.$inferSelect[]): PaletteItem[] {
     colors: JSON.parse(p.colors) as string[],
     likesCount: p.likesCount,
     createdAt: p.createdAt ? new Date(p.createdAt).toISOString() : undefined,
+    publishedAt: p.publishedAt ? new Date(p.publishedAt).toISOString() : undefined,
   }));
 }
 
@@ -50,7 +52,7 @@ export async function getNewPalettes(): Promise<PaletteItem[]> {
   try {
     const { env } = await getCloudflareContext({ async: true });
     const db = getDb(env.DB);
-    const r = await db.select().from(palettes).where(eq(palettes.status, "published")).orderBy(desc(palettes.createdAt)).limit(24);
+    const r = await db.select().from(palettes).where(eq(palettes.status, "published")).orderBy(desc(palettes.publishedAt)).limit(24);
     return enrich(format(r));
   } catch { return DEMO; }
 }

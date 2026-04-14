@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
     case "new":
     default:
       results = await db.select().from(palettes)
-        .where(published).orderBy(desc(palettes.createdAt))
+        .where(published).orderBy(desc(palettes.publishedAt))
         .limit(PAGE_SIZE).offset(offset);
       break;
   }
@@ -46,6 +46,7 @@ export async function GET(request: NextRequest) {
     colors: JSON.parse(p.colors) as string[],
     likesCount: p.likesCount,
     createdAt: p.createdAt ? new Date(p.createdAt).toISOString() : undefined,
+    publishedAt: p.publishedAt ? new Date(p.publishedAt).toISOString() : undefined,
   }));
 
   const { likedIds, savedIds } = await getCurrentUserPaletteState(formatted.map((p) => p.id));

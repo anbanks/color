@@ -13,6 +13,7 @@ interface PaletteFeedProps {
     liked?: boolean;
     saved?: boolean;
     createdAt?: string;
+    publishedAt?: string;
   }[];
   sort?: string;
 }

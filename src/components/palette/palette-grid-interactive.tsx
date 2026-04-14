@@ -13,6 +13,7 @@ interface Palette {
   liked?: boolean;
   saved?: boolean;
   createdAt?: string;
+  publishedAt?: string;
 }
 
 interface PaletteGridInteractiveProps {
@@ -136,7 +137,7 @@ export function PaletteGridInteractive({ palettes: initialPalettes, sort = "new"
             likesCount={palette.likesCount}
             liked={palette.liked}
             initialSaved={palette.saved}
-            timeAgo={timeAgo(palette.createdAt, t.time)}
+            timeAgo={timeAgo(palette.publishedAt ?? palette.createdAt, t.time)}
           />
         ))}
         {loading && Array.from({ length: 4 }).map((_, i) => <PaletteSkeleton key={`sk${i}`} />)}
