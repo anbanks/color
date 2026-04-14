@@ -78,8 +78,8 @@ export default function CollectionsPage() {
             </Suspense>
           </div>
         </div>
-        <main className="flex-1 min-w-0 px-5 py-8 box-border">
-          <h1 className="text-2xl font-semibold text-gray-800 dark:text-white mb-8">{t.collections.title}</h1>
+        <main className="flex-1 min-w-0 px-5 pt-[6px] pb-8 box-border">
+          <h1 className="text-[17px] font-semibold text-gray-800 dark:text-white mb-6">{t.collections.title}</h1>
 
         {selected ? (
           <div>
