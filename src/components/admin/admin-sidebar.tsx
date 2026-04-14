@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useLocale } from "@/lib/locale-context";
 import {
-  LayoutDashboard,
+  Monitor,
   Palette,
   Sun,
   Moon,
@@ -19,13 +19,11 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-// SidebarMenu/Item/Button still used for the nav items below
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -48,7 +46,7 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
   const base = `/${locale}/admin`;
 
   const navItems = [
-    { href: "", label: t.admin.dashboard, icon: LayoutDashboard },
+    { href: "", label: t.admin.dashboard, icon: Monitor },
     { href: "/palettes", label: t.admin.palettesTitle, icon: Palette },
   ];
 
@@ -78,9 +76,6 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
 
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>
-            {locale === "pt" ? "Navegação" : locale === "es" ? "Navegación" : "Navigation"}
-          </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu className="gap-1.5">
               {navItems.map((item) => {
