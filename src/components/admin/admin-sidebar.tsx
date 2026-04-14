@@ -70,10 +70,7 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" render={<Link href={base} />}>
               <LogoDrop className="size-7 shrink-0 text-sidebar-foreground" />
-              <div className="grid flex-1 text-left leading-tight">
-                <span className="truncate text-[15px] font-semibold">Color Magic</span>
-                <span className="truncate text-xs text-sidebar-foreground/60">{t.admin.moderation}</span>
-              </div>
+              <span className="truncate text-[17px] font-semibold tracking-tight">Color Magic</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
