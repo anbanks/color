@@ -1,0 +1,30 @@
+<!-- Open this file in a browser to generate icon PNGs -->
+<!-- Right-click each canvas and "Save image as" -->
+<canvas id="c16" width="16" height="16"></canvas>
+<canvas id="c48" width="48" height="48"></canvas>
+<canvas id="c128" width="128" height="128"></canvas>
+<script>
+function draw(id, size) {
+  const c = document.getElementById(id).getContext('2d');
+  const s = size / 36;
+  // Yellow face
+  c.fillStyle = '#FEED30';
+  c.beginPath();
+  c.roundRect(4*s, 8*s, 28*s, 24*s, 12*s);
+  c.fill();
+  // Eyes
+  c.fillStyle = '#111';
+  c.beginPath(); c.arc(14*s, 20*s, 2.5*s, 0, Math.PI*2); c.fill();
+  c.beginPath(); c.arc(24*s, 20*s, 2.5*s, 0, Math.PI*2); c.fill();
+  // Tongue
+  c.fillStyle = '#FF6B6B';
+  c.beginPath(); c.ellipse(18*s, 29*s, 3.5*s, 3*s, 0, 0, Math.PI*2); c.fill();
+  // Dots
+  c.fillStyle = '#FF6B6B'; c.beginPath(); c.arc(10*s, 7*s, 4*s, 0, Math.PI*2); c.fill();
+  c.fillStyle = '#4ECDC4'; c.beginPath(); c.arc(18*s, 4*s, 4*s, 0, Math.PI*2); c.fill();
+  c.fillStyle = '#667EEA'; c.beginPath(); c.arc(26*s, 7*s, 4*s, 0, Math.PI*2); c.fill();
+}
+draw('c16', 16);
+draw('c48', 48);
+draw('c128', 128);
+</script>
