@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useLocale } from "@/lib/locale-context";
-import { cn } from "@/lib/utils";
 import {
   LayoutDashboard,
   Palette,
@@ -13,12 +12,17 @@ import {
   LogOut,
   ChevronUp,
 } from "lucide-react";
-import { Separator } from "@/components/ui/separator";
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from "@/components/ui/sidebar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -31,10 +35,9 @@ import { signOut } from "next-auth/react";
 
 interface AdminSidebarProps {
   user: { name?: string | null; email?: string | null; image?: string | null };
-  collapsed: boolean;
 }
 
-export function AdminSidebar({ user, collapsed }: AdminSidebarProps) {
+export function AdminSidebar({ user }: AdminSidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
   const { locale, t } = useLocale();
@@ -59,108 +62,127 @@ export function AdminSidebar({ user, collapsed }: AdminSidebarProps) {
   };
 
   return (
-    <aside className={cn(
-      "shrink-0 h-screen sticky top-0 bg-white dark:bg-[#111] border-r border-gray-200/60 dark:border-white/[0.06] flex flex-col transition-all duration-200",
-      collapsed ? "w-[68px]" : "w-[260px]"
-    )}>
-      {/* Header */}
-      <div className={cn("flex items-center", collapsed ? "p-3 justify-center" : "p-4 pb-3 gap-3")}>
-        <div className="h-9 w-9 rounded-lg bg-gray-900 dark:bg-white/10 flex items-center justify-center shrink-0">
-          <Palette className="h-5 w-5 text-white dark:text-white/80" />
-        </div>
-        {!collapsed && (
-          <div className="min-w-0">
-            <h2 className="text-[15px] font-semibold text-gray-900 dark:text-white">Color Admin</h2>
-            <p className="text-[11px] text-gray-400">{t.admin.moderation}</p>
-          </div>
-        )}
-      </div>
-
-      {/* Nav */}
-      <nav className={cn("flex-1 space-y-0.5 overflow-y-auto", collapsed ? "p-2" : "p-3")}>
-        {navItems.map((item) => {
-          const Icon = item.icon;
-          const href = `${base}${item.href}`;
-          const isActive = item.href === ""
-            ? pathname === base || pathname === `${base}/`
-            : pathname.startsWith(href);
-
-          const link = (
-            <Link
-              href={href}
-              className={cn(
-                "flex items-center rounded-lg transition-all duration-150",
-                collapsed ? "justify-center h-10 w-10 mx-auto" : "gap-3 px-3 py-2.5",
-                isActive
-                  ? "bg-gray-100 dark:bg-white/[0.08] text-gray-900 dark:text-white font-medium"
-                  : "text-gray-600 dark:text-white/60 hover:bg-gray-50 dark:hover:bg-white/[0.04] hover:text-gray-900 dark:hover:text-white"
-              )}
-            >
-              <Icon className="h-[18px] w-[18px] shrink-0" strokeWidth={isActive ? 2 : 1.5} />
-              {!collapsed && item.label}
-            </Link>
-          );
-
-          if (collapsed) {
-            return (
-              <Tooltip key={item.href}>
-                <TooltipTrigger className="w-full">{link}</TooltipTrigger>
-                <TooltipContent side="right" className="text-[12px]">{item.label}</TooltipContent>
-              </Tooltip>
-            );
-          }
-          return <div key={item.href}>{link}</div>;
-        })}
-      </nav>
-
-      <Separator className="dark:bg-white/[0.06]" />
-
-      {/* User menu */}
-      <div className={cn("p-2", collapsed && "flex justify-center")}>
-        <DropdownMenu>
-          <DropdownMenuTrigger className={cn(
-            "flex items-center rounded-lg hover:bg-gray-50 dark:hover:bg-white/[0.04] transition-all outline-none",
-            collapsed ? "h-10 w-10 justify-center" : "w-full gap-3 px-3 py-2.5"
-          )}>
-            <div className="h-8 w-8 rounded-full bg-gray-200 dark:bg-white/10 flex items-center justify-center text-[12px] font-semibold text-gray-600 dark:text-white/60 shrink-0">
-              {user.name?.[0]?.toUpperCase() || "?"}
-            </div>
-            {!collapsed && (
-              <>
-                <div className="min-w-0 text-left flex-1">
-                  <p className="text-[13px] font-medium text-gray-800 dark:text-white/80 truncate">{user.name}</p>
-                  <p className="text-[11px] text-gray-400 dark:text-white/30 truncate">{user.email}</p>
+    <Sidebar collapsible="icon">
+      <SidebarHeader>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton size="lg" asChild>
+              <Link href={base}>
+                <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+                  <Palette className="size-4" />
                 </div>
-                <ChevronUp className="h-4 w-4 text-gray-400 dark:text-white/30 shrink-0" />
-              </>
-            )}
-          </DropdownMenuTrigger>
+                <div className="grid flex-1 text-left text-sm leading-tight">
+                  <span className="truncate font-medium">Color Admin</span>
+                  <span className="truncate text-xs">{t.admin.moderation}</span>
+                </div>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarHeader>
 
-          <DropdownMenuContent
-            side={collapsed ? "right" : "top"}
-            align={collapsed ? "end" : "start"}
-            className="w-[220px] rounded-xl shadow-xl border-gray-200/80 dark:border-white/10 dark:bg-[#252525] p-1.5 mb-1"
-          >
-            <DropdownMenuItem className="rounded-lg px-3 py-2.5 text-[13px] cursor-pointer" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
-              {theme === "dark" ? <Sun className="h-4 w-4 mr-2.5 text-yellow-400" /> : <Moon className="h-4 w-4 mr-2.5 text-gray-500" />}
-              {theme === "dark" ? (locale === "pt" ? "Modo claro" : locale === "es" ? "Modo claro" : "Light mode") : (locale === "pt" ? "Modo escuro" : locale === "es" ? "Modo oscuro" : "Dark mode")}
-            </DropdownMenuItem>
-            <DropdownMenuSeparator className="dark:bg-white/[0.06]" />
-            {languages.map((lang) => (
-              <DropdownMenuItem key={lang.code} className={cn("rounded-lg px-3 py-2 text-[13px] cursor-pointer", locale === lang.code && "font-medium")} onClick={() => switchLocale(lang.code)}>
-                <Globe className="h-4 w-4 mr-2.5 text-gray-400" />
-                {lang.label}
-                {locale === lang.code && <span className="ml-auto text-[11px] text-gray-400">✓</span>}
-              </DropdownMenuItem>
-            ))}
-            <DropdownMenuSeparator className="dark:bg-white/[0.06]" />
-            <DropdownMenuItem className="rounded-lg px-3 py-2.5 text-[13px] text-red-600 dark:text-red-400 cursor-pointer" onClick={() => signOut()}>
-              <LogOut className="h-4 w-4 mr-2.5" />
-              {t.menu.signOut}
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-    </aside>
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {navItems.map((item) => {
+                const Icon = item.icon;
+                const href = `${base}${item.href}`;
+                const isActive =
+                  item.href === ""
+                    ? pathname === base || pathname === `${base}/`
+                    : pathname.startsWith(href);
+
+                return (
+                  <SidebarMenuItem key={item.href}>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={isActive}
+                      tooltip={item.label}
+                    >
+                      <Link href={href}>
+                        <Icon />
+                        <span>{item.label}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+
+      <SidebarFooter>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <SidebarMenuButton
+                  size="lg"
+                  className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                >
+                  <div className="bg-sidebar-accent text-sidebar-accent-foreground flex aspect-square size-8 items-center justify-center rounded-full text-xs font-semibold">
+                    {user.name?.[0]?.toUpperCase() || "?"}
+                  </div>
+                  <div className="grid flex-1 text-left text-sm leading-tight">
+                    <span className="truncate font-medium">{user.name}</span>
+                    <span className="truncate text-xs">{user.email}</span>
+                  </div>
+                  <ChevronUp className="ml-auto size-4" />
+                </SidebarMenuButton>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                side="top"
+                align="start"
+                className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+              >
+                <DropdownMenuItem
+                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                >
+                  {theme === "dark" ? (
+                    <Sun className="mr-2 size-4" />
+                  ) : (
+                    <Moon className="mr-2 size-4" />
+                  )}
+                  {theme === "dark"
+                    ? locale === "pt"
+                      ? "Modo claro"
+                      : locale === "es"
+                      ? "Modo claro"
+                      : "Light mode"
+                    : locale === "pt"
+                    ? "Modo escuro"
+                    : locale === "es"
+                    ? "Modo oscuro"
+                    : "Dark mode"}
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                {languages.map((lang) => (
+                  <DropdownMenuItem
+                    key={lang.code}
+                    onClick={() => switchLocale(lang.code)}
+                  >
+                    <Globe className="mr-2 size-4" />
+                    {lang.label}
+                    {locale === lang.code && (
+                      <span className="ml-auto text-xs">✓</span>
+                    )}
+                  </DropdownMenuItem>
+                ))}
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  className="text-red-600 dark:text-red-400"
+                  onClick={() => signOut()}
+                >
+                  <LogOut className="mr-2 size-4" />
+                  {t.menu.signOut}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
+    </Sidebar>
   );
 }

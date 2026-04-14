@@ -14,10 +14,8 @@ export default async function AdminLayout({
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#111]" style={{ paddingTop: 0, marginTop: "-70px" }}>
-      <AdminLayoutClient user={session.user}>
-        {children}
-      </AdminLayoutClient>
-    </div>
+    <AdminLayoutClient user={session.user}>
+      {children}
+    </AdminLayoutClient>
   );
 }
