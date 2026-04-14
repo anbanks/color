@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import { Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -13,11 +13,16 @@ interface LikeButtonProps {
 export function LikeButton({ paletteId, initialCount, initialLiked = false }: LikeButtonProps) {
   const [liked, setLiked] = useState(initialLiked);
   const [count, setCount] = useState(initialCount);
-  const [pulse, setPulse] = useState(0);
+  const iconRef = useRef<SVGSVGElement>(null);
   const [isPending, startTransition] = useTransition();
 
   const handleLike = () => {
-    setPulse((n) => n + 1);
+    const el = iconRef.current;
+    if (el) {
+      el.classList.remove("animate-save-pop");
+      void el.getBoundingClientRect();
+      el.classList.add("animate-save-pop");
+    }
     startTransition(async () => {
       try {
         const res = await fetch(`/api/palettes/${paletteId}/like`, { method: "POST" });
@@ -48,12 +53,8 @@ export function LikeButton({ paletteId, initialCount, initialLiked = false }: Li
       style={liked ? { background: "linear-gradient(90deg, #FFF0F0 0%, #FFE8E8 100%)" } : {}}
     >
       <Heart
-        key={pulse}
-        className={cn(
-          "h-[16px] w-[16px] -ml-[4px]",
-          liked && "fill-current",
-          pulse > 0 && "animate-save-pop"
-        )}
+        ref={iconRef}
+        className={cn("h-[16px] w-[16px] -ml-[4px] transition-colors", liked && "fill-current")}
         strokeWidth={liked ? 2 : 1.5}
       />
       <span className="font-normal tabular-nums">{formatted}</span>

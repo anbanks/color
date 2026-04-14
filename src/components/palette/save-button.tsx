@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import { Bookmark } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -14,14 +14,19 @@ interface SaveButtonProps {
 
 export function SaveButton({ paletteId, initialSaved = false, variant = "compact" }: SaveButtonProps) {
   const [saved, setSaved] = useState(initialSaved);
-  const [pulse, setPulse] = useState(0);
+  const iconRef = useRef<SVGSVGElement>(null);
   const [isPending, startTransition] = useTransition();
   const { t } = useLocale();
 
   const handleToggle = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    setPulse((n) => n + 1);
+    const el = iconRef.current;
+    if (el) {
+      el.classList.remove("animate-save-pop");
+      void el.getBoundingClientRect();
+      el.classList.add("animate-save-pop");
+    }
     startTransition(async () => {
       try {
         const res = await fetch("/api/saved", {
@@ -58,12 +63,8 @@ export function SaveButton({ paletteId, initialSaved = false, variant = "compact
       )}
     >
       <Bookmark
-        key={pulse}
-        className={cn(
-          "h-[17px] w-[17px] transition-all",
-          saved && "fill-current",
-          pulse > 0 && "animate-save-pop"
-        )}
+        ref={iconRef}
+        className={cn("h-[17px] w-[17px] transition-colors", saved && "fill-current")}
         strokeWidth={saved ? 2.2 : 1.5}
       />
       {variant === "full" && <span>{t.collections.saveToCollection}</span>}
