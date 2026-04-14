@@ -1,5 +1,6 @@
 import { isValidLocale, getDictionary, locales, type Locale } from "@/lib/i18n";
 import { LocaleProvider } from "@/lib/locale-context";
+import { MobileTabs } from "@/components/layout/mobile-tabs";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
@@ -47,9 +48,10 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
 
   return (
     <LocaleProvider locale={locale as Locale} dictionary={dictionary}>
-      <div className="site-container">
+      <div className="site-container pb-[80px] md:pb-0">
         {children}
       </div>
+      <MobileTabs />
     </LocaleProvider>
   );
 }
