@@ -6,7 +6,7 @@ import { PaletteContent } from "@/components/seo/palette-content";
 import { LikeButton } from "@/components/palette/like-button";
 import { ContrastChecker } from "@/components/palette/contrast-checker";
 import { SiteMockup } from "@/components/preview/site-mockup";
-import { PaletteGrid } from "@/components/palette/palette-grid";
+import { PaletteCard } from "@/components/palette/palette-card";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { getDb } from "@/db";
 import { palettes, paletteContent } from "@/db/schema";
@@ -102,9 +102,9 @@ export default async function PalettePage({ params }: PageProps) {
         </div>
 
         {/* Main content */}
-        <main className="flex-1 min-w-0 pt-6 pb-16 px-5">
+        <main className="flex-1 min-w-0 pt-6 pb-16 px-5 box-border">
           {/* Palette expanded */}
-          <div className="max-w-[680px] mx-auto">
+          <div className="max-w-[820px] mx-auto">
             {/* Palette card large */}
             <div className="rounded-[10px] overflow-hidden shadow-[0_1px_6px_rgba(0,0,0,0.07)]">
               {colors.map((color, i) => (
@@ -168,15 +168,25 @@ export default async function PalettePage({ params }: PageProps) {
                 psychology={content.psychology}
               />
             )}
-
-            {/* Related */}
-            {related.length > 0 && (
-              <section className="mt-12 pt-8 border-t border-gray-100">
-                <h2 className="text-lg font-semibold text-gray-700 mb-6">{t.single.relatedPalettes}</h2>
-                <PaletteGrid palettes={related} />
-              </section>
-            )}
           </div>
+
+          {/* Related — same layout as normal listing (full main width) */}
+          {related.length > 0 && (
+            <section className="mt-12 pt-8 border-t border-gray-100">
+              <h2 className="text-lg font-semibold text-gray-700 px-5 mb-3">{t.single.relatedPalettes}</h2>
+              <div className="feed-grid">
+                {related.map((p) => (
+                  <PaletteCard
+                    key={p.id}
+                    id={p.id}
+                    slug={p.slug}
+                    colors={p.colors}
+                    likesCount={p.likesCount}
+                  />
+                ))}
+              </div>
+            </section>
+          )}
         </main>
 
         {/* Right panel */}
