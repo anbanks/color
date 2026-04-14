@@ -73,18 +73,14 @@ export function Header() {
       <div className="site-container flex items-center">
         {/* Logo — .left min-width:200px */}
         <div className="min-w-[200px] shrink-0 hidden md:block px-5 box-border">
-          <Link href={`/${locale}`} className="flex items-center gap-2.5 group">
-            <span className="text-[26px] group-hover:scale-105 transition-transform">🎨</span>
-            <span className="text-[17px] font-bold text-gray-900 dark:text-white tracking-[-0.01em]">
-              Color
-            </span>
+          <Link href={`/${locale}`} className="flex items-center group">
+            <img src="/logo.svg" alt="Color" className="h-[32px] dark:invert" />
           </Link>
         </div>
         {/* Logo mobile */}
         <div className="md:hidden pl-4 pr-2">
-          <Link href={`/${locale}`} className="flex items-center gap-2 group">
-            <span className="text-[24px]">🎨</span>
-            <span className="text-[16px] font-bold text-gray-900 dark:text-white">Color</span>
+          <Link href={`/${locale}`} className="flex items-center">
+            <img src="/logo.svg" alt="Color" className="h-[28px] dark:invert" />
           </Link>
         </div>
 
