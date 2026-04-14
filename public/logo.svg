@@ -1,6 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none">
-  <rect x="3" y="5" width="34" height="30" rx="15" fill="#FEED30"/>
-  <circle cx="15" cy="18" r="2.8" fill="#111"/>
-  <circle cx="25" cy="18" r="2.8" fill="#111"/>
-  <path d="M12 24 Q20 31 28 24" stroke="#111" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+  <defs>
+    <clipPath id="drop">
+      <path d="M20 2 C 20 2 32 15 32 24 C 32 30 26 35 20 35 C 14 35 8 30 8 24 C 8 15 20 2 20 2 Z"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#drop)">
+    <path d="M-20 22 Q -15 18 -10 22 Q -5 26 0 22 Q 5 18 10 22 Q 15 26 20 22 Q 25 18 30 22 Q 35 26 40 22 Q 45 18 50 22 Q 55 26 60 22 L 60 40 L -20 40 Z" fill="#FF6B6B"/>
+  </g>
+  <path d="M20 2 C 20 2 32 15 32 24 C 32 30 26 35 20 35 C 14 35 8 30 8 24 C 8 15 20 2 20 2 Z" fill="none" stroke="#111" stroke-width="2.5" stroke-linejoin="round"/>
 </svg>

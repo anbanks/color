@@ -16,6 +16,33 @@ import { useSession, signOut } from "next-auth/react";
 import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 
+function LogoDrop({ className }: { className?: string }) {
+  const dropPath =
+    "M20 2 C 20 2 32 15 32 24 C 32 30 26 35 20 35 C 14 35 8 30 8 24 C 8 15 20 2 20 2 Z";
+  return (
+    <svg viewBox="0 0 40 40" className={className} xmlns="http://www.w3.org/2000/svg" aria-label="Color logo">
+      <defs>
+        <clipPath id="color-drop-clip">
+          <path d={dropPath} />
+        </clipPath>
+      </defs>
+      <g clipPath="url(#color-drop-clip)">
+        <path
+          className="logo-liquid"
+          d="M-20 22 Q -15 18 -10 22 Q -5 26 0 22 Q 5 18 10 22 Q 15 26 20 22 Q 25 18 30 22 Q 35 26 40 22 Q 45 18 50 22 Q 55 26 60 22 L 60 40 L -20 40 Z"
+        />
+      </g>
+      <path
+        d={dropPath}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 const SEARCH_COLORS = [
   { name: "Blue", hex: "#5B9BD5" },
   { name: "Teal", hex: "#2BBBB0" },
@@ -74,20 +101,14 @@ export function Header() {
         {/* Logo — .left min-width:200px */}
         <div className="min-w-[200px] shrink-0 hidden md:block px-5 box-border">
           <Link href={`/${locale}`} className="logo flex items-center gap-3 group">
-            <span className="relative h-[40px] w-[40px] shrink-0 inline-block">
-              <img src="/logo.svg" alt="Color" className="absolute inset-0 h-full w-full" />
-              <img src="/logo-tongue.svg" alt="" aria-hidden="true" className="tongue absolute inset-0 h-full w-full" />
-            </span>
+            <LogoDrop className="h-[40px] w-[40px] shrink-0 text-gray-900 dark:text-white" />
             <span className="text-[22px] font-semibold tracking-tight text-gray-900 dark:text-white">Color</span>
           </Link>
         </div>
         {/* Logo mobile */}
         <div className="md:hidden pl-4 pr-2">
           <Link href={`/${locale}`} className="logo flex items-center gap-2">
-            <span className="relative h-[32px] w-[32px] shrink-0 inline-block">
-              <img src="/logo.svg" alt="Color" className="absolute inset-0 h-full w-full" />
-              <img src="/logo-tongue.svg" alt="" aria-hidden="true" className="tongue absolute inset-0 h-full w-full" />
-            </span>
+            <LogoDrop className="h-[32px] w-[32px] shrink-0 text-gray-900 dark:text-white" />
             <span className="text-[18px] font-semibold tracking-tight text-gray-900 dark:text-white">Color</span>
           </Link>
         </div>

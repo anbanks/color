@@ -18,6 +18,7 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -81,6 +82,9 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
 
       <SidebarContent>
         <SidebarGroup>
+          <SidebarGroupLabel>
+            {locale === "pt" ? "Navegação" : locale === "es" ? "Navegación" : "Navigation"}
+          </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu className="gap-1.5">
               {navItems.map((item) => {
