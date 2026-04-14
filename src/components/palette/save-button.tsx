@@ -22,10 +22,16 @@ export function SaveButton({ paletteId, initialSaved = false, variant = "compact
     e.preventDefault();
     e.stopPropagation();
     const el = iconRef.current;
-    if (el) {
-      el.classList.remove("animate-save-pop");
-      void el.getBoundingClientRect();
-      el.classList.add("animate-save-pop");
+    if (el && typeof el.animate === "function") {
+      el.animate(
+        [
+          { transform: "scale(1)" },
+          { transform: "scale(0.65)", offset: 0.3 },
+          { transform: "scale(1.3)", offset: 0.65 },
+          { transform: "scale(1)" },
+        ],
+        { duration: 420, easing: "cubic-bezier(0.34, 1.56, 0.64, 1)" }
+      );
     }
     startTransition(async () => {
       try {
