@@ -25,6 +25,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+// SidebarMenu/Item/Button still used for the nav items below
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -66,16 +67,13 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton size="lg" render={<Link href={base} />} className="gap-2.5">
-              <span className="flex h-[30px] w-[30px] shrink-0 items-center justify-center text-sidebar-foreground">
-                <LogoDrop className="h-full w-full" />
-              </span>
-              <span className="truncate text-[19px] font-semibold tracking-tight">Color Magic</span>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
+        <Link
+          href={base}
+          className="logo flex items-center gap-2.5 px-2 py-2 text-sidebar-foreground"
+        >
+          <LogoDrop className="h-[30px] w-[30px] shrink-0" />
+          <span className="truncate text-[19px] font-semibold tracking-tight">Color Magic</span>
+        </Link>
       </SidebarHeader>
 
       <SidebarContent>
