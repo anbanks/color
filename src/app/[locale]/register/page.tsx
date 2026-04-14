@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import Link from "next/link";
+import { LogoDrop } from "@/components/logo-drop";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -66,13 +67,14 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white px-4">
-      <div className="w-full max-w-sm space-y-8">
-        <div className="text-center">
-          <Link href={`/${locale}`} className="text-3xl font-semibold text-gray-800 tracking-tight">
-            Color
+    <div className="fixed inset-0 flex items-center justify-center bg-white dark:bg-[#1a1a1a] px-4 overflow-y-auto">
+      <div className="w-full max-w-sm space-y-7 py-8">
+        <div className="flex flex-col items-center text-center">
+          <Link href={`/${locale}`} className="logo flex items-center gap-2.5">
+            <LogoDrop className="h-[38px] w-[38px] shrink-0 text-gray-900 dark:text-white" />
+            <span className="text-[26px] font-semibold tracking-tight text-gray-900 dark:text-white">Color Magic</span>
           </Link>
-          <p className="text-sm text-gray-400 mt-2">{t.auth.signUp}</p>
+          <p className="text-sm text-gray-400 dark:text-white/40 mt-2">{t.auth.signUp}</p>
         </div>
 
         <Button variant="outline" className="w-full h-11" onClick={handleGoogle}>
@@ -87,10 +89,10 @@ export default function RegisterPage() {
 
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-200" />
+            <div className="w-full border-t border-gray-200 dark:border-white/10" />
           </div>
           <div className="relative flex justify-center text-xs">
-            <span className="bg-white px-3 text-gray-400">{t.auth.or}</span>
+            <span className="bg-white dark:bg-[#1a1a1a] px-3 text-gray-400 dark:text-white/40">{t.auth.or}</span>
           </div>
         </div>
 
@@ -104,9 +106,9 @@ export default function RegisterPage() {
           </Button>
         </form>
 
-        <p className="text-center text-sm text-gray-400">
+        <p className="text-center text-sm text-gray-400 dark:text-white/40">
           {t.auth.hasAccount}{" "}
-          <Link href={`/${locale}/login`} className="text-gray-700 font-medium hover:underline">
+          <Link href={`/${locale}/login`} className="text-gray-700 dark:text-white/80 font-medium hover:underline">
             {t.auth.signInLink}
           </Link>
         </p>
