@@ -1,0 +1,199 @@
+"use client";
+
+import { useEffect, useState, useTransition } from "react";
+import { toast } from "sonner";
+import { Clock, Play, RefreshCw, ArrowDownToLine } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
+interface QueueState {
+  counts: {
+    pending: number;
+    approved: number;
+    published: number;
+    rejected: number;
+  };
+  rate: number;
+  lastRun: string | null;
+}
+
+export function QueueClient() {
+  const [state, setState] = useState<QueueState | null>(null);
+  const [rateInput, setRateInput] = useState("");
+  const [pending, startTransition] = useTransition();
+
+  const load = async () => {
+    try {
+      const res = await fetch("/api/admin/queue", { cache: "no-store" });
+      if (!res.ok) throw new Error("failed");
+      const data = (await res.json()) as QueueState;
+      setState(data);
+      setRateInput(String(data.rate));
+    } catch {
+      toast.error("Failed to load queue");
+    }
+  };
+
+  useEffect(() => {
+    load();
+  }, []);
+
+  const saveRate = () => {
+    const value = parseInt(rateInput, 10);
+    if (!Number.isFinite(value) || value < 1 || value > 100) {
+      toast.error("Rate must be between 1 and 100");
+      return;
+    }
+    startTransition(async () => {
+      const res = await fetch("/api/admin/queue/rate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ rate: value }),
+      });
+      if (res.ok) {
+        toast.success("Rate updated");
+        load();
+      } else {
+        toast.error("Failed to update rate");
+      }
+    });
+  };
+
+  const drainNow = () => {
+    startTransition(async () => {
+      const res = await fetch("/api/admin/queue/drain", { method: "POST" });
+      if (res.ok) {
+        const data = (await res.json()) as { published: number };
+        toast.success(`Published ${data.published} palette(s)`);
+        load();
+      } else {
+        toast.error("Drain failed");
+      }
+    });
+  };
+
+  const seedFromPublished = () => {
+    if (
+      !confirm(
+        "Move ALL currently published palettes back to the approved queue? This will hide them from the public feed until the cron republishes them gradually."
+      )
+    )
+      return;
+    startTransition(async () => {
+      const res = await fetch("/api/admin/queue/seed", { method: "POST" });
+      if (res.ok) {
+        const data = (await res.json()) as { moved: number | null };
+        toast.success(
+          data.moved !== null
+            ? `Moved ${data.moved} palette(s) to queue`
+            : "Moved palettes to queue"
+        );
+        load();
+      } else {
+        toast.error("Bulk move failed");
+      }
+    });
+  };
+
+  if (!state) {
+    return (
+      <div className="text-[13px] text-gray-500 dark:text-white/40">
+        Loading…
+      </div>
+    );
+  }
+
+  const cards = [
+    { label: "Pending review", value: state.counts.pending, tone: "pending" },
+    { label: "In queue", value: state.counts.approved, tone: "approved" },
+    { label: "Published", value: state.counts.published, tone: "published" },
+    { label: "Rejected", value: state.counts.rejected, tone: "rejected" },
+  ];
+
+  return (
+    <div className="space-y-6">
+      <div className="grid grid-cols-2 xl:grid-cols-4 gap-3">
+        {cards.map((c) => (
+          <div
+            key={c.label}
+            className="bg-white dark:bg-white/[0.03] border border-gray-200/60 dark:border-white/[0.06] rounded-lg p-4"
+          >
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[12px] text-gray-500 dark:text-white/40">
+                {c.label}
+              </span>
+            </div>
+            <p className="text-[24px] font-bold text-gray-900 dark:text-white">
+              {c.value.toLocaleString()}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      <div className="bg-white dark:bg-white/[0.03] border border-gray-200/60 dark:border-white/[0.06] rounded-lg p-5">
+        <div className="flex items-center gap-2 mb-3">
+          <Clock className="h-4 w-4 text-gray-500 dark:text-white/50" />
+          <h3 className="text-[13px] font-semibold text-gray-900 dark:text-white">
+            Cron settings
+          </h3>
+        </div>
+        <p className="text-[12px] text-gray-500 dark:text-white/40 mb-4">
+          The publish cron runs every hour. It moves up to{" "}
+          <span className="font-medium text-gray-700 dark:text-white/70">
+            {state.rate}
+          </span>{" "}
+          palette(s) from the approved queue to published per run.
+        </p>
+        <div className="flex items-center gap-2 max-w-sm">
+          <Input
+            type="number"
+            min={1}
+            max={100}
+            value={rateInput}
+            onChange={(e) => setRateInput(e.target.value)}
+            className="h-9"
+          />
+          <Button onClick={saveRate} disabled={pending} size="sm">
+            Save rate
+          </Button>
+        </div>
+        {state.lastRun && (
+          <p className="text-[11px] text-gray-400 dark:text-white/30 mt-3">
+            Last run: {new Date(state.lastRun).toLocaleString()}
+          </p>
+        )}
+      </div>
+
+      <div className="bg-white dark:bg-white/[0.03] border border-gray-200/60 dark:border-white/[0.06] rounded-lg p-5">
+        <h3 className="text-[13px] font-semibold text-gray-900 dark:text-white mb-3">
+          Manual actions
+        </h3>
+        <div className="flex flex-wrap gap-2">
+          <Button onClick={drainNow} disabled={pending} variant="outline" size="sm">
+            <Play className="h-4 w-4 mr-1.5" />
+            Drain now ({state.rate})
+          </Button>
+          <Button onClick={load} disabled={pending} variant="outline" size="sm">
+            <RefreshCw className="h-4 w-4 mr-1.5" />
+            Refresh
+          </Button>
+          <Button
+            onClick={seedFromPublished}
+            disabled={pending}
+            variant="outline"
+            size="sm"
+            className="text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-500/30"
+          >
+            <ArrowDownToLine className="h-4 w-4 mr-1.5" />
+            Move ALL published → queue
+          </Button>
+        </div>
+        <p className="text-[11px] text-gray-400 dark:text-white/30 mt-3 max-w-2xl">
+          Use the bulk move once when you want to switch an existing dataset
+          to drip-publishing. After that, approve new palettes from
+          /admin/palettes and the cron will drain them gradually.
+        </p>
+      </div>
+    </div>
+  );
+}

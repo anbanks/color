@@ -6,6 +6,7 @@ import { useLocale } from "@/lib/locale-context";
 import {
   Monitor,
   Palette,
+  Clock,
   Sun,
   Moon,
   Globe,
@@ -49,6 +50,7 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
   const navItems = [
     { href: "", label: t.admin.dashboard, icon: Monitor },
     { href: "/palettes", label: t.admin.palettesTitle, icon: Palette },
+    { href: "/queue", label: "Queue", icon: Clock },
   ];
 
   const languages = [

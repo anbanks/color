@@ -6,6 +6,7 @@ import { eq } from "drizzle-orm";
 import { SITE_URL, LOCALES } from "@/lib/site";
 
 const STATIC_PATHS = ["", "/popular", "/random", "/collections"];
+const PALETTES_PER_SITEMAP = 5000;
 
 function alternates(path: string) {
   return Object.fromEntries(
@@ -13,32 +14,64 @@ function alternates(path: string) {
   );
 }
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const entries: MetadataRoute.Sitemap = [];
+export async function generateSitemaps() {
+  try {
+    const { env } = await getCloudflareContext({ async: true });
+    const db = getDb(env.DB);
+    const rows = await db
+      .select({ id: palettes.id })
+      .from(palettes)
+      .where(eq(palettes.status, "published"));
+    const total = rows.length;
+    const groups = Math.max(1, Math.ceil(total / PALETTES_PER_SITEMAP));
+    const ids = [{ id: 0 }];
+    for (let i = 0; i < groups; i++) ids.push({ id: i + 1 });
+    return ids;
+  } catch {
+    return [{ id: 0 }, { id: 1 }];
+  }
+}
 
-  for (const path of STATIC_PATHS) {
-    for (const locale of LOCALES) {
-      entries.push({
-        url: `${SITE_URL}/${locale}${path}`,
-        lastModified: new Date(),
-        changeFrequency: path === "" ? "daily" : "weekly",
-        priority: path === "" ? 1 : 0.7,
-        alternates: { languages: alternates(path) },
-      });
+export default async function sitemap({
+  id,
+}: {
+  id: number;
+}): Promise<MetadataRoute.Sitemap> {
+  if (id === 0) {
+    const entries: MetadataRoute.Sitemap = [];
+    for (const path of STATIC_PATHS) {
+      for (const locale of LOCALES) {
+        entries.push({
+          url: `${SITE_URL}/${locale}${path}`,
+          lastModified: new Date(),
+          changeFrequency: path === "" ? "daily" : "weekly",
+          priority: path === "" ? 1 : 0.7,
+          alternates: { languages: alternates(path) },
+        });
+      }
     }
+    return entries;
   }
 
   try {
     const { env } = await getCloudflareContext({ async: true });
     const db = getDb(env.DB);
-
+    const offset = (id - 1) * PALETTES_PER_SITEMAP;
     const published = await db
-      .select({ slug: palettes.slug, publishedAt: palettes.publishedAt })
+      .select({
+        slug: palettes.slug,
+        publishedAt: palettes.publishedAt,
+      })
       .from(palettes)
-      .where(eq(palettes.status, "published"));
+      .where(eq(palettes.status, "published"))
+      .limit(PALETTES_PER_SITEMAP)
+      .offset(offset);
 
+    const entries: MetadataRoute.Sitemap = [];
     for (const p of published) {
-      const lastModified = p.publishedAt ? new Date(p.publishedAt) : new Date();
+      const lastModified = p.publishedAt
+        ? new Date(p.publishedAt)
+        : new Date();
       for (const locale of LOCALES) {
         entries.push({
           url: `${SITE_URL}/${locale}/palette/${p.slug}`,
@@ -49,9 +82,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         });
       }
     }
+    return entries;
   } catch {
-    // D1 not available in dev
+    return [];
   }
-
-  return entries;
 }

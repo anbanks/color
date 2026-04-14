@@ -183,19 +183,45 @@ export default async function PalettePage({ params }: PageProps) {
             <script
               type="application/ld+json"
               dangerouslySetInnerHTML={{
-                __html: JSON.stringify({
-                  "@context": "https://schema.org",
-                  "@type": "CreativeWork",
-                  inLanguage: locale,
-                  name: content?.title || `Color Palette ${colors.join(" ")}`,
-                  description:
-                    content?.description ||
-                    `A color palette featuring ${colors.join(", ")}`,
-                  url: `${SITE_URL}/${locale}/palette/${slug}`,
-                  author: { "@type": "Organization", name: SITE_NAME },
-                  publisher: { "@type": "Organization", name: SITE_NAME },
-                  keywords: colors.join(", "),
-                }),
+                __html: JSON.stringify([
+                  {
+                    "@context": "https://schema.org",
+                    "@type": "CreativeWork",
+                    inLanguage: locale,
+                    name: content?.title || `Color Palette ${colors.join(" ")}`,
+                    description:
+                      content?.description ||
+                      `A color palette featuring ${colors.join(", ")}`,
+                    url: `${SITE_URL}/${locale}/palette/${slug}`,
+                    author: { "@type": "Organization", name: SITE_NAME },
+                    publisher: { "@type": "Organization", name: SITE_NAME },
+                    keywords: colors.join(", "),
+                  },
+                  {
+                    "@context": "https://schema.org",
+                    "@type": "BreadcrumbList",
+                    itemListElement: [
+                      {
+                        "@type": "ListItem",
+                        position: 1,
+                        name: SITE_NAME,
+                        item: `${SITE_URL}/${locale}`,
+                      },
+                      {
+                        "@type": "ListItem",
+                        position: 2,
+                        name: t.single.relatedPalettes,
+                        item: `${SITE_URL}/${locale}`,
+                      },
+                      {
+                        "@type": "ListItem",
+                        position: 3,
+                        name: content?.title || `Color Palette ${colors.join(" ")}`,
+                        item: `${SITE_URL}/${locale}/palette/${slug}`,
+                      },
+                    ],
+                  },
+                ]),
               }}
             />
 

@@ -22,4 +22,4 @@ id = "03e54a04595c467e8a0e60b545e8fbcb"
 # bucket_name = "color-assets"
 
 [triggers]
-crons = ["0 */4 * * *"]
+crons = ["0 * * * *"]

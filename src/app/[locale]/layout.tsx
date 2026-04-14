@@ -72,8 +72,28 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
 
   const dictionary = getDictionary(locale as Locale);
 
+  const websiteJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: SITE_NAME,
+    url: `${SITE_URL}/${locale}`,
+    inLanguage: locale,
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${SITE_URL}/${locale}/palettes/{search_term_string}`,
+      },
+      "query-input": "required name=search_term_string",
+    },
+  };
+
   return (
     <LocaleProvider locale={locale as Locale} dictionary={dictionary}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+      />
       <div className="site-container pb-[80px] md:pb-0">
         {children}
       </div>
