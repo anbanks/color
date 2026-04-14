@@ -162,9 +162,11 @@ export function AccountClient({ user }: AccountClientProps) {
               />
             </div>
           </div>
-          <Button type="submit" disabled={profilePending} size="sm">
-            {profilePending ? t.account.saving : t.account.save}
-          </Button>
+          <div className="flex justify-end">
+            <Button type="submit" disabled={profilePending} size="lg" className="min-w-[140px]">
+              {profilePending ? t.account.saving : t.account.save}
+            </Button>
+          </div>
         </form>
       </section>
 
@@ -217,9 +219,11 @@ export function AccountClient({ user }: AccountClientProps) {
               />
             </div>
           </div>
-          <Button type="submit" disabled={pending} size="sm">
-            {pending ? t.account.updating : t.account.update}
-          </Button>
+          <div className="flex justify-end">
+            <Button type="submit" disabled={pending} size="lg" className="min-w-[140px]">
+              {pending ? t.account.updating : t.account.update}
+            </Button>
+          </div>
         </form>
       </section>
 
