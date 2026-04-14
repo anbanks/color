@@ -30,7 +30,7 @@ export default function CollectionsPage() {
   const [selected, setSelected] = useState<string | null>(null);
   const [palettes, setPalettes] = useState<Palette[]>([]);
   const [selectedName, setSelectedName] = useState("");
-  const { locale } = useLocale();
+  const { locale, t } = useLocale();
   const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
@@ -54,7 +54,7 @@ export default function CollectionsPage() {
       try {
         await fetch(`/api/collections/${colId}`, { method: "DELETE" });
         setCollections(collections.filter((c) => c.id !== colId));
-        toast.success("Collection deleted");
+        toast.success(t.collections.deleted);
         if (selected === colId) {
           setSelected(null);
           setPalettes([]);
@@ -79,30 +79,30 @@ export default function CollectionsPage() {
           </div>
         </div>
         <main className="flex-1 min-w-0 px-5 py-8 box-border">
-          <h1 className="text-2xl font-semibold text-gray-800 dark:text-white mb-8">My Collections</h1>
+          <h1 className="text-2xl font-semibold text-gray-800 dark:text-white mb-8">{t.collections.title}</h1>
 
         {selected ? (
           <div>
             <button
               onClick={() => { setSelected(null); setPalettes([]); }}
-              className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-600 mb-6 transition-colors"
+              className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-600 dark:hover:text-white/70 mb-6 transition-colors cursor-pointer"
             >
               <ArrowLeft className="h-4 w-4" />
-              Back to collections
+              {t.collections.backToCollections}
             </button>
-            <h2 className="text-lg font-semibold text-gray-700 mb-6">{selectedName}</h2>
+            <h2 className="text-lg font-semibold text-gray-700 dark:text-white/80 mb-6">{selectedName}</h2>
             <PaletteGrid palettes={palettes} />
           </div>
         ) : (
           <div>
             {collections.length === 0 ? (
-              <div className="text-center py-20 text-gray-400">
-                <p className="text-lg">No collections yet</p>
+              <div className="text-center py-20 text-gray-400 dark:text-white/40">
+                <p className="text-lg">{t.collections.empty}</p>
                 <p className="text-sm mt-1">
-                  Save palettes using the bookmark icon on any palette card.
+                  {t.collections.emptyHint}
                 </p>
                 <Link href={`/${locale}`}>
-                  <Button variant="outline" className="mt-4">Browse Palettes</Button>
+                  <Button variant="outline" className="mt-4">{t.collections.browse}</Button>
                 </Link>
               </div>
             ) : (
@@ -110,12 +110,12 @@ export default function CollectionsPage() {
                 {collections.map((col) => (
                   <div
                     key={col.id}
-                    className="border border-gray-100 rounded-xl p-5 hover:shadow-sm transition-shadow cursor-pointer group"
+                    className="border border-gray-100 dark:border-white/10 rounded-xl p-5 hover:shadow-sm transition-shadow cursor-pointer group"
                   >
                     <div onClick={() => openCollection(col)} className="flex-1">
-                      <h3 className="font-medium text-gray-800">{col.name}</h3>
-                      <p className="text-sm text-gray-400 mt-1">
-                        {col.count} {col.count === 1 ? "palette" : "palettes"}
+                      <h3 className="font-medium text-gray-800 dark:text-white">{col.name}</h3>
+                      <p className="text-sm text-gray-400 dark:text-white/40 mt-1">
+                        {col.count} {t.menu.palettes.toLowerCase()}
                       </p>
                     </div>
                     <div className="flex justify-end mt-3">
