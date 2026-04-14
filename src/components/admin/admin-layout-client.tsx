@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { AdminSidebar } from "./admin-sidebar";
-import { PanelLeft, PanelLeftClose } from "lucide-react";
+import { PanelLeft } from "lucide-react";
 
 interface AdminLayoutClientProps {
   user: { name?: string | null; email?: string | null; image?: string | null };
@@ -12,7 +12,6 @@ interface AdminLayoutClientProps {
 export function AdminLayoutClient({ user, children }: AdminLayoutClientProps) {
   const [collapsed, setCollapsed] = useState(false);
   const toggle = () => setCollapsed(!collapsed);
-  const Icon = collapsed ? PanelLeft : PanelLeftClose;
 
   return (
     <div className="flex">
@@ -23,7 +22,7 @@ export function AdminLayoutClient({ user, children }: AdminLayoutClientProps) {
             onClick={toggle}
             className="h-7 w-7 rounded-md flex items-center justify-center text-gray-400 dark:text-white/30 hover:bg-gray-100 dark:hover:bg-white/[0.06] hover:text-gray-600 dark:hover:text-white/50 transition-colors"
           >
-            <Icon className="h-4 w-4" />
+            <PanelLeft className="h-4 w-4" />
           </button>
         </div>
         <div className="flex-1">{children}</div>
