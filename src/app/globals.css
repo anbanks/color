@@ -186,6 +186,11 @@
   display: none;
 }
 
+/* Admin panel — zoom only on content, not sidebar/header */
+.admin-zoom {
+  zoom: 1.1;
+}
+
 /* Dark mode — minimal overrides not covered by Tailwind dark: */
 .dark .palette {
   box-shadow: 0 10px 20px 0 rgba(0,0,0,0.3) !important;

@@ -14,8 +14,10 @@ export default async function AdminLayout({
   }
 
   return (
-    <AdminLayoutClient user={session.user}>
-      {children}
-    </AdminLayoutClient>
+    <div className="-mt-[70px]">
+      <AdminLayoutClient user={session.user}>
+        {children}
+      </AdminLayoutClient>
+    </div>
   );
 }
