@@ -30,7 +30,7 @@ async function getPalette(slug: string) {
   return results[0] || null;
 }
 
-async function getContent(paletteId: string, locale: "en" | "pt" | "es" = "en") {
+async function getContent(paletteId: string, locale: Locale = "en") {
   const { env } = await getCloudflareContext({ async: true });
   const db = getDb(env.DB);
   const results = await db.select().from(paletteContent).where(and(eq(paletteContent.paletteId, paletteId), eq(paletteContent.locale, locale))).limit(1);
@@ -103,7 +103,7 @@ export default async function PalettePage({ params }: PageProps) {
   try {
     palette = await getPalette(slug);
     if (!palette) notFound();
-    content = await getContent(palette.id, locale as "en" | "pt" | "es");
+    content = await getContent(palette.id, locale as Locale);
     related = await getRelated(palette.id);
   } catch {
     const demo = demoPalettes.find((p) => p.slug === slug);

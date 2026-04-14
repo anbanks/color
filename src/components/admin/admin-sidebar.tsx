@@ -24,6 +24,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -54,6 +55,11 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
     { code: "en", label: "English" },
     { code: "pt", label: "Português" },
     { code: "es", label: "Español" },
+    { code: "fr", label: "Français" },
+    { code: "de", label: "Deutsch" },
+    { code: "it", label: "Italiano" },
+    { code: "ja", label: "日本語" },
+    { code: "zh", label: "中文" },
   ];
 
   const switchLocale = (code: string) => {
@@ -150,18 +156,20 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
                     : "Dark mode"}
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                {languages.map((lang) => (
-                  <DropdownMenuItem
-                    key={lang.code}
-                    onClick={() => switchLocale(lang.code)}
-                  >
-                    <Globe className="mr-2 size-4" />
-                    {lang.label}
-                    {locale === lang.code && (
-                      <span className="ml-auto text-xs">✓</span>
-                    )}
-                  </DropdownMenuItem>
-                ))}
+                <ScrollArea className="h-[220px]">
+                  {languages.map((lang) => (
+                    <DropdownMenuItem
+                      key={lang.code}
+                      onClick={() => switchLocale(lang.code)}
+                    >
+                      <Globe className="mr-2 size-4" />
+                      {lang.label}
+                      {locale === lang.code && (
+                        <span className="ml-auto text-xs">✓</span>
+                      )}
+                    </DropdownMenuItem>
+                  ))}
+                </ScrollArea>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
                   className="text-red-600 dark:text-red-400"

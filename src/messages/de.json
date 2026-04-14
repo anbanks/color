@@ -1,0 +1,163 @@
+{
+  "site": {
+    "title": "Color Magic — Entdecken Sie schöne Farbpaletten",
+    "description": "Entdecken, erstellen und teilen Sie schöne Farbpaletten. Eine kuratierte Sammlung von Farbinspirationen für Designer und Entwickler."
+  },
+  "search": {
+    "placeholder": "Paletten suchen",
+    "addTag": "Tag hinzufügen",
+    "colors": "Farben",
+    "collections": "Sammlungen"
+  },
+  "nav": {
+    "trending": "Trends",
+    "popular": "Beliebt",
+    "new": "Neu",
+    "random": "Zufällig"
+  },
+  "auth": {
+    "login": "Anmelden",
+    "signIn": "Bei Ihrem Konto anmelden",
+    "signUp": "Konto erstellen",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "confirmPassword": "Passwort bestätigen",
+    "name": "Name",
+    "signInButton": "Anmelden",
+    "createAccount": "Konto erstellen",
+    "signingIn": "Anmeldung läuft...",
+    "creatingAccount": "Konto wird erstellt...",
+    "or": "oder",
+    "continueGoogle": "Mit Google fortfahren",
+    "noAccount": "Noch kein Konto?",
+    "hasAccount": "Bereits ein Konto?",
+    "createOne": "Erstellen",
+    "signInLink": "Anmelden",
+    "invalidCredentials": "Ungültige E-Mail oder Passwort",
+    "passwordMinLength": "Passwort (min. 6 Zeichen)"
+  },
+  "palette": {
+    "back": "Zurück",
+    "createTitle": "Palette erstellen",
+    "colors": "Farben",
+    "randomize": "Zufällig",
+    "tags": "Tags",
+    "tagPlaceholder": "Tag eingeben und Enter drücken",
+    "submit": "Palette einreichen",
+    "submitting": "Wird gesendet...",
+    "submitNote": "Ihre Palette wird vor der Veröffentlichung überprüft.",
+    "copied": "Kopiert",
+    "contrastCheck": "Kontrastprüfung (WCAG 2.1)",
+    "livePreview": "Live-Vorschau",
+    "relatedPalettes": "Ähnliche Paletten",
+    "noPalettes": "Noch keine Paletten",
+    "beFirst": "Sei der Erste, der eine erstellt!",
+    "practicalApps": "Praktische Anwendungen",
+    "colorPsychology": "Farbpsychologie"
+  },
+  "collections": {
+    "title": "Meine Sammlungen",
+    "empty": "Noch keine Sammlungen",
+    "emptyHint": "Speichern Sie Paletten mit dem Lesezeichen-Symbol auf einer Palettenkarte.",
+    "browse": "Paletten durchsuchen",
+    "saveToCollection": "In Sammlung speichern",
+    "newCollection": "Name der neuen Sammlung",
+    "create": "Erstellen",
+    "backToCollections": "Zurück zu Sammlungen",
+    "deleted": "Sammlung gelöscht"
+  },
+  "admin": {
+    "title": "Admin",
+    "moderation": "Moderation",
+    "pendingReview": "Zur Überprüfung",
+    "noPending": "Keine Paletten zur Überprüfung.",
+    "approve": "Genehmigen",
+    "reject": "Ablehnen",
+    "pending": "Ausstehend",
+    "approved": "Genehmigt",
+    "published": "Veröffentlicht",
+    "rejected": "Abgelehnt",
+    "all": "Alle",
+    "dashboard": "Übersicht",
+    "palettesTitle": "Paletten",
+    "palettesTotal": "Paletten insgesamt",
+    "table": {
+      "palette": "Palette",
+      "slug": "Slug",
+      "status": "Status",
+      "likes": "Likes",
+      "date": "Datum",
+      "actions": "Aktionen"
+    },
+    "noPalettes": "Keine Paletten gefunden",
+    "overview": "Übersicht Ihrer Farbpaletten-Plattform",
+    "totalPalettes": "Paletten insgesamt",
+    "pendingReview2": "Zur Überprüfung",
+    "users": "Benutzer",
+    "quickStats": "Schnellstatistiken",
+    "totalLikes": "Likes insgesamt",
+    "approvalRate": "Genehmigungsrate",
+    "quickActions": "Schnellaktionen",
+    "managePalettes": "Alle Paletten verwalten",
+    "reviewPending": "Ausstehende prüfen",
+    "backToSite": "Zurück zur Seite"
+  },
+  "footer": {
+    "rights": "Alle Rechte vorbehalten.",
+    "language": "Sprache"
+  },
+  "preview": {
+    "color1": "Hintergrund",
+    "color2": "Navigation",
+    "color3": "Akzent",
+    "color4": "Text"
+  },
+  "keyboard": {
+    "navigate": "navigieren",
+    "copyColor": "Farbe kopieren",
+    "copyAll": "alle kopieren",
+    "deselect": "abwählen"
+  },
+  "rightPanel": {
+    "title": "Farbpaletten für Designer und Künstler",
+    "description": "Entdecken Sie die neuesten von Color handverlesenen Paletten"
+  },
+  "empty": {
+    "title": "Keine Paletten gefunden",
+    "subtitle": "Versuchen Sie einen anderen Filter oder erstellen Sie Ihre eigene"
+  },
+  "time": {
+    "justNow": "Gerade eben",
+    "min": "Min",
+    "hours": "Std",
+    "yesterday": "Gestern",
+    "days": "Tage",
+    "week": "1 Woche",
+    "weeks": "Wochen",
+    "month": "1 Monat",
+    "months": "Monate",
+    "year": "1 Jahr",
+    "years": "Jahre"
+  },
+  "single": {
+    "image": "Bild",
+    "link": "Link",
+    "clickToCopy": "Klicken Sie auf eine Farbe zum Kopieren",
+    "relatedPalettes": "Ähnliche Paletten"
+  },
+  "creator": {
+    "title": "Neue Farbpalette",
+    "subtitle": "Erstellen Sie eine neue Palette und tragen Sie zur Sammlung bei",
+    "addTags": "Tags hinzufügen",
+    "submit": "Palette einreichen",
+    "submitting": "Wird gesendet..."
+  },
+  "menu": {
+    "palettes": "Paletten",
+    "create": "Erstellen",
+    "collection": "Sammlung",
+    "admin": "Admin",
+    "signOut": "Abmelden",
+    "login": "Anmelden"
+  }
+}

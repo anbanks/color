@@ -3,4 +3,4 @@ export const SITE_URL =
 
 export const SITE_NAME = "Color Magic";
 
-export const LOCALES = ["en", "pt", "es"] as const;
+export const LOCALES = ["en", "pt", "es", "fr", "de", "it", "ja", "zh"] as const;

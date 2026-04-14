@@ -1,0 +1,163 @@
+{
+  "site": {
+    "title": "Color Magic — 美しいカラーパレットを発見",
+    "description": "美しいカラーパレットを発見、作成、共有しましょう。デザイナーと開発者のために厳選された色のインスピレーション集。"
+  },
+  "search": {
+    "placeholder": "パレットを検索",
+    "addTag": "タグを追加",
+    "colors": "カラー",
+    "collections": "コレクション"
+  },
+  "nav": {
+    "trending": "トレンド",
+    "popular": "人気",
+    "new": "新着",
+    "random": "ランダム"
+  },
+  "auth": {
+    "login": "ログイン",
+    "signIn": "アカウントにサインイン",
+    "signUp": "アカウントを作成",
+    "email": "メール",
+    "password": "パスワード",
+    "confirmPassword": "パスワードを確認",
+    "name": "名前",
+    "signInButton": "サインイン",
+    "createAccount": "アカウント作成",
+    "signingIn": "サインイン中...",
+    "creatingAccount": "アカウント作成中...",
+    "or": "または",
+    "continueGoogle": "Googleで続行",
+    "noAccount": "アカウントをお持ちでない方",
+    "hasAccount": "すでにアカウントをお持ちの方",
+    "createOne": "作成する",
+    "signInLink": "サインイン",
+    "invalidCredentials": "メールまたはパスワードが正しくありません",
+    "passwordMinLength": "パスワード（最小6文字）"
+  },
+  "palette": {
+    "back": "戻る",
+    "createTitle": "パレットを作成",
+    "colors": "カラー",
+    "randomize": "ランダム",
+    "tags": "タグ",
+    "tagPlaceholder": "タグを入力してEnterを押す",
+    "submit": "パレットを送信",
+    "submitting": "送信中...",
+    "submitNote": "公開前にパレットがレビューされます。",
+    "copied": "コピーしました",
+    "contrastCheck": "コントラストチェック (WCAG 2.1)",
+    "livePreview": "ライブプレビュー",
+    "relatedPalettes": "関連パレット",
+    "noPalettes": "パレットがありません",
+    "beFirst": "最初の作成者になりましょう！",
+    "practicalApps": "実用例",
+    "colorPsychology": "色彩心理学"
+  },
+  "collections": {
+    "title": "マイコレクション",
+    "empty": "コレクションがありません",
+    "emptyHint": "パレットカードのブックマークアイコンで保存できます。",
+    "browse": "パレットを閲覧",
+    "saveToCollection": "コレクションに保存",
+    "newCollection": "新しいコレクション名",
+    "create": "作成",
+    "backToCollections": "コレクションに戻る",
+    "deleted": "コレクションを削除しました"
+  },
+  "admin": {
+    "title": "管理",
+    "moderation": "モデレーション",
+    "pendingReview": "レビュー待ち",
+    "noPending": "レビュー待ちのパレットはありません。",
+    "approve": "承認",
+    "reject": "拒否",
+    "pending": "保留中",
+    "approved": "承認済み",
+    "published": "公開済み",
+    "rejected": "拒否済み",
+    "all": "すべて",
+    "dashboard": "ダッシュボード",
+    "palettesTitle": "パレット",
+    "palettesTotal": "件のパレット",
+    "table": {
+      "palette": "パレット",
+      "slug": "スラッグ",
+      "status": "ステータス",
+      "likes": "いいね",
+      "date": "日付",
+      "actions": "操作"
+    },
+    "noPalettes": "パレットが見つかりません",
+    "overview": "カラーパレットプラットフォームの概要",
+    "totalPalettes": "総パレット数",
+    "pendingReview2": "レビュー待ち",
+    "users": "ユーザー",
+    "quickStats": "クイック統計",
+    "totalLikes": "総いいね数",
+    "approvalRate": "承認率",
+    "quickActions": "クイックアクション",
+    "managePalettes": "すべてのパレットを管理",
+    "reviewPending": "保留中をレビュー",
+    "backToSite": "サイトに戻る"
+  },
+  "footer": {
+    "rights": "全著作権所有。",
+    "language": "言語"
+  },
+  "preview": {
+    "color1": "背景",
+    "color2": "ナビゲーション",
+    "color3": "アクセント",
+    "color4": "テキスト"
+  },
+  "keyboard": {
+    "navigate": "ナビゲート",
+    "copyColor": "色をコピー",
+    "copyAll": "すべてコピー",
+    "deselect": "選択解除"
+  },
+  "rightPanel": {
+    "title": "デザイナーとアーティストのためのカラーパレット",
+    "description": "Colorが厳選した最新のパレットを見る"
+  },
+  "empty": {
+    "title": "パレットが見つかりません",
+    "subtitle": "別のフィルターを試すか、自分で作成しましょう"
+  },
+  "time": {
+    "justNow": "たった今",
+    "min": "分",
+    "hours": "時間",
+    "yesterday": "昨日",
+    "days": "日",
+    "week": "1週間",
+    "weeks": "週間",
+    "month": "1ヶ月",
+    "months": "ヶ月",
+    "year": "1年",
+    "years": "年"
+  },
+  "single": {
+    "image": "画像",
+    "link": "リンク",
+    "clickToCopy": "色をクリックしてコピー",
+    "relatedPalettes": "関連パレット"
+  },
+  "creator": {
+    "title": "新しいカラーパレット",
+    "subtitle": "新しいパレットを作成してコレクションに貢献しましょう",
+    "addTags": "タグを追加",
+    "submit": "パレットを送信",
+    "submitting": "送信中..."
+  },
+  "menu": {
+    "palettes": "パレット",
+    "create": "作成",
+    "collection": "コレクション",
+    "admin": "管理",
+    "signOut": "ログアウト",
+    "login": "ログイン"
+  }
+}

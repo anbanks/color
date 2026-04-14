@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import { NextResponse } from "next/server";
 
-const locales = ["en", "pt", "es"];
+const locales = ["en", "pt", "es", "fr", "de", "it", "ja", "zh"];
 const defaultLocale = "en";
 
 const protectedPaths = ["/create", "/collections"];

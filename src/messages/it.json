@@ -1,0 +1,163 @@
+{
+  "site": {
+    "title": "Color Magic — Scopri Bellissime Palette di Colori",
+    "description": "Scopri, crea e condividi bellissime palette di colori. Una collezione curata di ispirazioni cromatiche per designer e sviluppatori."
+  },
+  "search": {
+    "placeholder": "Cerca palette",
+    "addTag": "Aggiungi tag",
+    "colors": "Colori",
+    "collections": "Collezioni"
+  },
+  "nav": {
+    "trending": "Di tendenza",
+    "popular": "Popolari",
+    "new": "Nuove",
+    "random": "Casuali"
+  },
+  "auth": {
+    "login": "Accedi",
+    "signIn": "Accedi al tuo account",
+    "signUp": "Crea il tuo account",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Conferma password",
+    "name": "Nome",
+    "signInButton": "Accedi",
+    "createAccount": "Crea account",
+    "signingIn": "Accesso in corso...",
+    "creatingAccount": "Creazione account...",
+    "or": "o",
+    "continueGoogle": "Continua con Google",
+    "noAccount": "Non hai un account?",
+    "hasAccount": "Hai già un account?",
+    "createOne": "Creane uno",
+    "signInLink": "Accedi",
+    "invalidCredentials": "Email o password non valida",
+    "passwordMinLength": "Password (min 6 caratteri)"
+  },
+  "palette": {
+    "back": "Indietro",
+    "createTitle": "Crea una palette",
+    "colors": "Colori",
+    "randomize": "Casuale",
+    "tags": "Tag",
+    "tagPlaceholder": "Digita un tag e premi Invio",
+    "submit": "Invia palette",
+    "submitting": "Invio in corso...",
+    "submitNote": "La tua palette sarà revisionata prima della pubblicazione.",
+    "copied": "Copiato",
+    "contrastCheck": "Verifica contrasto (WCAG 2.1)",
+    "livePreview": "Anteprima dal vivo",
+    "relatedPalettes": "Palette correlate",
+    "noPalettes": "Nessuna palette",
+    "beFirst": "Sii il primo a crearne una!",
+    "practicalApps": "Applicazioni pratiche",
+    "colorPsychology": "Psicologia del colore"
+  },
+  "collections": {
+    "title": "Le mie collezioni",
+    "empty": "Nessuna collezione",
+    "emptyHint": "Salva palette usando l'icona segnalibro su qualsiasi card.",
+    "browse": "Esplora palette",
+    "saveToCollection": "Salva nella collezione",
+    "newCollection": "Nome nuova collezione",
+    "create": "Crea",
+    "backToCollections": "Torna alle collezioni",
+    "deleted": "Collezione eliminata"
+  },
+  "admin": {
+    "title": "Admin",
+    "moderation": "Moderazione",
+    "pendingReview": "In attesa di revisione",
+    "noPending": "Nessuna palette in attesa.",
+    "approve": "Approva",
+    "reject": "Rifiuta",
+    "pending": "In attesa",
+    "approved": "Approvata",
+    "published": "Pubblicata",
+    "rejected": "Rifiutata",
+    "all": "Tutte",
+    "dashboard": "Dashboard",
+    "palettesTitle": "Palette",
+    "palettesTotal": "palette in totale",
+    "table": {
+      "palette": "Palette",
+      "slug": "Slug",
+      "status": "Stato",
+      "likes": "Mi piace",
+      "date": "Data",
+      "actions": "Azioni"
+    },
+    "noPalettes": "Nessuna palette trovata",
+    "overview": "Panoramica della tua piattaforma di palette",
+    "totalPalettes": "Palette totali",
+    "pendingReview2": "In attesa di revisione",
+    "users": "Utenti",
+    "quickStats": "Statistiche rapide",
+    "totalLikes": "Mi piace totali",
+    "approvalRate": "Tasso di approvazione",
+    "quickActions": "Azioni rapide",
+    "managePalettes": "Gestisci tutte le palette",
+    "reviewPending": "Revisiona in attesa",
+    "backToSite": "Torna al sito"
+  },
+  "footer": {
+    "rights": "Tutti i diritti riservati.",
+    "language": "Lingua"
+  },
+  "preview": {
+    "color1": "Sfondo",
+    "color2": "Navigazione",
+    "color3": "Accento",
+    "color4": "Testo"
+  },
+  "keyboard": {
+    "navigate": "naviga",
+    "copyColor": "copia colore",
+    "copyAll": "copia tutto",
+    "deselect": "deseleziona"
+  },
+  "rightPanel": {
+    "title": "Palette di colori per designer e artisti",
+    "description": "Scopri le palette più recenti selezionate da Color"
+  },
+  "empty": {
+    "title": "Nessuna palette trovata",
+    "subtitle": "Prova un filtro diverso o crea la tua"
+  },
+  "time": {
+    "justNow": "Adesso",
+    "min": "min",
+    "hours": "ore",
+    "yesterday": "Ieri",
+    "days": "giorni",
+    "week": "1 settimana",
+    "weeks": "settimane",
+    "month": "1 mese",
+    "months": "mesi",
+    "year": "1 anno",
+    "years": "anni"
+  },
+  "single": {
+    "image": "Immagine",
+    "link": "Link",
+    "clickToCopy": "Clicca un colore per copiare",
+    "relatedPalettes": "Palette correlate"
+  },
+  "creator": {
+    "title": "Nuova palette di colori",
+    "subtitle": "Crea una nuova palette e contribuisci alla nostra collezione",
+    "addTags": "Aggiungi tag",
+    "submit": "Invia palette",
+    "submitting": "Invio in corso..."
+  },
+  "menu": {
+    "palettes": "Palette",
+    "create": "Crea",
+    "collection": "Collezione",
+    "admin": "Admin",
+    "signOut": "Esci",
+    "login": "Accedi"
+  }
+}

@@ -1,0 +1,163 @@
+{
+  "site": {
+    "title": "Color Magic — 发现精美调色板",
+    "description": "发现、创建和分享精美的调色板。为设计师和开发者精心策划的色彩灵感集。"
+  },
+  "search": {
+    "placeholder": "搜索调色板",
+    "addTag": "添加标签",
+    "colors": "颜色",
+    "collections": "合集"
+  },
+  "nav": {
+    "trending": "热门",
+    "popular": "流行",
+    "new": "最新",
+    "random": "随机"
+  },
+  "auth": {
+    "login": "登录",
+    "signIn": "登录您的账户",
+    "signUp": "创建您的账户",
+    "email": "邮箱",
+    "password": "密码",
+    "confirmPassword": "确认密码",
+    "name": "姓名",
+    "signInButton": "登录",
+    "createAccount": "创建账户",
+    "signingIn": "登录中...",
+    "creatingAccount": "创建账户中...",
+    "or": "或",
+    "continueGoogle": "使用 Google 继续",
+    "noAccount": "还没有账户？",
+    "hasAccount": "已有账户？",
+    "createOne": "创建一个",
+    "signInLink": "登录",
+    "invalidCredentials": "邮箱或密码无效",
+    "passwordMinLength": "密码（至少6个字符）"
+  },
+  "palette": {
+    "back": "返回",
+    "createTitle": "创建调色板",
+    "colors": "颜色",
+    "randomize": "随机",
+    "tags": "标签",
+    "tagPlaceholder": "输入标签并按 Enter",
+    "submit": "提交调色板",
+    "submitting": "提交中...",
+    "submitNote": "您的调色板将在发布前接受审核。",
+    "copied": "已复制",
+    "contrastCheck": "对比度检查 (WCAG 2.1)",
+    "livePreview": "实时预览",
+    "relatedPalettes": "相关调色板",
+    "noPalettes": "暂无调色板",
+    "beFirst": "成为第一个创建者吧！",
+    "practicalApps": "实际应用",
+    "colorPsychology": "色彩心理学"
+  },
+  "collections": {
+    "title": "我的收藏",
+    "empty": "暂无收藏",
+    "emptyHint": "通过任意调色板卡片上的书签图标保存。",
+    "browse": "浏览调色板",
+    "saveToCollection": "保存到收藏",
+    "newCollection": "新收藏名称",
+    "create": "创建",
+    "backToCollections": "返回收藏",
+    "deleted": "收藏已删除"
+  },
+  "admin": {
+    "title": "管理",
+    "moderation": "审核",
+    "pendingReview": "待审核",
+    "noPending": "没有待审核的调色板。",
+    "approve": "批准",
+    "reject": "拒绝",
+    "pending": "待处理",
+    "approved": "已批准",
+    "published": "已发布",
+    "rejected": "已拒绝",
+    "all": "全部",
+    "dashboard": "仪表板",
+    "palettesTitle": "调色板",
+    "palettesTotal": "个调色板",
+    "table": {
+      "palette": "调色板",
+      "slug": "Slug",
+      "status": "状态",
+      "likes": "点赞",
+      "date": "日期",
+      "actions": "操作"
+    },
+    "noPalettes": "未找到调色板",
+    "overview": "您的调色板平台概览",
+    "totalPalettes": "调色板总数",
+    "pendingReview2": "待审核",
+    "users": "用户",
+    "quickStats": "快速统计",
+    "totalLikes": "总点赞数",
+    "approvalRate": "通过率",
+    "quickActions": "快速操作",
+    "managePalettes": "管理所有调色板",
+    "reviewPending": "审核待处理",
+    "backToSite": "返回站点"
+  },
+  "footer": {
+    "rights": "保留所有权利。",
+    "language": "语言"
+  },
+  "preview": {
+    "color1": "背景",
+    "color2": "导航",
+    "color3": "强调",
+    "color4": "文本"
+  },
+  "keyboard": {
+    "navigate": "导航",
+    "copyColor": "复制颜色",
+    "copyAll": "全部复制",
+    "deselect": "取消选择"
+  },
+  "rightPanel": {
+    "title": "为设计师和艺术家精选的调色板",
+    "description": "发现 Color 精选的最新调色板"
+  },
+  "empty": {
+    "title": "未找到调色板",
+    "subtitle": "尝试不同的筛选条件或创建您自己的"
+  },
+  "time": {
+    "justNow": "刚刚",
+    "min": "分钟",
+    "hours": "小时",
+    "yesterday": "昨天",
+    "days": "天",
+    "week": "1 周",
+    "weeks": "周",
+    "month": "1 个月",
+    "months": "个月",
+    "year": "1 年",
+    "years": "年"
+  },
+  "single": {
+    "image": "图片",
+    "link": "链接",
+    "clickToCopy": "点击颜色复制",
+    "relatedPalettes": "相关调色板"
+  },
+  "creator": {
+    "title": "新调色板",
+    "subtitle": "创建新调色板并为我们的合集做贡献",
+    "addTags": "添加标签",
+    "submit": "提交调色板",
+    "submitting": "提交中..."
+  },
+  "menu": {
+    "palettes": "调色板",
+    "create": "创建",
+    "collection": "收藏",
+    "admin": "管理",
+    "signOut": "退出登录",
+    "login": "登录"
+  }
+}

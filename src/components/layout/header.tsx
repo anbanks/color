@@ -16,6 +16,18 @@ import { useSession, signOut } from "next-auth/react";
 import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { LogoDrop } from "@/components/logo-drop";
+import { ScrollArea } from "@/components/ui/scroll-area";
+
+const LANGUAGES: { code: string; label: string }[] = [
+  { code: "en", label: "English" },
+  { code: "pt", label: "Português" },
+  { code: "es", label: "Español" },
+  { code: "fr", label: "Français" },
+  { code: "de", label: "Deutsch" },
+  { code: "it", label: "Italiano" },
+  { code: "ja", label: "日本語" },
+  { code: "zh", label: "中文" },
+];
 
 const SEARCH_COLORS = [
   { name: "Blue", hex: "#5B9BD5" },
@@ -162,24 +174,23 @@ export function Header() {
               <Globe className="h-[15px] w-[15px]" strokeWidth={1.5} />
               {locale.toUpperCase()}
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-36 rounded-xl shadow-xl shadow-black/[0.06] border-gray-200/80 dark:border-white/10 dark:bg-[#252525] p-1.5">
-              {[
-                { code: "en", label: "English" },
-                { code: "pt", label: "Português" },
-                { code: "es", label: "Español" },
-              ].map((lang) => (
-                <DropdownMenuItem
-                  key={lang.code}
-                  className={cn("rounded-lg px-3 py-2 text-[13px] cursor-pointer", locale === lang.code && "font-medium")}
-                  onClick={() => {
-                    const segments = pathname.split("/");
-                    segments[1] = lang.code;
-                    router.push(segments.join("/"));
-                  }}
-                >
-                  {lang.label}
-                </DropdownMenuItem>
-              ))}
+            <DropdownMenuContent align="end" className="w-40 rounded-xl shadow-xl shadow-black/[0.06] border-gray-200/80 dark:border-white/10 dark:bg-[#252525] p-1.5">
+              <ScrollArea className="h-[260px] pr-2">
+                {LANGUAGES.map((lang) => (
+                  <DropdownMenuItem
+                    key={lang.code}
+                    className={cn("rounded-lg px-3 py-2 text-[13px] cursor-pointer", locale === lang.code && "font-medium bg-gray-50 dark:bg-white/[0.04]")}
+                    onClick={() => {
+                      const segments = pathname.split("/");
+                      segments[1] = lang.code;
+                      router.push(segments.join("/"));
+                    }}
+                  >
+                    {lang.label}
+                    {locale === lang.code && <span className="ml-auto text-[11px] text-gray-400">✓</span>}
+                  </DropdownMenuItem>
+                ))}
+              </ScrollArea>
             </DropdownMenuContent>
           </DropdownMenu>
 
@@ -227,25 +238,25 @@ export function Header() {
                   {theme === "dark" ? <Sun className="h-4 w-4 mr-2 text-yellow-400" /> : <Moon className="h-4 w-4 mr-2 text-gray-500" />}
                   {theme === "dark" ? "Light" : "Dark"}
                 </DropdownMenuItem>
-                {[
-                  { code: "en", label: "English" },
-                  { code: "pt", label: "Português" },
-                  { code: "es", label: "Español" },
-                ].map((lang) => (
-                  <DropdownMenuItem
-                    key={lang.code}
-                    className={cn("xl:hidden rounded-lg px-3 py-2 text-[13px] cursor-pointer", locale === lang.code && "font-medium")}
-                    onClick={() => {
-                      const segments = pathname.split("/");
-                      segments[1] = lang.code;
-                      router.push(segments.join("/"));
-                    }}
-                  >
-                    <Globe className="h-4 w-4 mr-2 text-gray-400" />
-                    {lang.label}
-                    {locale === lang.code && <span className="ml-auto text-[11px] text-gray-400">✓</span>}
-                  </DropdownMenuItem>
-                ))}
+                <div className="xl:hidden">
+                  <ScrollArea className="max-h-[220px]">
+                    {LANGUAGES.map((lang) => (
+                      <DropdownMenuItem
+                        key={lang.code}
+                        className={cn("rounded-lg px-3 py-2 text-[13px] cursor-pointer", locale === lang.code && "font-medium")}
+                        onClick={() => {
+                          const segments = pathname.split("/");
+                          segments[1] = lang.code;
+                          router.push(segments.join("/"));
+                        }}
+                      >
+                        <Globe className="h-4 w-4 mr-2 text-gray-400" />
+                        {lang.label}
+                        {locale === lang.code && <span className="ml-auto text-[11px] text-gray-400">✓</span>}
+                      </DropdownMenuItem>
+                    ))}
+                  </ScrollArea>
+                </div>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]" onClick={() => signOut()}>
                   {t.menu.signOut}
@@ -274,25 +285,25 @@ export function Header() {
                   {theme === "dark" ? <Sun className="h-4 w-4 mr-2 text-yellow-400" /> : <Moon className="h-4 w-4 mr-2 text-gray-500" />}
                   {theme === "dark" ? "Light" : "Dark"}
                 </DropdownMenuItem>
-                {[
-                  { code: "en", label: "English" },
-                  { code: "pt", label: "Português" },
-                  { code: "es", label: "Español" },
-                ].map((lang) => (
-                  <DropdownMenuItem
-                    key={lang.code}
-                    className={cn("xl:hidden rounded-lg px-3 py-2 text-[13px] cursor-pointer", locale === lang.code && "font-medium")}
-                    onClick={() => {
-                      const segments = pathname.split("/");
-                      segments[1] = lang.code;
-                      router.push(segments.join("/"));
-                    }}
-                  >
-                    <Globe className="h-4 w-4 mr-2 text-gray-400" />
-                    {lang.label}
-                    {locale === lang.code && <span className="ml-auto text-[11px] text-gray-400">✓</span>}
-                  </DropdownMenuItem>
-                ))}
+                <div className="xl:hidden">
+                  <ScrollArea className="max-h-[220px]">
+                    {LANGUAGES.map((lang) => (
+                      <DropdownMenuItem
+                        key={lang.code}
+                        className={cn("rounded-lg px-3 py-2 text-[13px] cursor-pointer", locale === lang.code && "font-medium")}
+                        onClick={() => {
+                          const segments = pathname.split("/");
+                          segments[1] = lang.code;
+                          router.push(segments.join("/"));
+                        }}
+                      >
+                        <Globe className="h-4 w-4 mr-2 text-gray-400" />
+                        {lang.label}
+                        {locale === lang.code && <span className="ml-auto text-[11px] text-gray-400">✓</span>}
+                      </DropdownMenuItem>
+                    ))}
+                  </ScrollArea>
+                </div>
               </DropdownMenuContent>
             </DropdownMenu>
           )}
