@@ -79,11 +79,10 @@ export function Header() {
             <span className="text-[19px] font-semibold tracking-tight text-gray-900 dark:text-white">Color Magic</span>
           </Link>
         </div>
-        {/* Logo mobile */}
-        <div className="md:hidden pl-4 pr-2">
-          <Link href={`/${locale}`} className="logo flex items-center gap-2">
-            <LogoDrop className="h-[26px] w-[26px] shrink-0 text-gray-900 dark:text-white" />
-            <span className="text-[16px] font-semibold tracking-tight text-gray-900 dark:text-white">Color Magic</span>
+        {/* Logo mobile — icon only */}
+        <div className="md:hidden pl-4 pr-2 shrink-0">
+          <Link href={`/${locale}`} className="logo flex items-center">
+            <LogoDrop className="h-[28px] w-[28px] shrink-0 text-gray-900 dark:text-white" />
           </Link>
         </div>
 
@@ -155,11 +154,11 @@ export function Header() {
           </div>
         </div>
 
-        {/* Menu — right side */}
-        <div className="min-w-[340px] max-w-[340px] shrink-0 hidden xl:flex items-center justify-end gap-1.5 px-5 box-border">
-          {/* Language selector */}
+        {/* Menu — right side (profile/more always, lang/theme xl+) */}
+        <div className="shrink-0 flex items-center justify-end gap-1.5 px-3 md:px-5 box-border xl:min-w-[340px] xl:max-w-[340px]">
+          {/* Language selector — xl+ only */}
           <DropdownMenu>
-            <DropdownMenuTrigger className="h-[38px] px-[10px] rounded-full flex items-center gap-[5px] hover:bg-black/5 dark:hover:bg-white/10 transition-colors outline-none text-[13px] text-gray-500 dark:text-white/60 cursor-pointer">
+            <DropdownMenuTrigger className="h-[38px] px-[10px] rounded-full hidden xl:flex items-center gap-[5px] hover:bg-black/5 dark:hover:bg-white/10 transition-colors outline-none text-[13px] text-gray-500 dark:text-white/60 cursor-pointer">
               <Globe className="h-[15px] w-[15px]" strokeWidth={1.5} />
               {locale.toUpperCase()}
             </DropdownMenuTrigger>
@@ -184,10 +183,10 @@ export function Header() {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          {/* Theme toggle */}
+          {/* Theme toggle — xl+ only */}
           <button
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="h-[38px] w-[38px] rounded-full flex items-center justify-center hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer"
+            className="h-[38px] w-[38px] rounded-full hidden xl:flex items-center justify-center hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer"
             title={theme === "dark" ? "Light mode" : "Dark mode"}
           >
             {theme === "dark" ? (
@@ -205,7 +204,7 @@ export function Header() {
                 </div>
                 <ChevronDown className="h-[15px] w-[15px] text-gray-500 dark:text-white/50 transition-transform duration-200 group-data-[popup-open]:rotate-180" strokeWidth={2} />
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48 rounded-xl shadow-xl shadow-black/[0.06] border-gray-200/80 dark:border-white/10 dark:bg-[#252525] p-1.5">
+              <DropdownMenuContent align="end" className="w-52 rounded-xl shadow-xl shadow-black/[0.06] border-gray-200/80 dark:border-white/10 dark:bg-[#252525] p-1.5">
                 <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
                   <Link href={`/${locale}`} className="w-full">{t.menu.palettes}</Link>
                 </DropdownMenuItem>
@@ -220,6 +219,33 @@ export function Header() {
                     <Link href={`/${locale}/admin`} className="w-full">{t.menu.admin}</Link>
                   </DropdownMenuItem>
                 )}
+                <DropdownMenuSeparator className="xl:hidden" />
+                <DropdownMenuItem
+                  className="xl:hidden rounded-lg px-3 py-2 text-[13px] cursor-pointer"
+                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                >
+                  {theme === "dark" ? <Sun className="h-4 w-4 mr-2 text-yellow-400" /> : <Moon className="h-4 w-4 mr-2 text-gray-500" />}
+                  {theme === "dark" ? "Light" : "Dark"}
+                </DropdownMenuItem>
+                {[
+                  { code: "en", label: "English" },
+                  { code: "pt", label: "Português" },
+                  { code: "es", label: "Español" },
+                ].map((lang) => (
+                  <DropdownMenuItem
+                    key={lang.code}
+                    className={cn("xl:hidden rounded-lg px-3 py-2 text-[13px] cursor-pointer", locale === lang.code && "font-medium")}
+                    onClick={() => {
+                      const segments = pathname.split("/");
+                      segments[1] = lang.code;
+                      router.push(segments.join("/"));
+                    }}
+                  >
+                    <Globe className="h-4 w-4 mr-2 text-gray-400" />
+                    {lang.label}
+                    {locale === lang.code && <span className="ml-auto text-[11px] text-gray-400">✓</span>}
+                  </DropdownMenuItem>
+                ))}
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]" onClick={() => signOut()}>
                   {t.menu.signOut}
@@ -233,13 +259,40 @@ export function Header() {
                   <MoreHorizontal className="h-[20px] w-[20px] text-gray-700 dark:text-white/70" strokeWidth={2} />
                 </div>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48 rounded-xl shadow-xl shadow-black/[0.06] border-gray-200/80 dark:border-white/10 dark:bg-[#252525] p-1.5">
+              <DropdownMenuContent align="end" className="w-52 rounded-xl shadow-xl shadow-black/[0.06] border-gray-200/80 dark:border-white/10 dark:bg-[#252525] p-1.5">
                 <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
                   <Link href={`/${locale}`} className="w-full">{t.menu.palettes}</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
                   <Link href={`/${locale}/login`} className="w-full">{t.menu.login}</Link>
                 </DropdownMenuItem>
+                <DropdownMenuSeparator className="xl:hidden" />
+                <DropdownMenuItem
+                  className="xl:hidden rounded-lg px-3 py-2 text-[13px] cursor-pointer"
+                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                >
+                  {theme === "dark" ? <Sun className="h-4 w-4 mr-2 text-yellow-400" /> : <Moon className="h-4 w-4 mr-2 text-gray-500" />}
+                  {theme === "dark" ? "Light" : "Dark"}
+                </DropdownMenuItem>
+                {[
+                  { code: "en", label: "English" },
+                  { code: "pt", label: "Português" },
+                  { code: "es", label: "Español" },
+                ].map((lang) => (
+                  <DropdownMenuItem
+                    key={lang.code}
+                    className={cn("xl:hidden rounded-lg px-3 py-2 text-[13px] cursor-pointer", locale === lang.code && "font-medium")}
+                    onClick={() => {
+                      const segments = pathname.split("/");
+                      segments[1] = lang.code;
+                      router.push(segments.join("/"));
+                    }}
+                  >
+                    <Globe className="h-4 w-4 mr-2 text-gray-400" />
+                    {lang.label}
+                    {locale === lang.code && <span className="ml-auto text-[11px] text-gray-400">✓</span>}
+                  </DropdownMenuItem>
+                ))}
               </DropdownMenuContent>
             </DropdownMenu>
           )}
