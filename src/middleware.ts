@@ -23,10 +23,11 @@ function detectLocale(acceptLang: string): string {
 export default auth((req) => {
   const { pathname } = req.nextUrl;
 
-  // Skip API, _next, static files
+  // Skip API, _next, static files, and locale-agnostic routes
   if (
     pathname.startsWith("/api") ||
     pathname.startsWith("/_next") ||
+    pathname === "/extension" ||
     pathname.includes(".")
   ) {
     return NextResponse.next();
