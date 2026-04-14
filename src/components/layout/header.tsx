@@ -70,7 +70,7 @@ export function Header() {
   };
 
   return (
-    <header className="fixed top-0 left-0 w-full z-10 bg-white dark:bg-[#1a1a1a] border-b border-transparent dark:border-white/[0.06]" style={{ padding: "10px 0" }}>
+    <header className="fixed top-0 left-0 w-full z-10 bg-white dark:bg-[#1a1a1a]" style={{ padding: "10px 0" }}>
       <div className="site-container flex items-center">
         {/* Logo — .left min-width:200px */}
         <div className="min-w-[200px] shrink-0 hidden md:block px-5 box-border">
