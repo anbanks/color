@@ -1,0 +1,163 @@
+{
+  "site": {
+    "title": "Color Magic — सुंदर रंग पैलेट खोजें",
+    "description": "सुंदर रंग पैलेट खोजें, बनाएं और साझा करें। डिज़ाइनरों और डेवलपर्स के लिए रंग प्रेरणा का एक चयनित संग्रह।"
+  },
+  "search": {
+    "placeholder": "पैलेट खोजें",
+    "addTag": "टैग जोड़ें",
+    "colors": "रंग",
+    "collections": "संग्रह"
+  },
+  "nav": {
+    "trending": "ट्रेंडिंग",
+    "popular": "लोकप्रिय",
+    "new": "नया",
+    "random": "यादृच्छिक"
+  },
+  "auth": {
+    "login": "लॉगिन",
+    "signIn": "अपने खाते में साइन इन करें",
+    "signUp": "अपना खाता बनाएं",
+    "email": "ईमेल",
+    "password": "पासवर्ड",
+    "confirmPassword": "पासवर्ड की पुष्टि करें",
+    "name": "नाम",
+    "signInButton": "साइन इन",
+    "createAccount": "खाता बनाएं",
+    "signingIn": "साइन इन हो रहा है...",
+    "creatingAccount": "खाता बनाया जा रहा है...",
+    "or": "या",
+    "continueGoogle": "Google के साथ जारी रखें",
+    "noAccount": "खाता नहीं है?",
+    "hasAccount": "पहले से खाता है?",
+    "createOne": "बनाएं",
+    "signInLink": "साइन इन",
+    "invalidCredentials": "अमान्य ईमेल या पासवर्ड",
+    "passwordMinLength": "पासवर्ड (न्यूनतम 6 अक्षर)"
+  },
+  "palette": {
+    "back": "वापस",
+    "createTitle": "पैलेट बनाएं",
+    "colors": "रंग",
+    "randomize": "यादृच्छिक",
+    "tags": "टैग",
+    "tagPlaceholder": "टैग टाइप करें और एंटर दबाएं",
+    "submit": "पैलेट जमा करें",
+    "submitting": "जमा हो रहा है...",
+    "submitNote": "प्रकाशित होने से पहले आपके पैलेट की समीक्षा की जाएगी।",
+    "copied": "कॉपी किया गया",
+    "contrastCheck": "कंट्रास्ट जांच (WCAG 2.1)",
+    "livePreview": "लाइव पूर्वावलोकन",
+    "relatedPalettes": "संबंधित पैलेट",
+    "noPalettes": "अभी कोई पैलेट नहीं",
+    "beFirst": "पहला बनाएं!",
+    "practicalApps": "व्यावहारिक उपयोग",
+    "colorPsychology": "रंग मनोविज्ञान"
+  },
+  "collections": {
+    "title": "मेरे संग्रह",
+    "empty": "अभी कोई संग्रह नहीं",
+    "emptyHint": "किसी भी पैलेट कार्ड पर बुकमार्क आइकन से पैलेट सहेजें।",
+    "browse": "पैलेट ब्राउज़ करें",
+    "saveToCollection": "संग्रह में सहेजें",
+    "newCollection": "नए संग्रह का नाम",
+    "create": "बनाएं",
+    "backToCollections": "संग्रह पर वापस",
+    "deleted": "संग्रह हटाया गया"
+  },
+  "admin": {
+    "title": "एडमिन",
+    "moderation": "मॉडरेशन",
+    "pendingReview": "समीक्षा लंबित",
+    "noPending": "कोई पैलेट समीक्षा के लिए लंबित नहीं।",
+    "approve": "स्वीकार करें",
+    "reject": "अस्वीकार करें",
+    "pending": "लंबित",
+    "approved": "स्वीकृत",
+    "published": "प्रकाशित",
+    "rejected": "अस्वीकृत",
+    "all": "सभी",
+    "dashboard": "डैशबोर्ड",
+    "palettesTitle": "पैलेट",
+    "palettesTotal": "कुल पैलेट",
+    "table": {
+      "palette": "पैलेट",
+      "slug": "स्लग",
+      "status": "स्थिति",
+      "likes": "लाइक",
+      "date": "दिनांक",
+      "actions": "क्रियाएं"
+    },
+    "noPalettes": "कोई पैलेट नहीं मिला",
+    "overview": "आपके रंग पैलेट प्लेटफ़ॉर्म का अवलोकन",
+    "totalPalettes": "कुल पैलेट",
+    "pendingReview2": "समीक्षा लंबित",
+    "users": "उपयोगकर्ता",
+    "quickStats": "त्वरित आंकड़े",
+    "totalLikes": "कुल लाइक",
+    "approvalRate": "स्वीकृति दर",
+    "quickActions": "त्वरित क्रियाएं",
+    "managePalettes": "सभी पैलेट प्रबंधित करें",
+    "reviewPending": "लंबित समीक्षा",
+    "backToSite": "साइट पर वापस"
+  },
+  "footer": {
+    "rights": "सर्वाधिकार सुरक्षित।",
+    "language": "भाषा"
+  },
+  "preview": {
+    "color1": "पृष्ठभूमि",
+    "color2": "नेविगेशन",
+    "color3": "एक्सेंट",
+    "color4": "टेक्स्ट"
+  },
+  "keyboard": {
+    "navigate": "नेविगेट",
+    "copyColor": "रंग कॉपी करें",
+    "copyAll": "सभी कॉपी करें",
+    "deselect": "अचयनित"
+  },
+  "rightPanel": {
+    "title": "डिज़ाइनरों और कलाकारों के लिए रंग पैलेट",
+    "description": "Color के नवीनतम चयनित पैलेट खोजें"
+  },
+  "empty": {
+    "title": "कोई पैलेट नहीं मिला",
+    "subtitle": "अलग फ़िल्टर आज़माएं या अपना खुद का बनाएं"
+  },
+  "time": {
+    "justNow": "अभी",
+    "min": "मिनट",
+    "hours": "घंटे",
+    "yesterday": "कल",
+    "days": "दिन",
+    "week": "1 सप्ताह",
+    "weeks": "सप्ताह",
+    "month": "1 महीना",
+    "months": "महीने",
+    "year": "1 साल",
+    "years": "साल"
+  },
+  "single": {
+    "image": "छवि",
+    "link": "लिंक",
+    "clickToCopy": "कॉपी करने के लिए रंग पर क्लिक करें",
+    "relatedPalettes": "संबंधित पैलेट"
+  },
+  "creator": {
+    "title": "नया रंग पैलेट",
+    "subtitle": "नया पैलेट बनाएं और हमारे संग्रह में योगदान दें",
+    "addTags": "टैग जोड़ें",
+    "submit": "पैलेट जमा करें",
+    "submitting": "जमा हो रहा है..."
+  },
+  "menu": {
+    "palettes": "पैलेट",
+    "create": "बनाएं",
+    "collection": "संग्रह",
+    "admin": "एडमिन",
+    "signOut": "साइन आउट",
+    "login": "लॉगिन"
+  }
+}

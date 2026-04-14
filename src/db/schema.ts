@@ -78,7 +78,7 @@ export const paletteContent = sqliteTable("palette_content", {
     .notNull()
     .references(() => palettes.id, { onDelete: "cascade" }),
   locale: text("locale", {
-    enum: ["en", "pt", "es", "fr", "de", "it", "ja", "zh"],
+    enum: ["en", "pt", "es", "fr", "de", "it", "ja", "zh", "hi"],
   }).notNull(),
   title: text("title").notNull(),
   description: text("description").notNull(),

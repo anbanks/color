@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useLocale } from "@/lib/locale-context";
 import { Sparkles, Flame, Orbit, Bookmark } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { tagLabel } from "@/lib/tag-labels";
 
 const navItems = [
   { path: "", key: "new" as const, icon: Sparkles },
@@ -22,6 +23,7 @@ const navLabels: Record<string, Record<string, string>> = {
   it: { new: "Nuove", popular: "Popolari", random: "Casuali", collection: "Collezione" },
   ja: { new: "新着", popular: "人気", random: "ランダム", collection: "コレクション" },
   zh: { new: "最新", popular: "流行", random: "随机", collection: "收藏" },
+  hi: { new: "नया", popular: "लोकप्रिय", random: "यादृच्छिक", collection: "संग्रह" },
 };
 
 const tags = [
@@ -88,7 +90,7 @@ export function Sidebar() {
                 opacity: isActive ? 1 : Math.max(0.1, 0.8 - (i * 0.05)),
               }}
             >
-              {tag}
+              {tagLabel(tag, locale)}
             </Link>
           );
         })}

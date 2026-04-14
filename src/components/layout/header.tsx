@@ -17,6 +17,7 @@ import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { LogoDrop } from "@/components/logo-drop";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { tagLabel, colorLabel } from "@/lib/tag-labels";
 
 const LANGUAGES: { code: string; label: string }[] = [
   { code: "en", label: "English" },
@@ -27,6 +28,7 @@ const LANGUAGES: { code: string; label: string }[] = [
   { code: "it", label: "Italiano" },
   { code: "ja", label: "日本語" },
   { code: "zh", label: "中文" },
+  { code: "hi", label: "हिन्दी" },
 ];
 
 const SEARCH_COLORS = [
@@ -145,7 +147,7 @@ export function Header() {
                       className="inline-flex items-center gap-[7px] px-3 py-[6px] text-[13px] border border-gray-200 dark:border-white/15 rounded-full text-gray-700 dark:text-white/70 hover:border-gray-300 dark:hover:border-white/25 hover:bg-gray-50 dark:hover:bg-white/10 hover:text-gray-900 dark:hover:text-white transition-all cursor-pointer"
                     >
                       <span className="w-[13px] h-[13px] rounded-full shrink-0 border border-black/[0.06]" style={{ backgroundColor: c.hex }} />
-                      {c.name}
+                      {colorLabel(c.name, locale)}
                     </button>
                   ))}
                 </div>
@@ -157,7 +159,7 @@ export function Header() {
                       onMouseDown={(e) => { e.preventDefault(); selectTag(tag); }}
                       className="px-3.5 py-[7px] text-[13px] border border-gray-200 dark:border-white/15 rounded-full text-gray-600 dark:text-white/60 hover:border-gray-300 dark:hover:border-white/25 hover:bg-gray-50 dark:hover:bg-white/10 hover:text-gray-800 dark:hover:text-white transition-all cursor-pointer"
                     >
-                      {tag}
+                      {tagLabel(tag, locale)}
                     </button>
                   ))}
                 </div>

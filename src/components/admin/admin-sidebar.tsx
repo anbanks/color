@@ -60,6 +60,7 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
     { code: "it", label: "Italiano" },
     { code: "ja", label: "日本語" },
     { code: "zh", label: "中文" },
+    { code: "hi", label: "हिन्दी" },
   ];
 
   const switchLocale = (code: string) => {

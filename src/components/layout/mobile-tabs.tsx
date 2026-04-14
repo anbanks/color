@@ -22,6 +22,7 @@ const labels: Record<string, Record<string, string>> = {
   it: { new: "Nuove", popular: "Popolari", random: "Casuali", collection: "Collezione" },
   ja: { new: "新着", popular: "人気", random: "ランダム", collection: "コレクション" },
   zh: { new: "最新", popular: "流行", random: "随机", collection: "收藏" },
+  hi: { new: "नया", popular: "लोकप्रिय", random: "यादृच्छिक", collection: "संग्रह" },
 };
 
 export function MobileTabs() {
