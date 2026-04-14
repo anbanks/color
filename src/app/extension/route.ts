@@ -19,12 +19,39 @@ const html = `<!DOCTYPE html>
 
     .strip {
       width: 100%;
-      transition: background-color 0.5s ease;
+      transition: background-color 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+      clip-path: inset(0 100% 0 0);
+      animation: revealStrip 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      will-change: clip-path;
     }
-    .strip:nth-child(1) { flex: 41; }
-    .strip:nth-child(2) { flex: 26; }
-    .strip:nth-child(3) { flex: 18; }
-    .strip:nth-child(4) { flex: 15; }
+    .strip:nth-child(1) { flex: 41; animation-delay: 0.05s; }
+    .strip:nth-child(2) { flex: 26; animation-delay: 0.15s; }
+    .strip:nth-child(3) { flex: 18; animation-delay: 0.25s; }
+    .strip:nth-child(4) { flex: 15; animation-delay: 0.35s; }
+
+    @keyframes revealStrip {
+      0%   { clip-path: inset(0 100% 0 0); }
+      100% { clip-path: inset(0 0 0 0); }
+    }
+
+    .palette.switching .strip {
+      animation: none;
+      clip-path: inset(0 0 0 0);
+    }
+    .palette.switching .strip {
+      animation: switchStrip 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    .palette.switching .strip:nth-child(1) { animation-delay: 0s; }
+    .palette.switching .strip:nth-child(2) { animation-delay: 0.06s; }
+    .palette.switching .strip:nth-child(3) { animation-delay: 0.12s; }
+    .palette.switching .strip:nth-child(4) { animation-delay: 0.18s; }
+
+    @keyframes switchStrip {
+      0%   { transform: translateX(0); opacity: 1; }
+      40%  { transform: translateX(-6%); opacity: 0.55; }
+      100% { transform: translateX(0); opacity: 1; }
+    }
+
 
     .logo {
       position: fixed;
@@ -199,6 +226,10 @@ const html = `<!DOCTYPE html>
 
     function nextPalette() {
       currentIndex = (currentIndex + 1) % allPalettes.length;
+      const el = document.getElementById('palette');
+      el.classList.remove('switching');
+      void el.offsetWidth;
+      el.classList.add('switching');
       applyPalette(allPalettes[currentIndex]);
     }
 
