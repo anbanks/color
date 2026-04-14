@@ -68,11 +68,11 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size="lg" render={<Link href={base} />} className="gap-2.5 h-[56px]">
-              <span className="flex h-[36px] w-[36px] shrink-0 items-center justify-center text-sidebar-foreground">
+            <SidebarMenuButton size="lg" render={<Link href={base} />} className="gap-2.5">
+              <span className="flex h-[30px] w-[30px] shrink-0 items-center justify-center text-sidebar-foreground">
                 <LogoDrop className="h-full w-full" />
               </span>
-              <span className="truncate text-[22px] font-semibold tracking-tight">Color Magic</span>
+              <span className="truncate text-[19px] font-semibold tracking-tight">Color Magic</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
