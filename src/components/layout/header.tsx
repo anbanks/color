@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useLocale } from "@/lib/locale-context";
-import { X, Search, MoreHorizontal, Sun, Moon, Globe } from "lucide-react";
+import { X, Search, MoreHorizontal, Sun, Moon, Globe, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
 import {
@@ -201,46 +201,50 @@ export function Header() {
             )}
           </button>
 
-          {/* Avatar quando logado */}
-          {session?.user && (
-            <div className="h-[32px] w-[32px] rounded-full bg-gray-100 dark:bg-white/10 flex items-center justify-center text-[13px] font-semibold text-gray-500 dark:text-white/70">
-              {session.user.name?.[0]?.toUpperCase() || "?"}
-            </div>
-          )}
-
-          <DropdownMenu>
-            <DropdownMenuTrigger className="flex items-center gap-0.5 outline-none">
-              <div className="h-9 w-9 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors">
-                <MoreHorizontal className="h-[20px] w-[20px] text-gray-700 dark:text-white/70" strokeWidth={2} />
-              </div>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48 rounded-xl shadow-xl shadow-black/[0.06] border-gray-200/80 dark:border-white/10 dark:bg-[#252525] p-1.5">
-              <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
-                <Link href={`/${locale}`} className="w-full">{t.menu.palettes}</Link>
-              </DropdownMenuItem>
-              {session?.user ? (
-                <>
-                  <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
-                    <Link href={`/${locale}/create`} className="w-full">{t.menu.create}</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
-                    <Link href={`/${locale}/collections`} className="w-full">{t.menu.collection}</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
-                    <Link href={`/${locale}/admin`} className="w-full">{t.menu.admin}</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]" onClick={() => signOut()}>
-                    {t.menu.signOut}
-                  </DropdownMenuItem>
-                </>
-              ) : (
+          {session?.user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger className="group flex items-center gap-1.5 ml-1 pl-1 pr-2 h-[38px] rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors outline-none">
+                <div className="h-[30px] w-[30px] rounded-full bg-gray-100 dark:bg-white/10 flex items-center justify-center text-[13px] font-semibold text-gray-500 dark:text-white/70">
+                  {session.user.name?.[0]?.toUpperCase() || "?"}
+                </div>
+                <ChevronDown className="h-[15px] w-[15px] text-gray-500 dark:text-white/50 transition-transform duration-200 group-data-[popup-open]:rotate-180" strokeWidth={2} />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48 rounded-xl shadow-xl shadow-black/[0.06] border-gray-200/80 dark:border-white/10 dark:bg-[#252525] p-1.5">
+                <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
+                  <Link href={`/${locale}`} className="w-full">{t.menu.palettes}</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
+                  <Link href={`/${locale}/create`} className="w-full">{t.menu.create}</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
+                  <Link href={`/${locale}/collections`} className="w-full">{t.menu.collection}</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
+                  <Link href={`/${locale}/admin`} className="w-full">{t.menu.admin}</Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]" onClick={() => signOut()}>
+                  {t.menu.signOut}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <DropdownMenu>
+              <DropdownMenuTrigger className="flex items-center gap-0.5 outline-none">
+                <div className="h-9 w-9 flex items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-white/10 transition-colors">
+                  <MoreHorizontal className="h-[20px] w-[20px] text-gray-700 dark:text-white/70" strokeWidth={2} />
+                </div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48 rounded-xl shadow-xl shadow-black/[0.06] border-gray-200/80 dark:border-white/10 dark:bg-[#252525] p-1.5">
+                <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
+                  <Link href={`/${locale}`} className="w-full">{t.menu.palettes}</Link>
+                </DropdownMenuItem>
                 <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
                   <Link href={`/${locale}/login`} className="w-full">{t.menu.login}</Link>
                 </DropdownMenuItem>
-              )}
-            </DropdownMenuContent>
-          </DropdownMenu>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
         </div>
       </div>
     </header>
