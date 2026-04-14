@@ -191,6 +191,31 @@
   zoom: 1.1;
 }
 
+/* Logo — Color Hunt-style tongue animation */
+.logo .tongue {
+  transform-origin: 50% 70%;
+  transform: translateY(-6px) scale(0.7);
+  opacity: 0;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease;
+}
+.logo:hover .tongue,
+.logo:focus-visible .tongue {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  animation: tongueWiggle 0.9s ease-in-out 0.2s;
+}
+@keyframes tongueWiggle {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  25%      { transform: translateY(0) rotate(-6deg); }
+  75%      { transform: translateY(0) rotate(6deg); }
+}
+.logo img:not(.tongue) {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.logo:hover img:not(.tongue) {
+  transform: rotate(-4deg) scale(1.05);
+}
+
 /* Dark mode — minimal overrides not covered by Tailwind dark: */
 .dark .palette {
   box-shadow: 0 10px 20px 0 rgba(0,0,0,0.3) !important;

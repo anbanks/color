@@ -73,14 +73,22 @@ export function Header() {
       <div className="site-container flex items-center">
         {/* Logo — .left min-width:200px */}
         <div className="min-w-[200px] shrink-0 hidden md:block px-5 box-border">
-          <Link href={`/${locale}`} className="flex items-center group">
-            <img src="/logo.svg" alt="Color" className="h-[32px] dark:invert" />
+          <Link href={`/${locale}`} className="logo flex items-center gap-3 group">
+            <span className="relative h-[40px] w-[40px] shrink-0 inline-block">
+              <img src="/logo.svg" alt="Color" className="absolute inset-0 h-full w-full" />
+              <img src="/logo-tongue.svg" alt="" aria-hidden="true" className="tongue absolute inset-0 h-full w-full" />
+            </span>
+            <span className="text-[22px] font-semibold tracking-tight text-gray-900 dark:text-white">Color</span>
           </Link>
         </div>
         {/* Logo mobile */}
         <div className="md:hidden pl-4 pr-2">
-          <Link href={`/${locale}`} className="flex items-center">
-            <img src="/logo.svg" alt="Color" className="h-[28px] dark:invert" />
+          <Link href={`/${locale}`} className="logo flex items-center gap-2">
+            <span className="relative h-[32px] w-[32px] shrink-0 inline-block">
+              <img src="/logo.svg" alt="Color" className="absolute inset-0 h-full w-full" />
+              <img src="/logo-tongue.svg" alt="" aria-hidden="true" className="tongue absolute inset-0 h-full w-full" />
+            </span>
+            <span className="text-[18px] font-semibold tracking-tight text-gray-900 dark:text-white">Color</span>
           </Link>
         </div>
 
