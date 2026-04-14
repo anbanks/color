@@ -23,9 +23,6 @@ export default function CreatePage() {
           </div>
         </div>
         <main className="flex-1 min-w-0 px-5 py-8 box-border">
-          <h1 className="text-2xl font-semibold text-gray-800 dark:text-white text-center mb-8">
-            Create a Palette
-          </h1>
           <PaletteCreator />
         </main>
         <div className="min-w-[340px] max-w-[340px] shrink-0 hidden xl:block px-5 box-border">
