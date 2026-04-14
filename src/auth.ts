@@ -59,9 +59,27 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     }),
   ],
   callbacks: {
-    jwt({ token, user }) {
+    async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
+      }
+      if (token.email && !token.role) {
+        try {
+          const { getCloudflareContext } = await import("@opennextjs/cloudflare");
+          const { getDb } = await import("./db");
+          const { users } = await import("./db/schema");
+          const { eq } = await import("drizzle-orm");
+          const { env } = await getCloudflareContext({ async: true });
+          const db = getDb(env.DB);
+          const rows = await db
+            .select({ role: users.role })
+            .from(users)
+            .where(eq(users.email, token.email as string))
+            .limit(1);
+          token.role = rows[0]?.role ?? "user";
+        } catch {
+          token.role = "user";
+        }
       }
       return token;
     },
@@ -69,6 +87,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (token.id) {
         session.user.id = token.id as string;
       }
+      (session.user as { role?: string }).role = (token.role as string) ?? "user";
       return session;
     },
   },

@@ -219,9 +219,11 @@ export function Header() {
                 <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
                   <Link href={`/${locale}/collections`} className="w-full">{t.menu.collection}</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
-                  <Link href={`/${locale}/admin`} className="w-full">{t.menu.admin}</Link>
-                </DropdownMenuItem>
+                {(session.user as { role?: string }).role === "admin" && (
+                  <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
+                    <Link href={`/${locale}/admin`} className="w-full">{t.menu.admin}</Link>
+                  </DropdownMenuItem>
+                )}
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]" onClick={() => signOut()}>
                   {t.menu.signOut}

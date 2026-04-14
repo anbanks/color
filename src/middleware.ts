@@ -53,6 +53,13 @@ export default auth((req) => {
     return NextResponse.redirect(new URL(`/${pathLocale}/login`, req.url));
   }
 
+  if (isAdmin && req.auth) {
+    const role = (req.auth.user as { role?: string } | undefined)?.role;
+    if (role !== "admin") {
+      return NextResponse.redirect(new URL(`/${pathLocale}`, req.url));
+    }
+  }
+
   return NextResponse.next();
 });
 

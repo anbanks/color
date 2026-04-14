@@ -13,6 +13,10 @@ export default async function AdminLayout({
     redirect("/en/login");
   }
 
+  if ((session.user as { role?: string }).role !== "admin") {
+    redirect("/en");
+  }
+
   return (
     <div className="-mt-[70px]">
       <AdminLayoutClient user={session.user}>
