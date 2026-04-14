@@ -76,10 +76,12 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
       <SidebarHeader>
         <Link
           href={base}
-          className="logo flex items-center gap-2.5 px-2 py-2 text-sidebar-foreground"
+          className="logo flex items-center gap-2.5 px-2 py-2 text-sidebar-foreground group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0"
         >
           <LogoDrop className="h-[30px] w-[30px] shrink-0" />
-          <span className="truncate text-[19px] font-semibold tracking-tight">Color Magic</span>
+          <span className="truncate text-[19px] font-semibold tracking-tight group-data-[collapsible=icon]:hidden">
+            Color Magic
+          </span>
         </Link>
       </SidebarHeader>
 
@@ -102,10 +104,12 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
                       render={<Link href={href} />}
                       isActive={isActive}
                       tooltip={item.label}
-                      className="text-[15px] [&>svg]:size-5"
+                      className="text-[15px] [&>svg]:size-5 group-data-[collapsible=icon]:justify-center"
                     >
                       <Icon />
-                      <span>{item.label}</span>
+                      <span className="group-data-[collapsible=icon]:hidden">
+                        {item.label}
+                      </span>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 );
@@ -122,16 +126,17 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
               <SidebarMenuButton
                 size="lg"
                 render={<DropdownMenuTrigger />}
-                className="data-[popup-open]:bg-sidebar-accent data-[popup-open]:text-sidebar-accent-foreground"
+                tooltip={user.name || user.email || "Account"}
+                className="data-[popup-open]:bg-sidebar-accent data-[popup-open]:text-sidebar-accent-foreground group-data-[collapsible=icon]:justify-center"
               >
                 <div className="bg-sidebar-accent text-sidebar-accent-foreground flex aspect-square size-8 items-center justify-center rounded-full text-xs font-semibold">
                   {user.name?.[0]?.toUpperCase() || "?"}
                 </div>
-                <div className="grid flex-1 text-left text-sm leading-tight">
+                <div className="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
                   <span className="truncate font-medium">{user.name}</span>
                   <span className="truncate text-xs">{user.email}</span>
                 </div>
-                <ChevronUp className="ml-auto size-4" />
+                <ChevronUp className="ml-auto size-4 group-data-[collapsible=icon]:hidden" />
               </SidebarMenuButton>
               <DropdownMenuContent
                 side="top"
