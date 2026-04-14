@@ -61,7 +61,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       content?.description ||
       `A beautiful color palette featuring ${colors.join(", ")}.`;
     const canonical = `${SITE_URL}/${safeLocale}/palette/${slug}`;
-    const ogImage = `${SITE_URL}/${safeLocale}/palette/${slug}/opengraph-image`;
 
     return {
       title,
@@ -82,20 +81,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         title,
         description,
         locale: safeLocale,
-        images: [
-          {
-            url: ogImage,
-            width: 1200,
-            height: 630,
-            alt: title,
-          },
-        ],
       },
       twitter: {
         card: "summary_large_image",
         title,
         description,
-        images: [ogImage],
       },
     };
   } catch {
@@ -202,7 +192,6 @@ export default async function PalettePage({ params }: PageProps) {
                     content?.description ||
                     `A color palette featuring ${colors.join(", ")}`,
                   url: `${SITE_URL}/${locale}/palette/${slug}`,
-                  image: `${SITE_URL}/${locale}/palette/${slug}/opengraph-image`,
                   author: { "@type": "Organization", name: SITE_NAME },
                   publisher: { "@type": "Organization", name: SITE_NAME },
                   keywords: colors.join(", "),
