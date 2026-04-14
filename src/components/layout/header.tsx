@@ -163,7 +163,7 @@ export function Header() {
         <div className="min-w-[340px] max-w-[340px] shrink-0 hidden xl:flex items-center justify-end gap-1.5 px-5 box-border">
           {/* Language selector */}
           <DropdownMenu>
-            <DropdownMenuTrigger className="h-[38px] px-[10px] rounded-full flex items-center gap-[5px] hover:bg-black/5 dark:hover:bg-white/10 transition-colors outline-none text-[13px] text-gray-500 dark:text-white/60">
+            <DropdownMenuTrigger className="h-[38px] px-[10px] rounded-full flex items-center gap-[5px] hover:bg-black/5 dark:hover:bg-white/10 transition-colors outline-none text-[13px] text-gray-500 dark:text-white/60 cursor-pointer">
               <Globe className="h-[15px] w-[15px]" strokeWidth={1.5} />
               {locale.toUpperCase()}
             </DropdownMenuTrigger>
@@ -191,7 +191,7 @@ export function Header() {
           {/* Theme toggle */}
           <button
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="h-[38px] w-[38px] rounded-full flex items-center justify-center hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+            className="h-[38px] w-[38px] rounded-full flex items-center justify-center hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer"
             title={theme === "dark" ? "Light mode" : "Dark mode"}
           >
             {theme === "dark" ? (
@@ -203,7 +203,7 @@ export function Header() {
 
           {session?.user ? (
             <DropdownMenu>
-              <DropdownMenuTrigger className="group flex items-center gap-1.5 ml-1 pl-1 pr-2 h-[38px] rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors outline-none">
+              <DropdownMenuTrigger className="group flex items-center gap-1.5 ml-1 pl-1 pr-2 h-[38px] rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors outline-none cursor-pointer">
                 <div className="h-[30px] w-[30px] rounded-full bg-gray-100 dark:bg-white/10 flex items-center justify-center text-[13px] font-semibold text-gray-500 dark:text-white/70">
                   {session.user.name?.[0]?.toUpperCase() || "?"}
                 </div>
@@ -232,7 +232,7 @@ export function Header() {
             </DropdownMenu>
           ) : (
             <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center gap-0.5 outline-none">
+              <DropdownMenuTrigger className="flex items-center gap-0.5 outline-none cursor-pointer">
                 <div className="h-9 w-9 flex items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-white/10 transition-colors">
                   <MoreHorizontal className="h-[20px] w-[20px] text-gray-700 dark:text-white/70" strokeWidth={2} />
                 </div>
