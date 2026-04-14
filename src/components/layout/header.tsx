@@ -218,48 +218,17 @@ export function Header() {
                 <ChevronDown className="h-[15px] w-[15px] text-gray-500 dark:text-white/50 transition-transform duration-200 group-data-[popup-open]:rotate-180" strokeWidth={2} />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-52 rounded-xl shadow-xl shadow-black/[0.06] border-gray-200/80 dark:border-white/10 dark:bg-[#252525] p-1.5">
-                <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
-                  <Link href={`/${locale}`} className="w-full">{t.menu.palettes}</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
-                  <Link href={`/${locale}/create`} className="w-full">{t.menu.create}</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
-                  <Link href={`/${locale}/collections`} className="w-full">{t.menu.collection}</Link>
-                </DropdownMenuItem>
                 {(session.user as { role?: string }).role === "admin" && (
-                  <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
-                    <Link href={`/${locale}/admin`} className="w-full">{t.menu.admin}</Link>
-                  </DropdownMenuItem>
+                  <>
+                    <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
+                      <Link href={`/${locale}/admin`} className="w-full">{t.menu.admin}</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                  </>
                 )}
-                <DropdownMenuSeparator className="xl:hidden" />
-                <DropdownMenuItem
-                  className="xl:hidden rounded-lg px-3 py-2 text-[13px] cursor-pointer"
-                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                >
-                  {theme === "dark" ? <Sun className="h-4 w-4 mr-2 text-yellow-400" /> : <Moon className="h-4 w-4 mr-2 text-gray-500" />}
-                  {theme === "dark" ? "Light" : "Dark"}
+                <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
+                  <Link href={`/${locale}/account`} className="w-full">{t.menu.myAccount}</Link>
                 </DropdownMenuItem>
-                <div className="xl:hidden">
-                  <ScrollArea className="max-h-[220px]">
-                    {LANGUAGES.map((lang) => (
-                      <DropdownMenuItem
-                        key={lang.code}
-                        className={cn("rounded-lg px-3 py-2 text-[13px] cursor-pointer", locale === lang.code && "font-medium")}
-                        onClick={() => {
-                          const segments = pathname.split("/");
-                          segments[1] = lang.code;
-                          router.push(segments.join("/"));
-                        }}
-                      >
-                        <Globe className="h-4 w-4 mr-2 text-gray-400" />
-                        {lang.label}
-                        {locale === lang.code && <span className="ml-auto text-[11px] text-gray-400">✓</span>}
-                      </DropdownMenuItem>
-                    ))}
-                  </ScrollArea>
-                </div>
-                <DropdownMenuSeparator />
                 <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]" onClick={() => signOut()}>
                   {t.menu.signOut}
                 </DropdownMenuItem>

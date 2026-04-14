@@ -1,0 +1,254 @@
+"use client";
+
+import { useState, useTransition } from "react";
+import { useRouter, usePathname } from "next/navigation";
+import { useTheme } from "next-themes";
+import { toast } from "sonner";
+import { Sun, Moon, Check, ChevronsUpDown } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useLocale } from "@/lib/locale-context";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+
+const LANGUAGES = [
+  { code: "en", label: "English" },
+  { code: "pt", label: "Português" },
+  { code: "es", label: "Español" },
+  { code: "fr", label: "Français" },
+  { code: "de", label: "Deutsch" },
+  { code: "it", label: "Italiano" },
+  { code: "ja", label: "日本語" },
+  { code: "zh", label: "中文" },
+  { code: "hi", label: "हिन्दी" },
+];
+
+interface AccountClientProps {
+  user: { name: string | null; email: string | null };
+}
+
+export function AccountClient({ user }: AccountClientProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const { theme, setTheme } = useTheme();
+  const { locale, t } = useLocale();
+  const [current, setCurrent] = useState("");
+  const [next, setNext] = useState("");
+  const [confirm, setConfirm] = useState("");
+  const [langOpen, setLangOpen] = useState(false);
+  const [pending, startTransition] = useTransition();
+
+  const switchLocale = (code: string) => {
+    const segments = pathname.split("/");
+    segments[1] = code;
+    router.push(segments.join("/"));
+    setLangOpen(false);
+  };
+
+  const submitPassword = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (next !== confirm) {
+      toast.error(t.account.passwordMismatch);
+      return;
+    }
+    if (next.length < 6) {
+      toast.error(t.account.passwordTooShort);
+      return;
+    }
+    startTransition(async () => {
+      try {
+        const res = await fetch("/api/auth/change-password", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ currentPassword: current, newPassword: next }),
+        });
+        const data = (await res.json()) as { error?: string };
+        if (res.ok) {
+          toast.success(t.account.passwordChanged);
+          setCurrent("");
+          setNext("");
+          setConfirm("");
+        } else {
+          toast.error(data.error || "Failed");
+        }
+      } catch {
+        toast.error("Failed");
+      }
+    });
+  };
+
+  const active = LANGUAGES.find((l) => l.code === locale);
+
+  return (
+    <div className="max-w-2xl mx-auto">
+      <div className="mb-8">
+        <h1 className="text-[22px] font-bold text-gray-900 dark:text-white">
+          {t.account.title}
+        </h1>
+        <p className="text-[13px] text-gray-500 dark:text-white/40 mt-0.5">
+          {t.account.subtitle}
+        </p>
+      </div>
+
+      {/* Profile */}
+      <section className="border border-gray-200/60 dark:border-white/[0.06] rounded-xl p-5 mb-5">
+        <h2 className="text-[14px] font-semibold text-gray-900 dark:text-white mb-4">
+          {t.account.profile}
+        </h2>
+        <div className="space-y-4">
+          <div>
+            <Label className="text-[12px] text-gray-500 dark:text-white/40">
+              {t.account.name}
+            </Label>
+            <p className="text-[14px] text-gray-900 dark:text-white mt-1">
+              {user.name || "—"}
+            </p>
+          </div>
+          <div>
+            <Label className="text-[12px] text-gray-500 dark:text-white/40">
+              {t.account.email}
+            </Label>
+            <p className="text-[14px] text-gray-900 dark:text-white mt-1">
+              {user.email || "—"}
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Password */}
+      <section className="border border-gray-200/60 dark:border-white/[0.06] rounded-xl p-5 mb-5">
+        <h2 className="text-[14px] font-semibold text-gray-900 dark:text-white mb-4">
+          {t.account.changePassword}
+        </h2>
+        <form onSubmit={submitPassword} className="space-y-3 max-w-md">
+          <div>
+            <Label htmlFor="current" className="text-[12px] text-gray-500 dark:text-white/40">
+              {t.account.currentPassword}
+            </Label>
+            <Input
+              id="current"
+              type="password"
+              value={current}
+              onChange={(e) => setCurrent(e.target.value)}
+              className="mt-1 h-10"
+              required
+            />
+          </div>
+          <div>
+            <Label htmlFor="next" className="text-[12px] text-gray-500 dark:text-white/40">
+              {t.account.newPassword}
+            </Label>
+            <Input
+              id="next"
+              type="password"
+              value={next}
+              onChange={(e) => setNext(e.target.value)}
+              className="mt-1 h-10"
+              required
+              minLength={6}
+            />
+          </div>
+          <div>
+            <Label htmlFor="confirm" className="text-[12px] text-gray-500 dark:text-white/40">
+              {t.account.confirmNewPassword}
+            </Label>
+            <Input
+              id="confirm"
+              type="password"
+              value={confirm}
+              onChange={(e) => setConfirm(e.target.value)}
+              className="mt-1 h-10"
+              required
+              minLength={6}
+            />
+          </div>
+          <Button type="submit" disabled={pending} size="sm">
+            {pending ? t.account.updating : t.account.update}
+          </Button>
+        </form>
+      </section>
+
+      {/* Theme */}
+      <section className="border border-gray-200/60 dark:border-white/[0.06] rounded-xl p-5 mb-5">
+        <h2 className="text-[14px] font-semibold text-gray-900 dark:text-white mb-4">
+          {t.account.theme}
+        </h2>
+        <div className="flex gap-2">
+          <Button
+            type="button"
+            variant={theme === "light" ? "default" : "outline"}
+            size="sm"
+            onClick={() => setTheme("light")}
+            className="min-w-24"
+          >
+            <Sun className="mr-1.5 size-4" />
+            {t.account.light}
+          </Button>
+          <Button
+            type="button"
+            variant={theme === "dark" ? "default" : "outline"}
+            size="sm"
+            onClick={() => setTheme("dark")}
+            className="min-w-24"
+          >
+            <Moon className="mr-1.5 size-4" />
+            {t.account.dark}
+          </Button>
+        </div>
+      </section>
+
+      {/* Language */}
+      <section className="border border-gray-200/60 dark:border-white/[0.06] rounded-xl p-5">
+        <h2 className="text-[14px] font-semibold text-gray-900 dark:text-white mb-4">
+          {t.account.language}
+        </h2>
+        <Popover open={langOpen} onOpenChange={setLangOpen}>
+          <PopoverTrigger
+            className="flex items-center justify-between w-full max-w-xs h-10 px-3 rounded-lg border border-gray-200 dark:border-white/15 bg-white dark:bg-white/5 text-[14px] text-gray-800 dark:text-white/90 hover:border-gray-300 dark:hover:border-white/25 transition-colors cursor-pointer outline-none"
+          >
+            {active?.label ?? locale}
+            <ChevronsUpDown className="ml-2 size-4 opacity-50" />
+          </PopoverTrigger>
+          <PopoverContent className="w-[280px] p-0" align="start">
+            <Command>
+              <CommandInput placeholder={t.account.searchLanguage} />
+              <CommandList>
+                <CommandEmpty>{t.account.noResults}</CommandEmpty>
+                <CommandGroup>
+                  {LANGUAGES.map((lang) => (
+                    <CommandItem
+                      key={lang.code}
+                      value={`${lang.code} ${lang.label}`}
+                      onSelect={() => switchLocale(lang.code)}
+                      className={cn(
+                        "cursor-pointer",
+                        locale === lang.code && "font-medium"
+                      )}
+                    >
+                      <Check
+                        className={cn(
+                          "mr-2 size-4",
+                          locale === lang.code ? "opacity-100" : "opacity-0"
+                        )}
+                      />
+                      {lang.label}
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </Popover>
+      </section>
+    </div>
+  );
+}

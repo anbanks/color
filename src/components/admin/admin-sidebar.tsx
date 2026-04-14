@@ -1,15 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useLocale } from "@/lib/locale-context";
 import {
   Monitor,
   Palette,
   Clock,
-  Sun,
-  Moon,
-  Globe,
   LogOut,
   ChevronUp,
 } from "lucide-react";
@@ -25,7 +22,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -33,7 +29,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useTheme } from "next-themes";
 import { signOut } from "next-auth/react";
 
 interface AdminSidebarProps {
@@ -42,9 +37,7 @@ interface AdminSidebarProps {
 
 export function AdminSidebar({ user }: AdminSidebarProps) {
   const pathname = usePathname();
-  const router = useRouter();
   const { locale, t } = useLocale();
-  const { theme, setTheme } = useTheme();
   const base = `/${locale}/admin`;
 
   const navItems = [
@@ -52,24 +45,6 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
     { href: "/palettes", label: t.admin.palettesTitle, icon: Palette },
     { href: "/queue", label: "Queue", icon: Clock },
   ];
-
-  const languages = [
-    { code: "en", label: "English" },
-    { code: "pt", label: "Português" },
-    { code: "es", label: "Español" },
-    { code: "fr", label: "Français" },
-    { code: "de", label: "Deutsch" },
-    { code: "it", label: "Italiano" },
-    { code: "ja", label: "日本語" },
-    { code: "zh", label: "中文" },
-    { code: "hi", label: "हिन्दी" },
-  ];
-
-  const switchLocale = (code: string) => {
-    const segments = pathname.split("/");
-    segments[1] = code;
-    router.push(segments.join("/"));
-  };
 
   return (
     <Sidebar collapsible="icon">
@@ -144,40 +119,11 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
                 className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
               >
                 <DropdownMenuItem
-                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                  render={<Link href={`/${locale}/account`} />}
+                  className="cursor-pointer"
                 >
-                  {theme === "dark" ? (
-                    <Sun className="mr-2 size-4" />
-                  ) : (
-                    <Moon className="mr-2 size-4" />
-                  )}
-                  {theme === "dark"
-                    ? locale === "pt"
-                      ? "Modo claro"
-                      : locale === "es"
-                      ? "Modo claro"
-                      : "Light mode"
-                    : locale === "pt"
-                    ? "Modo escuro"
-                    : locale === "es"
-                    ? "Modo oscuro"
-                    : "Dark mode"}
+                  {t.menu.myAccount}
                 </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <ScrollArea className="h-[220px]">
-                  {languages.map((lang) => (
-                    <DropdownMenuItem
-                      key={lang.code}
-                      onClick={() => switchLocale(lang.code)}
-                    >
-                      <Globe className="mr-2 size-4" />
-                      {lang.label}
-                      {locale === lang.code && (
-                        <span className="ml-auto text-xs">✓</span>
-                      )}
-                    </DropdownMenuItem>
-                  ))}
-                </ScrollArea>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
                   className="text-red-600 dark:text-red-400"

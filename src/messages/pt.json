@@ -158,7 +158,30 @@
     "create": "Criar",
     "collection": "Coleção",
     "admin": "Admin",
+    "myAccount": "Minha Conta",
     "signOut": "Sair",
     "login": "Entrar"
+  },
+  "account": {
+    "title": "Minha Conta",
+    "subtitle": "Gerencie seu perfil, senha, tema e preferências de idioma",
+    "profile": "Perfil",
+    "name": "Nome",
+    "email": "Email",
+    "changePassword": "Alterar senha",
+    "currentPassword": "Senha atual",
+    "newPassword": "Nova senha",
+    "confirmNewPassword": "Confirmar nova senha",
+    "update": "Atualizar",
+    "updating": "Atualizando...",
+    "passwordChanged": "Senha atualizada",
+    "passwordMismatch": "As senhas não coincidem",
+    "passwordTooShort": "A senha deve ter pelo menos 6 caracteres",
+    "theme": "Tema",
+    "light": "Claro",
+    "dark": "Escuro",
+    "language": "Idioma",
+    "searchLanguage": "Buscar idioma...",
+    "noResults": "Nenhum idioma encontrado"
   }
 }

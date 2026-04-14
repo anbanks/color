@@ -158,7 +158,30 @@
     "create": "बनाएं",
     "collection": "संग्रह",
     "admin": "एडमिन",
+    "myAccount": "मेरा खाता",
     "signOut": "साइन आउट",
     "login": "लॉगिन"
+  },
+  "account": {
+    "title": "मेरा खाता",
+    "subtitle": "अपनी प्रोफ़ाइल, पासवर्ड, थीम और भाषा प्राथमिकताएं प्रबंधित करें",
+    "profile": "प्रोफ़ाइल",
+    "name": "नाम",
+    "email": "ईमेल",
+    "changePassword": "पासवर्ड बदलें",
+    "currentPassword": "वर्तमान पासवर्ड",
+    "newPassword": "नया पासवर्ड",
+    "confirmNewPassword": "नया पासवर्ड की पुष्टि करें",
+    "update": "अपडेट",
+    "updating": "अपडेट हो रहा है...",
+    "passwordChanged": "पासवर्ड अपडेट किया गया",
+    "passwordMismatch": "पासवर्ड मेल नहीं खाते",
+    "passwordTooShort": "पासवर्ड कम से कम 6 अक्षर का होना चाहिए",
+    "theme": "थीम",
+    "light": "हल्का",
+    "dark": "गहरा",
+    "language": "भाषा",
+    "searchLanguage": "भाषा खोजें...",
+    "noResults": "कोई भाषा नहीं मिली"
   }
 }

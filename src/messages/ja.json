@@ -158,7 +158,30 @@
     "create": "作成",
     "collection": "コレクション",
     "admin": "管理",
+    "myAccount": "マイアカウント",
     "signOut": "ログアウト",
     "login": "ログイン"
+  },
+  "account": {
+    "title": "マイアカウント",
+    "subtitle": "プロフィール、パスワード、テーマ、言語設定を管理",
+    "profile": "プロフィール",
+    "name": "名前",
+    "email": "メール",
+    "changePassword": "パスワードを変更",
+    "currentPassword": "現在のパスワード",
+    "newPassword": "新しいパスワード",
+    "confirmNewPassword": "新しいパスワードの確認",
+    "update": "更新",
+    "updating": "更新中...",
+    "passwordChanged": "パスワードを更新しました",
+    "passwordMismatch": "パスワードが一致しません",
+    "passwordTooShort": "パスワードは6文字以上必要です",
+    "theme": "テーマ",
+    "light": "ライト",
+    "dark": "ダーク",
+    "language": "言語",
+    "searchLanguage": "言語を検索...",
+    "noResults": "言語が見つかりません"
   }
 }

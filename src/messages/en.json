@@ -158,7 +158,30 @@
     "create": "Create",
     "collection": "Collection",
     "admin": "Admin",
+    "myAccount": "My Account",
     "signOut": "Sign Out",
     "login": "Login"
+  },
+  "account": {
+    "title": "My Account",
+    "subtitle": "Manage your profile, password, theme and language preferences",
+    "profile": "Profile",
+    "name": "Name",
+    "email": "Email",
+    "changePassword": "Change password",
+    "currentPassword": "Current password",
+    "newPassword": "New password",
+    "confirmNewPassword": "Confirm new password",
+    "update": "Update",
+    "updating": "Updating...",
+    "passwordChanged": "Password updated",
+    "passwordMismatch": "Passwords do not match",
+    "passwordTooShort": "Password must be at least 6 characters",
+    "theme": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "language": "Language",
+    "searchLanguage": "Search language...",
+    "noResults": "No language found"
   }
 }

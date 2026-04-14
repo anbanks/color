@@ -158,7 +158,30 @@
     "create": "创建",
     "collection": "收藏",
     "admin": "管理",
+    "myAccount": "我的账户",
     "signOut": "退出登录",
     "login": "登录"
+  },
+  "account": {
+    "title": "我的账户",
+    "subtitle": "管理个人资料、密码、主题和语言偏好",
+    "profile": "个人资料",
+    "name": "姓名",
+    "email": "邮箱",
+    "changePassword": "修改密码",
+    "currentPassword": "当前密码",
+    "newPassword": "新密码",
+    "confirmNewPassword": "确认新密码",
+    "update": "更新",
+    "updating": "更新中...",
+    "passwordChanged": "密码已更新",
+    "passwordMismatch": "密码不匹配",
+    "passwordTooShort": "密码至少需要6个字符",
+    "theme": "主题",
+    "light": "浅色",
+    "dark": "深色",
+    "language": "语言",
+    "searchLanguage": "搜索语言...",
+    "noResults": "未找到语言"
   }
 }

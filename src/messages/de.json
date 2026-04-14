@@ -158,7 +158,30 @@
     "create": "Erstellen",
     "collection": "Sammlung",
     "admin": "Admin",
+    "myAccount": "Mein Konto",
     "signOut": "Abmelden",
     "login": "Anmelden"
+  },
+  "account": {
+    "title": "Mein Konto",
+    "subtitle": "Profil, Passwort, Design und Spracheinstellungen verwalten",
+    "profile": "Profil",
+    "name": "Name",
+    "email": "E-Mail",
+    "changePassword": "Passwort ändern",
+    "currentPassword": "Aktuelles Passwort",
+    "newPassword": "Neues Passwort",
+    "confirmNewPassword": "Neues Passwort bestätigen",
+    "update": "Aktualisieren",
+    "updating": "Aktualisiere...",
+    "passwordChanged": "Passwort aktualisiert",
+    "passwordMismatch": "Passwörter stimmen nicht überein",
+    "passwordTooShort": "Passwort muss mindestens 6 Zeichen lang sein",
+    "theme": "Design",
+    "light": "Hell",
+    "dark": "Dunkel",
+    "language": "Sprache",
+    "searchLanguage": "Sprache suchen...",
+    "noResults": "Keine Sprache gefunden"
   }
 }
