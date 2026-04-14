@@ -13,9 +13,11 @@ interface LikeButtonProps {
 export function LikeButton({ paletteId, initialCount, initialLiked = false }: LikeButtonProps) {
   const [liked, setLiked] = useState(initialLiked);
   const [count, setCount] = useState(initialCount);
+  const [pulse, setPulse] = useState(0);
   const [isPending, startTransition] = useTransition();
 
   const handleLike = () => {
+    setPulse((n) => n + 1);
     startTransition(async () => {
       try {
         const res = await fetch(`/api/palettes/${paletteId}/like`, { method: "POST" });
@@ -37,17 +39,20 @@ export function LikeButton({ paletteId, initialCount, initialLiked = false }: Li
       onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleLike(); }}
       disabled={isPending}
       className={cn(
-        "inline-flex items-center gap-[6px] h-[38px] px-[14px] rounded-[10px] border text-[14px] cursor-pointer relative overflow-hidden transition-all duration-200 select-none shrink-0",
+        "inline-flex items-center gap-[6px] h-[38px] px-[14px] rounded-[10px] border text-[14px] cursor-pointer relative overflow-hidden select-none shrink-0",
+        "transition-all duration-150 ease-out active:scale-[0.92]",
         liked
           ? "border-transparent text-red-500"
-          : "border-[#ececec] dark:border-white/15 text-black/90 dark:text-white/80 hover:text-black dark:hover:text-white"
+          : "border-[#ececec] dark:border-white/15 text-black/90 dark:text-white/80 hover:text-black dark:hover:text-white hover:border-gray-300 dark:hover:border-white/25"
       )}
       style={liked ? { background: "linear-gradient(90deg, #FFF0F0 0%, #FFE8E8 100%)" } : {}}
     >
       <Heart
+        key={pulse}
         className={cn(
-          "h-[16px] w-[16px] transition-all duration-200 -ml-[4px]",
-          liked && "fill-current"
+          "h-[16px] w-[16px] -ml-[4px]",
+          liked && "fill-current",
+          pulse > 0 && "animate-save-pop"
         )}
         strokeWidth={liked ? 2 : 1.5}
       />

@@ -14,12 +14,14 @@ interface SaveButtonProps {
 
 export function SaveButton({ paletteId, initialSaved = false, variant = "compact" }: SaveButtonProps) {
   const [saved, setSaved] = useState(initialSaved);
+  const [pulse, setPulse] = useState(0);
   const [isPending, startTransition] = useTransition();
   const { t } = useLocale();
 
   const handleToggle = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    setPulse((n) => n + 1);
     startTransition(async () => {
       try {
         const res = await fetch("/api/saved", {
@@ -47,16 +49,22 @@ export function SaveButton({ paletteId, initialSaved = false, variant = "compact
       disabled={isPending}
       title={t.collections.saveToCollection}
       className={cn(
-        "inline-flex items-center justify-center h-[38px] rounded-[10px] border text-[14px] cursor-pointer transition-all duration-200 select-none shrink-0",
+        "inline-flex items-center justify-center h-[38px] rounded-[10px] border text-[14px] cursor-pointer select-none shrink-0",
+        "transition-all duration-150 ease-out active:scale-[0.92]",
         variant === "full" ? "px-[14px] gap-[6px]" : "w-[38px]",
         saved
-          ? "border-[#F5B800] bg-[#FFF4B8] text-[#B47500] dark:border-[#FFD400] dark:bg-[#FFD400]/15 dark:text-[#FFD400]"
-          : "border-[#ececec] dark:border-white/15 text-black/90 dark:text-white/80 hover:text-black dark:hover:text-white"
+          ? "border-gray-200 bg-gray-100 text-gray-700 dark:border-white/15 dark:bg-white/10 dark:text-white/85"
+          : "border-[#ececec] dark:border-white/15 text-black/90 dark:text-white/80 hover:text-black dark:hover:text-white hover:border-gray-300 dark:hover:border-white/25"
       )}
     >
       <Bookmark
-        className={cn("h-[17px] w-[17px] transition-all", saved && "fill-current drop-shadow-[0_0_2px_rgba(255,212,0,0.45)]")}
-        strokeWidth={saved ? 2.5 : 1.5}
+        key={pulse}
+        className={cn(
+          "h-[17px] w-[17px] transition-all",
+          saved && "fill-current",
+          pulse > 0 && "animate-save-pop"
+        )}
+        strokeWidth={saved ? 2.2 : 1.5}
       />
       {variant === "full" && <span>{t.collections.saveToCollection}</span>}
     </button>
