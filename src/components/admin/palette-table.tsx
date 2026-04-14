@@ -29,7 +29,8 @@ interface PaletteTableProps {
 
 const statusColors: Record<string, string> = {
   pending: "bg-amber-50 text-amber-600 border border-amber-200/60 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/20",
-  published: "bg-gray-50 text-gray-600 border border-gray-200/60 dark:bg-white/[0.06] dark:text-white/60 dark:border-white/10",
+  approved: "bg-indigo-50 text-indigo-600 border border-indigo-200/60 dark:bg-indigo-500/10 dark:text-indigo-400 dark:border-indigo-500/20",
+  published: "bg-emerald-50 text-emerald-600 border border-emerald-200/60 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20",
   rejected: "bg-red-50 text-red-600 border border-red-200/60 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20",
 };
 
@@ -39,6 +40,7 @@ export function PaletteTable({ palettes }: PaletteTableProps) {
 
   const statusLabels: Record<string, string> = {
     pending: t.admin.pending,
+    approved: t.admin.scheduled,
     published: t.admin.published,
     rejected: t.admin.rejected,
   };

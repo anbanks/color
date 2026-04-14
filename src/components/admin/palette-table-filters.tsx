@@ -26,6 +26,7 @@ export function PaletteTableWithFilters({ palettes, counts }: Props) {
   const filters = [
     { key: "all", label: t.admin.all },
     { key: "published", label: t.admin.published },
+    { key: "approved", label: t.admin.scheduled },
     { key: "pending", label: t.admin.pending },
     { key: "rejected", label: t.admin.rejected },
   ];
