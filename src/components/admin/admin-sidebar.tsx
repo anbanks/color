@@ -12,6 +12,7 @@ import {
   Globe,
   LogOut,
   ChevronUp,
+  PanelLeftClose,
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -32,9 +33,10 @@ import { signOut } from "next-auth/react";
 interface AdminSidebarProps {
   user: { name?: string | null; email?: string | null; image?: string | null };
   collapsed: boolean;
+  onToggle: () => void;
 }
 
-export function AdminSidebar({ user, collapsed }: AdminSidebarProps) {
+export function AdminSidebar({ user, collapsed, onToggle }: AdminSidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
   const { locale, t } = useLocale();
@@ -64,8 +66,8 @@ export function AdminSidebar({ user, collapsed }: AdminSidebarProps) {
       collapsed ? "w-[68px]" : "w-[260px]"
     )}>
       {/* Header */}
-      <div className={cn("flex items-center", collapsed ? "p-3 justify-center" : "p-4 pb-3")}>
-        <div className={cn("flex items-center gap-3", collapsed && "justify-center")}>
+      <div className={cn("flex items-center justify-between", collapsed ? "p-3" : "p-4 pb-3")}>
+        <div className={cn("flex items-center gap-3", collapsed && "justify-center w-full")}>
           <div className="h-9 w-9 rounded-lg bg-gray-900 dark:bg-white/10 flex items-center justify-center shrink-0">
             <Palette className="h-5 w-5 text-white dark:text-white/80" />
           </div>
@@ -76,9 +78,15 @@ export function AdminSidebar({ user, collapsed }: AdminSidebarProps) {
             </div>
           )}
         </div>
+        {!collapsed && (
+          <button
+            onClick={onToggle}
+            className="h-7 w-7 rounded-md flex items-center justify-center text-gray-400 dark:text-white/30 hover:bg-gray-100 dark:hover:bg-white/[0.06] hover:text-gray-600 dark:hover:text-white/50 transition-colors shrink-0"
+          >
+            <PanelLeftClose className="h-4 w-4" />
+          </button>
+        )}
       </div>
-
-      <Separator className="dark:bg-white/[0.06]" />
 
       {/* Nav */}
       <nav className={cn("flex-1 space-y-0.5 overflow-y-auto", collapsed ? "p-2" : "p-3")}>
