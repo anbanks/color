@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Providers } from "@/components/providers";
 import { isValidLocale, defaultLocale } from "@/lib/i18n";
+import { SITE_URL, SITE_NAME } from "@/lib/site";
 import "./globals.css";
 
 const inter = Inter({
@@ -13,12 +14,36 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "Color Magic — Discover Beautiful Color Palettes",
-    template: "%s | Color Magic",
+    default: `${SITE_NAME} — Discover Beautiful Color Palettes`,
+    template: `%s | ${SITE_NAME}`,
   },
   description:
     "Discover, create and share beautiful color palettes. A curated collection of color inspiration for designers and developers.",
+  applicationName: SITE_NAME,
+  authors: [{ name: SITE_NAME }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${SITE_NAME} — Discover Beautiful Color Palettes`,
+    description:
+      "Discover, create and share beautiful color palettes. A curated collection of color inspiration for designers and developers.",
+  },
+  openGraph: {
+    type: "website",
+    siteName: SITE_NAME,
+    url: SITE_URL,
+    title: `${SITE_NAME} — Discover Beautiful Color Palettes`,
+    description:
+      "Discover, create and share beautiful color palettes. A curated collection of color inspiration for designers and developers.",
+  },
 };
 
 export default async function RootLayout({

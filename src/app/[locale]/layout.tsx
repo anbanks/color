@@ -1,6 +1,7 @@
 import { isValidLocale, getDictionary, locales, type Locale } from "@/lib/i18n";
 import { LocaleProvider } from "@/lib/locale-context";
 import { MobileTabs } from "@/components/layout/mobile-tabs";
+import { SITE_URL, SITE_NAME } from "@/lib/site";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
@@ -18,21 +19,40 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   if (!isValidLocale(locale)) return {};
   const t = getDictionary(locale);
 
+  const ogLocaleMap: Record<Locale, string> = {
+    en: "en_US",
+    pt: "pt_BR",
+    es: "es_ES",
+  };
+
   return {
     title: {
       default: t.site.title,
-      template: `%s | Color Magic`,
+      template: `%s | ${SITE_NAME}`,
     },
     description: t.site.description,
     openGraph: {
+      type: "website",
+      siteName: SITE_NAME,
+      url: `${SITE_URL}/${locale}`,
       title: t.site.title,
       description: t.site.description,
-      locale,
+      locale: ogLocaleMap[locale],
+      alternateLocale: locales
+        .filter((l) => l !== locale)
+        .map((l) => ogLocaleMap[l]),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: t.site.title,
+      description: t.site.description,
     },
     alternates: {
-      languages: Object.fromEntries(
-        locales.map((l) => [l, `/${l}`])
-      ),
+      canonical: `${SITE_URL}/${locale}`,
+      languages: {
+        ...Object.fromEntries(locales.map((l) => [l, `${SITE_URL}/${l}`])),
+        "x-default": `${SITE_URL}/en`,
+      },
     },
   };
 }
