@@ -123,7 +123,7 @@ export function Header() {
             </div>
 
             {searchOpen && !activeTag && (
-              <div className="absolute top-[calc(100%+6px)] left-0 right-0 bg-white dark:bg-[#252525] border border-gray-200/80 dark:border-white/10 rounded-2xl shadow-xl shadow-black/[0.06] p-5 z-50">
+              <div className="fixed md:absolute top-[64px] md:top-[calc(100%+6px)] left-0 right-0 md:left-0 md:right-0 bg-white dark:bg-[#252525] border-t md:border border-gray-200/80 dark:border-white/10 rounded-none md:rounded-2xl shadow-xl shadow-black/[0.06] p-5 z-50 max-h-[calc(100vh-64px-62px)] md:max-h-none overflow-y-auto">
                 <p className="text-[14px] font-semibold text-gray-900 dark:text-white mb-3">{t.search.colors}</p>
                 <div className="flex flex-wrap gap-[7px] mb-6">
                   {SEARCH_COLORS.map((c) => (
