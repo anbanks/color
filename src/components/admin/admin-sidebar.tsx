@@ -9,6 +9,7 @@ import {
   Clock,
   LogOut,
   ChevronUp,
+  User,
 } from "lucide-react";
 import { LogoDrop } from "@/components/logo-drop";
 import {
@@ -122,6 +123,7 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
                   render={<Link href={`/${locale}/account`} />}
                   className="cursor-pointer"
                 >
+                  <User className="mr-2 size-4" />
                   {t.menu.myAccount}
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />

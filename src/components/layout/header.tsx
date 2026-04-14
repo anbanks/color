@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useLocale } from "@/lib/locale-context";
-import { X, Search, MoreHorizontal, Sun, Moon, Globe, ChevronDown } from "lucide-react";
+import { X, Search, MoreHorizontal, Sun, Moon, Globe, ChevronDown, User, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
 import {
@@ -220,16 +220,28 @@ export function Header() {
               <DropdownMenuContent align="end" className="w-52 rounded-xl shadow-xl shadow-black/[0.06] border-gray-200/80 dark:border-white/10 dark:bg-[#252525] p-1.5">
                 {(session.user as { role?: string }).role === "admin" && (
                   <>
-                    <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
-                      <Link href={`/${locale}/admin`} className="w-full">{t.menu.admin}</Link>
+                    <DropdownMenuItem
+                      render={<Link href={`/${locale}/admin`} />}
+                      className="rounded-lg px-3 py-2 text-[13px] cursor-pointer"
+                    >
+                      <Globe className="h-4 w-4 mr-2 text-gray-500" />
+                      {t.menu.admin}
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                   </>
                 )}
-                <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
-                  <Link href={`/${locale}/account`} className="w-full">{t.menu.myAccount}</Link>
+                <DropdownMenuItem
+                  render={<Link href={`/${locale}/account`} />}
+                  className="rounded-lg px-3 py-2 text-[13px] cursor-pointer"
+                >
+                  <User className="h-4 w-4 mr-2 text-gray-500" />
+                  {t.menu.myAccount}
                 </DropdownMenuItem>
-                <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]" onClick={() => signOut()}>
+                <DropdownMenuItem
+                  className="rounded-lg px-3 py-2 text-[13px] cursor-pointer text-red-600 dark:text-red-400"
+                  onClick={() => signOut()}
+                >
+                  <LogOut className="h-4 w-4 mr-2" />
                   {t.menu.signOut}
                 </DropdownMenuItem>
               </DropdownMenuContent>

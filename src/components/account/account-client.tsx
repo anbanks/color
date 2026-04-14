@@ -41,11 +41,40 @@ export function AccountClient({ user }: AccountClientProps) {
   const pathname = usePathname();
   const { theme, setTheme } = useTheme();
   const { locale, t } = useLocale();
+  const [name, setName] = useState(user.name ?? "");
+  const [email, setEmail] = useState(user.email ?? "");
   const [current, setCurrent] = useState("");
   const [next, setNext] = useState("");
   const [confirm, setConfirm] = useState("");
   const [langOpen, setLangOpen] = useState(false);
   const [pending, startTransition] = useTransition();
+  const [profilePending, startProfileTransition] = useTransition();
+
+  const submitProfile = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name.trim() || !email.trim()) {
+      toast.error(t.account.nameEmailRequired);
+      return;
+    }
+    startProfileTransition(async () => {
+      try {
+        const res = await fetch("/api/auth/update-profile", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name: name.trim(), email: email.trim() }),
+        });
+        const data = (await res.json()) as { error?: string };
+        if (res.ok) {
+          toast.success(t.account.profileUpdated);
+          router.refresh();
+        } else {
+          toast.error(data.error || "Failed");
+        }
+      } catch {
+        toast.error("Failed");
+      }
+    });
+  };
 
   const switchLocale = (code: string) => {
     const segments = pathname.split("/");
@@ -104,24 +133,37 @@ export function AccountClient({ user }: AccountClientProps) {
         <h2 className="text-[14px] font-semibold text-gray-900 dark:text-white mb-4">
           {t.account.profile}
         </h2>
-        <div className="space-y-4">
+        <form onSubmit={submitProfile} className="space-y-3 max-w-md">
           <div>
-            <Label className="text-[12px] text-gray-500 dark:text-white/40">
+            <Label htmlFor="name" className="text-[12px] text-gray-500 dark:text-white/40">
               {t.account.name}
             </Label>
-            <p className="text-[14px] text-gray-900 dark:text-white mt-1">
-              {user.name || "—"}
-            </p>
+            <Input
+              id="name"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="mt-1 h-10"
+              required
+            />
           </div>
           <div>
-            <Label className="text-[12px] text-gray-500 dark:text-white/40">
+            <Label htmlFor="email" className="text-[12px] text-gray-500 dark:text-white/40">
               {t.account.email}
             </Label>
-            <p className="text-[14px] text-gray-900 dark:text-white mt-1">
-              {user.email || "—"}
-            </p>
+            <Input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="mt-1 h-10"
+              required
+            />
           </div>
-        </div>
+          <Button type="submit" disabled={profilePending} size="sm">
+            {profilePending ? t.account.saving : t.account.save}
+          </Button>
+        </form>
       </section>
 
       {/* Password */}
