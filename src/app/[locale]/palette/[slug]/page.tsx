@@ -92,9 +92,9 @@ export default async function PalettePage({ params }: PageProps) {
         <Header />
       </Suspense>
       <div className="flex">
-        {/* Sidebar — sticky com scroll próprio */}
-        <div className="w-[200px] shrink-0 hidden md:block pl-6 pr-2">
-          <div className="sticky top-[60px] h-[calc(100vh-60px)] overflow-y-auto scrollbar-hide pt-6 pb-8">
+        {/* Sidebar — 200px, sticky, scroll próprio (same as feed) */}
+        <div className="min-w-[200px] shrink-0 hidden md:block px-5 box-border">
+          <div className="sticky top-[70px] h-[calc(100vh-90px)] overflow-y-auto scrollbar-hide">
             <Suspense>
               <Sidebar />
             </Suspense>
@@ -102,9 +102,9 @@ export default async function PalettePage({ params }: PageProps) {
         </div>
 
         {/* Main content */}
-        <main className="flex-1 min-w-0 pt-6 pb-16 px-5 box-border">
+        <main className="flex-1 min-w-0 pt-[6px] pb-16 box-border">
           {/* Palette expanded */}
-          <div className="max-w-[820px] mx-auto">
+          <div className="max-w-[820px] mx-auto px-5">
             {/* Palette card large */}
             <div className="rounded-[10px] overflow-hidden shadow-[0_1px_6px_rgba(0,0,0,0.07)]">
               {colors.map((color, i) => (
@@ -189,9 +189,9 @@ export default async function PalettePage({ params }: PageProps) {
           )}
         </main>
 
-        {/* Right panel */}
-        <div className="w-[320px] shrink-0 hidden xl:block pr-6 pl-2">
-          <div className="sticky top-[60px] pt-6">
+        {/* Right panel — 340px, sticky (same as feed) */}
+        <div className="min-w-[340px] max-w-[340px] shrink-0 hidden xl:block px-5 box-border">
+          <div className="sticky top-[70px] h-[calc(100vh-90px)]">
             <Suspense>
               <RightPanel />
             </Suspense>
