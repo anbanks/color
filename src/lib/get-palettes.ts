@@ -2,12 +2,15 @@ import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { getDb } from "@/db";
 import { palettes } from "@/db/schema";
 import { desc, eq, sql } from "drizzle-orm";
+import { getCurrentUserPaletteState } from "./enrich-palettes";
 
 export type PaletteItem = {
   id: string;
   slug: string;
   colors: string[];
   likesCount: number;
+  liked?: boolean;
+  saved?: boolean;
   createdAt?: string;
 };
 
@@ -32,12 +35,23 @@ function format(results: typeof palettes.$inferSelect[]): PaletteItem[] {
   }));
 }
 
+async function enrich(items: PaletteItem[]): Promise<PaletteItem[]> {
+  if (items.length === 0) return items;
+  const { likedIds, savedIds } = await getCurrentUserPaletteState(items.map((p) => p.id));
+  if (likedIds.size === 0 && savedIds.size === 0) return items;
+  return items.map((p) => ({
+    ...p,
+    liked: likedIds.has(p.id),
+    saved: savedIds.has(p.id),
+  }));
+}
+
 export async function getNewPalettes(): Promise<PaletteItem[]> {
   try {
     const { env } = await getCloudflareContext({ async: true });
     const db = getDb(env.DB);
     const r = await db.select().from(palettes).where(eq(palettes.status, "published")).orderBy(desc(palettes.createdAt)).limit(24);
-    return format(r);
+    return enrich(format(r));
   } catch { return DEMO; }
 }
 
@@ -46,7 +60,7 @@ export async function getPopularPalettes(): Promise<PaletteItem[]> {
     const { env } = await getCloudflareContext({ async: true });
     const db = getDb(env.DB);
     const r = await db.select().from(palettes).where(eq(palettes.status, "published")).orderBy(desc(palettes.likesCount)).limit(24);
-    return format(r);
+    return enrich(format(r));
   } catch { return DEMO; }
 }
 
@@ -55,7 +69,7 @@ export async function getRandomPalettes(): Promise<PaletteItem[]> {
     const { env } = await getCloudflareContext({ async: true });
     const db = getDb(env.DB);
     const r = await db.select().from(palettes).where(eq(palettes.status, "published")).orderBy(sql`RANDOM()`).limit(24);
-    return format(r);
+    return enrich(format(r));
   } catch { return DEMO; }
 }
 

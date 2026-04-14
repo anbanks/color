@@ -10,6 +10,8 @@ interface Palette {
   slug: string;
   colors: string[];
   likesCount: number;
+  liked?: boolean;
+  saved?: boolean;
   createdAt?: string;
 }
 
@@ -132,6 +134,8 @@ export function PaletteGridInteractive({ palettes: initialPalettes, sort = "new"
             slug={palette.slug}
             colors={palette.colors}
             likesCount={palette.likesCount}
+            liked={palette.liked}
+            initialSaved={palette.saved}
             timeAgo={timeAgo(palette.createdAt, t.time)}
           />
         ))}

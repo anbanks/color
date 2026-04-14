@@ -10,6 +10,8 @@ interface PaletteFeedProps {
     slug: string;
     colors: string[];
     likesCount: number;
+    liked?: boolean;
+    saved?: boolean;
     createdAt?: string;
   }[];
   sort?: string;

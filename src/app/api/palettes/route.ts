@@ -6,6 +6,7 @@ import { NextRequest } from "next/server";
 import { auth } from "@/auth";
 import { createId } from "@paralleldrive/cuid2";
 import { generateSlug } from "@/lib/generate-slug";
+import { getCurrentUserPaletteState } from "@/lib/enrich-palettes";
 
 const PAGE_SIZE = 24;
 
@@ -47,8 +48,15 @@ export async function GET(request: NextRequest) {
     createdAt: p.createdAt ? new Date(p.createdAt).toISOString() : undefined,
   }));
 
+  const { likedIds, savedIds } = await getCurrentUserPaletteState(formatted.map((p) => p.id));
+  const withState = formatted.map((p) => ({
+    ...p,
+    liked: likedIds.has(p.id),
+    saved: savedIds.has(p.id),
+  }));
+
   return Response.json({
-    palettes: formatted,
+    palettes: withState,
     page,
     hasMore: results.length === PAGE_SIZE,
   });

@@ -13,7 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useSession, signOut } from "next-auth/react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { LogoDrop } from "@/components/logo-drop";
 
@@ -51,9 +51,17 @@ export function Header() {
   const { data: session } = useSession();
   const { theme, setTheme } = useTheme();
   const [searchOpen, setSearchOpen] = useState(false);
+  const [searchExpanded, setSearchExpanded] = useState(false);
   const [query, setQuery] = useState("");
   const router = useRouter();
   const pathname = usePathname();
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (searchExpanded) {
+      searchInputRef.current?.focus();
+    }
+  }, [searchExpanded]);
 
   // Detect active tag from URL /palettes/[tag]
   const tagMatch = pathname.match(/\/palettes\/([^/]+)/);
@@ -87,80 +95,11 @@ export function Header() {
           </Link>
         </div>
 
-        {/* Search — .middle width:100% */}
-        <div className="w-full px-5 box-border">
-          <div className="relative">
-          <div className="relative flex items-center h-[42px] border border-gray-200/80 dark:border-white/10 rounded-full bg-[#fafafa] dark:bg-white/5 hover:bg-white dark:hover:bg-white/10 hover:border-gray-300 dark:hover:border-white/20 focus-within:bg-white dark:focus-within:bg-white/10 focus-within:border-gray-300 dark:focus-within:border-white/20 focus-within:shadow-sm transition-all">
-            {activeTag ? (
-              <div className="flex items-center ml-3">
-                <span className="inline-flex items-center gap-1 pl-3 pr-1 py-[3px] rounded-full text-[13px] font-medium bg-gray-100 dark:bg-white/10 text-gray-800 dark:text-white/90 border border-gray-200 dark:border-white/15">
-                  {activeTag.charAt(0).toUpperCase() + activeTag.slice(1)}
-                  <button onClick={clearTag} className="ml-1 p-0.5 rounded-full hover:bg-gray-200 dark:hover:bg-white/15 transition-colors">
-                    <X className="h-3 w-3" />
-                  </button>
-                </span>
-              </div>
-            ) : (
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-[16px] w-[16px] text-gray-400" strokeWidth={1.5} />
-            )}
-            <input
-              type="text"
-              placeholder={activeTag ? t.search.addTag : t.search.placeholder}
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              onFocus={() => setSearchOpen(true)}
-              onBlur={() => setTimeout(() => setSearchOpen(false), 200)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && query.trim()) selectTag(query.trim());
-                if (e.key === "Escape") setSearchOpen(false);
-              }}
-              className={`w-full h-full pr-4 text-[14px] text-gray-700 dark:text-white/90 placeholder:text-gray-400 dark:placeholder:text-white/30 focus:outline-none bg-transparent ${activeTag ? "pl-2.5" : "pl-[42px]"}`}
-            />
-            {activeTag && (
-              <button onClick={clearTag} className="pr-3.5 text-gray-400 hover:text-gray-500 transition-colors">
-                <X className="h-[15px] w-[15px]" />
-              </button>
-            )}
-          </div>
+        {/* Spacer */}
+        <div className="flex-1" />
 
-          {/* Dropdown */}
-          {searchOpen && !activeTag && (
-            <div className="absolute top-[calc(100%+6px)] left-0 right-0 bg-white dark:bg-[#252525] border border-gray-200/80 dark:border-white/10 rounded-2xl shadow-xl shadow-black/[0.06] p-5 z-50">
-              {/* Colors */}
-              <p className="text-[14px] font-semibold text-gray-900 dark:text-white mb-3">{t.search.colors}</p>
-              <div className="flex flex-wrap gap-[7px] mb-6">
-                {SEARCH_COLORS.map((c) => (
-                  <button
-                    key={c.name}
-                    onMouseDown={(e) => { e.preventDefault(); selectTag(c.name); }}
-                    className="inline-flex items-center gap-[7px] px-3 py-[6px] text-[13px] border border-gray-200 dark:border-white/15 rounded-full text-gray-700 dark:text-white/70 hover:border-gray-300 dark:hover:border-white/25 hover:bg-gray-50 dark:hover:bg-white/10 hover:text-gray-900 dark:hover:text-white transition-all"
-                  >
-                    <span className="w-[13px] h-[13px] rounded-full shrink-0 border border-black/[0.06]" style={{ backgroundColor: c.hex }} />
-                    {c.name}
-                  </button>
-                ))}
-              </div>
-
-              {/* Collections */}
-              <p className="text-[14px] font-semibold text-gray-900 dark:text-white mb-3">{t.search.collections}</p>
-              <div className="flex flex-wrap gap-[7px]">
-                {SEARCH_COLLECTIONS.map((tag) => (
-                  <button
-                    key={tag}
-                    onMouseDown={(e) => { e.preventDefault(); selectTag(tag); }}
-                    className="px-3.5 py-[7px] text-[13px] border border-gray-200 dark:border-white/15 rounded-full text-gray-600 dark:text-white/60 hover:border-gray-300 dark:hover:border-white/25 hover:bg-gray-50 dark:hover:bg-white/10 hover:text-gray-800 dark:hover:text-white transition-all"
-                  >
-                    {tag}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-          </div>
-        </div>
-
-        {/* Menu — .right min-width:340px */}
-        <div className="min-w-[340px] max-w-[340px] shrink-0 hidden xl:flex items-center justify-end gap-1.5 px-5 box-border">
+        {/* Menu — right side */}
+        <div className="shrink-0 flex items-center justify-end gap-1.5 px-5 box-border">
           {/* Language selector */}
           <DropdownMenu>
             <DropdownMenuTrigger className="h-[38px] px-[10px] rounded-full flex items-center gap-[5px] hover:bg-black/5 dark:hover:bg-white/10 transition-colors outline-none text-[13px] text-gray-500 dark:text-white/60 cursor-pointer">
@@ -187,6 +126,15 @@ export function Header() {
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
+
+          {/* Search toggle */}
+          <button
+            onClick={() => setSearchExpanded((v) => !v)}
+            className="h-[38px] w-[38px] rounded-full flex items-center justify-center hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer"
+            title={t.search.placeholder}
+          >
+            <Search className="h-[18px] w-[18px] text-gray-500 dark:text-white/60" strokeWidth={1.8} />
+          </button>
 
           {/* Theme toggle */}
           <button
@@ -249,6 +197,86 @@ export function Header() {
           )}
         </div>
       </div>
+
+      {searchExpanded && (
+        <div className="site-container px-5 pt-2 pb-1">
+          <div className="relative">
+            <div className="relative flex items-center h-[42px] border border-gray-200/80 dark:border-white/10 rounded-full bg-[#fafafa] dark:bg-white/5 hover:bg-white dark:hover:bg-white/10 hover:border-gray-300 dark:hover:border-white/20 focus-within:bg-white dark:focus-within:bg-white/10 focus-within:border-gray-300 dark:focus-within:border-white/20 focus-within:shadow-sm transition-all">
+              {activeTag ? (
+                <div className="flex items-center ml-3">
+                  <span className="inline-flex items-center gap-1 pl-3 pr-1 py-[3px] rounded-full text-[13px] font-medium bg-gray-100 dark:bg-white/10 text-gray-800 dark:text-white/90 border border-gray-200 dark:border-white/15">
+                    {activeTag.charAt(0).toUpperCase() + activeTag.slice(1)}
+                    <button onClick={clearTag} className="ml-1 p-0.5 rounded-full hover:bg-gray-200 dark:hover:bg-white/15 transition-colors">
+                      <X className="h-3 w-3" />
+                    </button>
+                  </span>
+                </div>
+              ) : (
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-[16px] w-[16px] text-gray-400" strokeWidth={1.5} />
+              )}
+              <input
+                ref={searchInputRef}
+                type="text"
+                placeholder={activeTag ? t.search.addTag : t.search.placeholder}
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onFocus={() => setSearchOpen(true)}
+                onBlur={() => setTimeout(() => setSearchOpen(false), 200)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && query.trim()) selectTag(query.trim());
+                  if (e.key === "Escape") {
+                    setSearchOpen(false);
+                    setSearchExpanded(false);
+                  }
+                }}
+                className={`w-full h-full pr-10 text-[14px] text-gray-700 dark:text-white/90 placeholder:text-gray-400 dark:placeholder:text-white/30 focus:outline-none bg-transparent ${activeTag ? "pl-2.5" : "pl-[42px]"}`}
+              />
+              <button
+                onClick={() => {
+                  setSearchExpanded(false);
+                  setSearchOpen(false);
+                  setQuery("");
+                }}
+                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded-full text-gray-400 hover:text-gray-600 dark:hover:text-white/70 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors cursor-pointer"
+                title="Close"
+              >
+                <X className="h-[15px] w-[15px]" />
+              </button>
+            </div>
+
+            {searchOpen && !activeTag && (
+              <div className="absolute top-[calc(100%+6px)] left-0 right-0 bg-white dark:bg-[#252525] border border-gray-200/80 dark:border-white/10 rounded-2xl shadow-xl shadow-black/[0.06] p-5 z-50">
+                <p className="text-[14px] font-semibold text-gray-900 dark:text-white mb-3">{t.search.colors}</p>
+                <div className="flex flex-wrap gap-[7px] mb-6">
+                  {SEARCH_COLORS.map((c) => (
+                    <button
+                      key={c.name}
+                      onMouseDown={(e) => { e.preventDefault(); selectTag(c.name); }}
+                      className="inline-flex items-center gap-[7px] px-3 py-[6px] text-[13px] border border-gray-200 dark:border-white/15 rounded-full text-gray-700 dark:text-white/70 hover:border-gray-300 dark:hover:border-white/25 hover:bg-gray-50 dark:hover:bg-white/10 hover:text-gray-900 dark:hover:text-white transition-all"
+                    >
+                      <span className="w-[13px] h-[13px] rounded-full shrink-0 border border-black/[0.06]" style={{ backgroundColor: c.hex }} />
+                      {c.name}
+                    </button>
+                  ))}
+                </div>
+
+                <p className="text-[14px] font-semibold text-gray-900 dark:text-white mb-3">{t.search.collections}</p>
+                <div className="flex flex-wrap gap-[7px]">
+                  {SEARCH_COLLECTIONS.map((tag) => (
+                    <button
+                      key={tag}
+                      onMouseDown={(e) => { e.preventDefault(); selectTag(tag); }}
+                      className="px-3.5 py-[7px] text-[13px] border border-gray-200 dark:border-white/15 rounded-full text-gray-600 dark:text-white/60 hover:border-gray-300 dark:hover:border-white/25 hover:bg-gray-50 dark:hover:bg-white/10 hover:text-gray-800 dark:hover:text-white transition-all"
+                    >
+                      {tag}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </header>
   );
 }
