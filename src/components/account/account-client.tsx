@@ -118,7 +118,7 @@ export function AccountClient({ user }: AccountClientProps) {
   const active = LANGUAGES.find((l) => l.code === locale);
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div>
       <div className="mb-8">
         <h1 className="text-[22px] font-bold text-gray-900 dark:text-white">
           {t.account.title}
