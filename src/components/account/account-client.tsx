@@ -133,32 +133,34 @@ export function AccountClient({ user }: AccountClientProps) {
         <h2 className="text-[14px] font-semibold text-gray-900 dark:text-white mb-4">
           {t.account.profile}
         </h2>
-        <form onSubmit={submitProfile} className="space-y-3 max-w-md">
-          <div>
-            <Label htmlFor="name" className="text-[12px] text-gray-500 dark:text-white/40">
-              {t.account.name}
-            </Label>
-            <Input
-              id="name"
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="mt-1 h-10"
-              required
-            />
-          </div>
-          <div>
-            <Label htmlFor="email" className="text-[12px] text-gray-500 dark:text-white/40">
-              {t.account.email}
-            </Label>
-            <Input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 h-10"
-              required
-            />
+        <form onSubmit={submitProfile} className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="name" className="text-[12px] text-gray-500 dark:text-white/40">
+                {t.account.name}
+              </Label>
+              <Input
+                id="name"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="mt-1 h-10"
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="email" className="text-[12px] text-gray-500 dark:text-white/40">
+                {t.account.email}
+              </Label>
+              <Input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="mt-1 h-10"
+                required
+              />
+            </div>
           </div>
           <Button type="submit" disabled={profilePending} size="sm">
             {profilePending ? t.account.saving : t.account.save}
@@ -171,47 +173,49 @@ export function AccountClient({ user }: AccountClientProps) {
         <h2 className="text-[14px] font-semibold text-gray-900 dark:text-white mb-4">
           {t.account.changePassword}
         </h2>
-        <form onSubmit={submitPassword} className="space-y-3 max-w-md">
-          <div>
-            <Label htmlFor="current" className="text-[12px] text-gray-500 dark:text-white/40">
-              {t.account.currentPassword}
-            </Label>
-            <Input
-              id="current"
-              type="password"
-              value={current}
-              onChange={(e) => setCurrent(e.target.value)}
-              className="mt-1 h-10"
-              required
-            />
-          </div>
-          <div>
-            <Label htmlFor="next" className="text-[12px] text-gray-500 dark:text-white/40">
-              {t.account.newPassword}
-            </Label>
-            <Input
-              id="next"
-              type="password"
-              value={next}
-              onChange={(e) => setNext(e.target.value)}
-              className="mt-1 h-10"
-              required
-              minLength={6}
-            />
-          </div>
-          <div>
-            <Label htmlFor="confirm" className="text-[12px] text-gray-500 dark:text-white/40">
-              {t.account.confirmNewPassword}
-            </Label>
-            <Input
-              id="confirm"
-              type="password"
-              value={confirm}
-              onChange={(e) => setConfirm(e.target.value)}
-              className="mt-1 h-10"
-              required
-              minLength={6}
-            />
+        <form onSubmit={submitPassword} className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <Label htmlFor="current" className="text-[12px] text-gray-500 dark:text-white/40">
+                {t.account.currentPassword}
+              </Label>
+              <Input
+                id="current"
+                type="password"
+                value={current}
+                onChange={(e) => setCurrent(e.target.value)}
+                className="mt-1 h-10"
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="next" className="text-[12px] text-gray-500 dark:text-white/40">
+                {t.account.newPassword}
+              </Label>
+              <Input
+                id="next"
+                type="password"
+                value={next}
+                onChange={(e) => setNext(e.target.value)}
+                className="mt-1 h-10"
+                required
+                minLength={6}
+              />
+            </div>
+            <div>
+              <Label htmlFor="confirm" className="text-[12px] text-gray-500 dark:text-white/40">
+                {t.account.confirmNewPassword}
+              </Label>
+              <Input
+                id="confirm"
+                type="password"
+                value={confirm}
+                onChange={(e) => setConfirm(e.target.value)}
+                className="mt-1 h-10"
+                required
+                minLength={6}
+              />
+            </div>
           </div>
           <Button type="submit" disabled={pending} size="sm">
             {pending ? t.account.updating : t.account.update}
