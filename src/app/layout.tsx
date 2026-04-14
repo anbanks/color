@@ -12,8 +12,8 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Color — Discover Beautiful Color Palettes",
-    template: "%s | Color",
+    default: "Color Magic — Discover Beautiful Color Palettes",
+    template: "%s | Color Magic",
   },
   description:
     "Discover, create and share beautiful color palettes. A curated collection of color inspiration for designers and developers.",

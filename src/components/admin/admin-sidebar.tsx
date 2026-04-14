@@ -12,6 +12,7 @@ import {
   LogOut,
   ChevronUp,
 } from "lucide-react";
+import { LogoDrop } from "@/components/logo-drop";
 import {
   Sidebar,
   SidebarContent,
@@ -68,12 +69,10 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" render={<Link href={base} />}>
-              <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-                <Palette className="size-4" />
-              </div>
-              <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">Color Admin</span>
-                <span className="truncate text-xs">{t.admin.moderation}</span>
+              <LogoDrop className="size-7 shrink-0 text-sidebar-foreground" />
+              <div className="grid flex-1 text-left leading-tight">
+                <span className="truncate text-[15px] font-semibold">Color Magic</span>
+                <span className="truncate text-xs text-sidebar-foreground/60">{t.admin.moderation}</span>
               </div>
             </SidebarMenuButton>
           </SidebarMenuItem>
