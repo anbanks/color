@@ -50,13 +50,13 @@ export function SaveButton({ paletteId, initialSaved = false, variant = "compact
         "inline-flex items-center justify-center h-[38px] rounded-[10px] border text-[14px] cursor-pointer transition-all duration-200 select-none shrink-0",
         variant === "full" ? "px-[14px] gap-[6px]" : "w-[38px]",
         saved
-          ? "border-transparent text-yellow-600 dark:text-yellow-400 bg-yellow-50 dark:bg-yellow-500/10"
+          ? "border-[#F5B800] bg-[#FFF4B8] text-[#B47500] dark:border-[#FFD400] dark:bg-[#FFD400]/15 dark:text-[#FFD400]"
           : "border-[#ececec] dark:border-white/15 text-black/90 dark:text-white/80 hover:text-black dark:hover:text-white"
       )}
     >
       <Bookmark
-        className={cn("h-[16px] w-[16px] transition-all", saved && "fill-current")}
-        strokeWidth={saved ? 2 : 1.5}
+        className={cn("h-[17px] w-[17px] transition-all", saved && "fill-current drop-shadow-[0_0_2px_rgba(255,212,0,0.45)]")}
+        strokeWidth={saved ? 2.5 : 1.5}
       />
       {variant === "full" && <span>{t.collections.saveToCollection}</span>}
     </button>
