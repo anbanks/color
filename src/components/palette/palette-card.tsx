@@ -12,10 +12,11 @@ interface PaletteCardProps {
   colors: string[];
   likesCount: number;
   liked?: boolean;
+  initialSaved?: boolean;
   timeAgo?: string;
 }
 
-export function PaletteCard({ id, slug, colors, likesCount, liked, timeAgo }: PaletteCardProps) {
+export function PaletteCard({ id, slug, colors, likesCount, liked, initialSaved, timeAgo }: PaletteCardProps) {
   const { copy } = useCopyColor();
   const { locale } = useLocale();
 
@@ -55,7 +56,7 @@ export function PaletteCard({ id, slug, colors, likesCount, liked, timeAgo }: Pa
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-2 min-w-0">
           <LikeButton paletteId={id} initialCount={likesCount} initialLiked={liked} />
-          <SaveButton paletteId={id} />
+          <SaveButton paletteId={id} initialSaved={initialSaved} />
         </div>
         {timeAgo && (
           <span className="text-[12px] opacity-70 shrink-0">{timeAgo}</span>
