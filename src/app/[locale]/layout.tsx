@@ -20,9 +20,14 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   return {
     title: {
       default: t.site.title,
-      template: `%s | Color`,
+      template: `%s | Color Magic`,
     },
     description: t.site.description,
+    openGraph: {
+      title: t.site.title,
+      description: t.site.description,
+      locale,
+    },
     alternates: {
       languages: Object.fromEntries(
         locales.map((l) => [l, `/${l}`])

@@ -42,6 +42,10 @@ export default auth((req) => {
     return NextResponse.redirect(new URL(`/${detected}${pathname}`, req.url));
   }
 
+  // Propagate the active locale to server components via request header
+  const forwardHeaders = new Headers(req.headers);
+  forwardHeaders.set("x-locale", pathLocale);
+
   // Strip locale to check protected paths
   const pathWithoutLocale = pathname.replace(`/${pathLocale}`, "") || "/";
 
@@ -60,7 +64,7 @@ export default auth((req) => {
     }
   }
 
-  return NextResponse.next();
+  return NextResponse.next({ request: { headers: forwardHeaders } });
 });
 
 export const config = {
