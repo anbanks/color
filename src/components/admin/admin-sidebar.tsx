@@ -82,7 +82,7 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className="gap-1.5">
               {navItems.map((item) => {
                 const Icon = item.icon;
                 const href = `${base}${item.href}`;
@@ -94,9 +94,11 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
                 return (
                   <SidebarMenuItem key={item.href}>
                     <SidebarMenuButton
+                      size="lg"
                       render={<Link href={href} />}
                       isActive={isActive}
                       tooltip={item.label}
+                      className="text-[15px] [&>svg]:size-5"
                     >
                       <Icon />
                       <span>{item.label}</span>
