@@ -21,5 +21,9 @@ id = "03e54a04595c467e8a0e60b545e8fbcb"
 # binding = "STORAGE"
 # bucket_name = "color-assets"
 
+# Cloudflare cron triggers fire scheduled() events, which OpenNext does not
+# forward to Next.js route handlers. Keep this empty and rely on the GitHub
+# Actions workflow (.github/workflows/publish-cron.yml) to hit /api/cron/publish
+# over HTTP on a schedule.
 [triggers]
-crons = ["0 * * * *"]
+crons = []
