@@ -3,14 +3,14 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useLocale } from "@/lib/locale-context";
-import { Sparkles, Flame, Orbit, Heart } from "lucide-react";
+import { Sparkles, Flame, Orbit, Bookmark } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
   { path: "", key: "new" as const, icon: Sparkles },
   { path: "/popular", key: "popular" as const, icon: Flame },
   { path: "/random", key: "random" as const, icon: Orbit },
-  { path: "/collections", key: "collection" as const, icon: Heart },
+  { path: "/collections", key: "collection" as const, icon: Bookmark },
 ];
 
 const navLabels: Record<string, Record<string, string>> = {

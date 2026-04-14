@@ -1,6 +1,7 @@
 "use client";
 
 import { LikeButton } from "./like-button";
+import { SaveButton } from "./save-button";
 import { useCopyColor } from "@/hooks/use-copy-color";
 import { useLocale } from "@/lib/locale-context";
 import Link from "next/link";
@@ -51,8 +52,11 @@ export function PaletteCard({ id, slug, colors, likesCount, liked, timeAgo }: Pa
           </div>
         </div>
       </Link>
-      <div className="flex items-center justify-between">
-        <LikeButton paletteId={id} initialCount={likesCount} initialLiked={liked} />
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center gap-2 min-w-0">
+          <LikeButton paletteId={id} initialCount={likesCount} initialLiked={liked} />
+          <SaveButton paletteId={id} />
+        </div>
         {timeAgo && (
           <span className="text-[12px] opacity-70 shrink-0">{timeAgo}</span>
         )}
