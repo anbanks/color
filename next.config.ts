@@ -9,9 +9,15 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
-        source: "/:path*",
+        source: "/",
         has: [{ type: "host", value: "www.colorgrid.co" }],
-        destination: "https://colorgrid.co/:path*",
+        destination: "https://colorgrid.co/",
+        permanent: true,
+      },
+      {
+        source: "/:path+",
+        has: [{ type: "host", value: "www.colorgrid.co" }],
+        destination: "https://colorgrid.co/:path+",
         permanent: true,
       },
     ];
