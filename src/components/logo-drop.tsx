@@ -18,10 +18,10 @@ export function LogoDrop({ className }: { className?: string }) {
         </clipPath>
       </defs>
       <g clipPath={`url(#${clipId})`}>
-        <rect className="logo-cell logo-cell-1" x={4} y={4}  width={32} height={13} />
-        <rect className="logo-cell logo-cell-2" x={4} y={17} width={32} height={8} />
-        <rect className="logo-cell logo-cell-3" x={4} y={25} width={32} height={6} />
-        <rect className="logo-cell logo-cell-4" x={4} y={31} width={32} height={5} />
+        <path
+          className="logo-liquid"
+          d="M-20 22 Q -15 16 -10 22 Q -5 28 0 22 Q 5 16 10 22 Q 15 28 20 22 Q 25 16 30 22 Q 35 28 40 22 Q 45 16 50 22 Q 55 28 60 22 L 60 40 L -20 40 Z"
+        />
       </g>
       <rect
         x={4}
