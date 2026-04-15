@@ -48,7 +48,7 @@ function LoginForm() {
         <div className="flex flex-col items-center text-center">
           <Link href={`/${locale}`} className="logo flex items-center gap-2.5">
             <LogoDrop className="h-[38px] w-[38px] shrink-0 text-gray-900 dark:text-white" />
-            <span className="text-[26px] font-semibold tracking-tight text-gray-900 dark:text-white">Color Magic</span>
+            <span className="text-[26px] font-semibold tracking-tight text-gray-900 dark:text-white">Color Grid</span>
           </Link>
           <p className="text-sm text-gray-400 dark:text-white/40 mt-2">{t.auth.signIn}</p>
         </div>

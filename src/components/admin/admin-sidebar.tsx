@@ -56,7 +56,7 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
         >
           <LogoDrop className="h-[30px] w-[30px] shrink-0" />
           <span className="truncate text-[19px] font-semibold tracking-tight group-data-[collapsible=icon]:hidden">
-            Color Magic
+            Color Grid
           </span>
         </Link>
       </SidebarHeader>

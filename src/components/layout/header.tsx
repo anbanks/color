@@ -90,7 +90,7 @@ export function Header() {
         <div className="min-w-[200px] shrink-0 hidden md:block px-5 box-border">
           <Link href={`/${locale}`} className="logo flex items-center gap-2.5 group">
             <LogoDrop className="h-[30px] w-[30px] shrink-0 text-gray-900 dark:text-white" />
-            <span className="text-[19px] font-semibold tracking-tight text-gray-900 dark:text-white">Color Magic</span>
+            <span className="text-[19px] font-semibold tracking-tight text-gray-900 dark:text-white">Color Grid</span>
           </Link>
         </div>
         {/* Logo mobile — icon only */}
