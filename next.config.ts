@@ -6,7 +6,16 @@ if (process.env.NODE_ENV === "development") {
 }
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.colorgrid.co" }],
+        destination: "https://colorgrid.co/:path*",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
