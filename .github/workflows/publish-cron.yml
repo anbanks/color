@@ -17,7 +17,7 @@ jobs:
           if [ -n "$CRON_SECRET" ]; then
             curl -fsSL \
               -H "Authorization: Bearer $CRON_SECRET" \
-              https://color.color-681.workers.dev/api/cron/publish
+              https://colorgrid.co/api/cron/publish
           else
-            curl -fsSL https://color.color-681.workers.dev/api/cron/publish
+            curl -fsSL https://colorgrid.co/api/cron/publish
           fi

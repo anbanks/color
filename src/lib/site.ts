@@ -1,5 +1,5 @@
 export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://color.color-681.workers.dev";
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://colorgrid.co";
 
 export const SITE_NAME = "Color Magic";
 
