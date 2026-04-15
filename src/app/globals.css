@@ -215,15 +215,11 @@
   100%  { fill: #FF6B6B; }
 }
 .logo-grid {
-  animation: logoGridFlow 8s linear infinite;
+  animation: logoGridFlow 9s linear infinite;
 }
 .logo-grid-d0 { animation-delay:  0s; }
-.logo-grid-d1 { animation-delay: -1s; }
-.logo-grid-d2 { animation-delay: -2s; }
-.logo-grid-d3 { animation-delay: -3s; }
-.logo-grid-d4 { animation-delay: -4s; }
-.logo-grid-d5 { animation-delay: -5s; }
-.logo-grid-d6 { animation-delay: -6s; }
+.logo-grid-d1 { animation-delay: -3s; }
+.logo-grid-d2 { animation-delay: -6s; }
 .logo svg {
   transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
