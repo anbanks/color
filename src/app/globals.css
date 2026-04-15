@@ -202,10 +202,10 @@
   100% { transform: scale(1); }
 }
 
-/* Logo — rounded square with animated liquid fill */
+/* Logo — liquid drop with animated fill and wave motion */
 .logo-liquid {
   fill: #FF6B6B;
-  animation: logoLiquidColor 7s linear infinite, logoLiquidWave 2.6s ease-in-out infinite;
+  animation: logoLiquidColor 10s linear infinite, logoLiquidWave 3.2s ease-in-out infinite;
 }
 @keyframes logoLiquidColor {
   0%, 18%  { fill: #FF6B6B; }
