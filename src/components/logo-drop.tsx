@@ -1,11 +1,12 @@
 "use client";
 
-// 3x3 grid. Each cell's animation delay = row + col, so the color wave
+// 4x4 grid. Each cell's animation delay = row + col, so the color wave
 // flows diagonally from top-left to bottom-right.
 const DELAYS: number[][] = [
-  [0, 1, 2],
-  [1, 2, 3],
-  [2, 3, 4],
+  [0, 1, 2, 3],
+  [1, 2, 3, 4],
+  [2, 3, 4, 5],
+  [3, 4, 5, 6],
 ];
 
 export function LogoDrop({ className }: { className?: string }) {
@@ -21,11 +22,11 @@ export function LogoDrop({ className }: { className?: string }) {
           <rect
             key={`${r}-${c}`}
             className={`logo-grid logo-grid-d${d}`}
-            x={3 + c * 12}
-            y={3 + r * 12}
-            width={10}
-            height={10}
-            rx={2}
+            x={1 + c * 10}
+            y={1 + r * 10}
+            width={8}
+            height={8}
+            rx={1.8}
           />
         ))
       )}
