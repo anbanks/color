@@ -1,6 +1,8 @@
 import { isValidLocale, getDictionary, locales, type Locale } from "@/lib/i18n";
 import { LocaleProvider } from "@/lib/locale-context";
 import { MobileTabs } from "@/components/layout/mobile-tabs";
+import { AuthModalProvider } from "@/components/auth/auth-modal-provider";
+import { AuthModal } from "@/components/auth/auth-modal";
 import { SITE_URL, SITE_NAME } from "@/lib/site";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -90,14 +92,17 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
 
   return (
     <LocaleProvider locale={locale as Locale} dictionary={dictionary}>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
-      />
-      <div className="site-container pb-[80px] md:pb-0">
-        {children}
-      </div>
-      <MobileTabs />
+      <AuthModalProvider>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+        />
+        <div className="site-container pb-[80px] md:pb-0">
+          {children}
+        </div>
+        <MobileTabs />
+        <AuthModal />
+      </AuthModalProvider>
     </LocaleProvider>
   );
 }
