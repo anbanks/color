@@ -42,20 +42,15 @@ function formatCount(n: number) {
 }
 
 export function LikeButton({ paletteId, initialCount, initialLiked = false }: LikeButtonProps) {
-  const [liked, setLiked] = useState(initialLiked);
+  const [liked, setLiked] = useState(
+    () => initialLiked || (typeof window !== "undefined" && getLocalLikes().has(paletteId))
+  );
   const [count, setCount] = useState(initialCount);
   const iconRef = useRef<SVGSVGElement>(null);
   const newCountRef = useRef<HTMLSpanElement>(null);
   const oldCountRef = useRef<HTMLSpanElement>(null);
   const [prev, setPrev] = useState<number | null>(null);
   const [isPending, startTransition] = useTransition();
-
-  // On mount, merge server liked state with localStorage (for anonymous users)
-  useEffect(() => {
-    if (!initialLiked && getLocalLikes().has(paletteId)) {
-      setLiked(true);
-    }
-  }, [paletteId, initialLiked]);
 
   useEffect(() => {
     if (prev === null) return;
