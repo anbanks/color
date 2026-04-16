@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useLocale } from "@/lib/locale-context";
-import { X, Search, MoreHorizontal, Sun, Moon, Globe, ChevronDown, User, LogOut } from "lucide-react";
+import { X, Search, MoreHorizontal, Sun, Moon, Globe, ChevronDown, User, LogOut, Plus, Bookmark } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
 import {
@@ -231,12 +231,27 @@ export function Header() {
                   </>
                 )}
                 <DropdownMenuItem
+                  render={<Link href={`/${locale}/create`} />}
+                  className="rounded-lg px-3 py-2 text-[13px] cursor-pointer"
+                >
+                  <Plus className="h-4 w-4 mr-2 text-gray-500" />
+                  {t.palette.createTitle}
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  render={<Link href={`/${locale}/collections`} />}
+                  className="rounded-lg px-3 py-2 text-[13px] cursor-pointer"
+                >
+                  <Bookmark className="h-4 w-4 mr-2 text-gray-500" />
+                  {t.collections.title}
+                </DropdownMenuItem>
+                <DropdownMenuItem
                   render={<Link href={`/${locale}/account`} />}
                   className="rounded-lg px-3 py-2 text-[13px] cursor-pointer"
                 >
                   <User className="h-4 w-4 mr-2 text-gray-500" />
                   {t.menu.myAccount}
                 </DropdownMenuItem>
+                <DropdownMenuSeparator />
                 <DropdownMenuItem
                   className="rounded-lg px-3 py-2 text-[13px] cursor-pointer text-red-600 dark:text-red-400"
                   onClick={() => signOut()}
