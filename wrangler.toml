@@ -17,10 +17,9 @@ migrations_dir = "src/db/migrations"
 binding = "CACHE"
 id = "03e54a04595c467e8a0e60b545e8fbcb"
 
-# R2 - habilitar no Cloudflare Dashboard antes de usar
-# [[r2_buckets]]
-# binding = "STORAGE"
-# bucket_name = "color-assets"
+[[r2_buckets]]
+binding = "STORAGE"
+bucket_name = "color-assets"
 
 # Cloudflare cron triggers fire scheduled() events, which OpenNext does not
 # forward to Next.js route handlers. Keep this empty and rely on the GitHub
