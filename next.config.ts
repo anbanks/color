@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import path from "node:path";
 import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
 
 if (process.env.NODE_ENV === "development") {
@@ -52,6 +53,20 @@ const nextConfig: NextConfig = {
         ],
       },
     ];
+  },
+  webpack(config, { isServer }) {
+    // Strip Next's built-in ES polyfill bundle on the client. The
+    // browserslist targets in package.json already require engines that
+    // ship Array.at, Object.hasOwn, etc. natively.
+    if (!isServer) {
+      const empty = path.resolve("./src/lib/shims/empty.js");
+      config.resolve = config.resolve ?? {};
+      config.resolve.alias = {
+        ...(config.resolve.alias ?? {}),
+        "next/dist/build/polyfills/polyfill-module": empty,
+      };
+    }
+    return config;
   },
 };
 
