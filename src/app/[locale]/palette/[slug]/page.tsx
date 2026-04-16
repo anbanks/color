@@ -15,7 +15,7 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowLeft, Link2, Download } from "lucide-react";
+import { PaletteActions } from "@/components/palette/palette-actions";
 import { getDictionary, locales, type Locale } from "@/lib/i18n";
 import { SITE_URL, SITE_NAME } from "@/lib/site";
 
@@ -148,14 +148,7 @@ export default async function PalettePage({ params }: PageProps) {
             {/* Actions */}
             <div className="flex items-center gap-3 mt-4">
               <LikeButton paletteId={palette.id} initialCount={palette.likesCount} />
-              <button className="inline-flex items-center gap-[6px] h-[34px] px-[14px] rounded-full border-[1.5px] border-gray-300 text-[14px] text-gray-500 bg-white hover:border-gray-400 hover:text-gray-700 transition-all">
-                <Download className="h-4 w-4" />
-                {t.single.image}
-              </button>
-              <button className="inline-flex items-center gap-[6px] h-[34px] px-[14px] rounded-full border-[1.5px] border-gray-300 text-[14px] text-gray-500 bg-white hover:border-gray-400 hover:text-gray-700 transition-all">
-                <Link2 className="h-4 w-4" />
-                {t.single.link}
-              </button>
+              <PaletteActions slug={slug} colors={colors} />
               <span className="ml-auto text-[13px] text-gray-400">
                 {palette.publishedAt ? new Date(typeof palette.publishedAt === "number" ? palette.publishedAt * 1000 : palette.publishedAt).toLocaleDateString() : ""}
               </span>
