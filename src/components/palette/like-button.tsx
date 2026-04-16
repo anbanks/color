@@ -2,9 +2,23 @@
 
 import { useEffect, useRef, useState, useTransition } from "react";
 import { Heart } from "lucide-react";
-import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import { useLocale } from "@/lib/locale-context";
+
+const LS_KEY = "colorgrid_likes";
+
+function getLocalLikes(): Set<string> {
+  try {
+    return new Set(JSON.parse(localStorage.getItem(LS_KEY) || "[]"));
+  } catch {
+    return new Set();
+  }
+}
+function setLocalLike(id: string, liked: boolean) {
+  const set = getLocalLikes();
+  if (liked) set.add(id);
+  else set.delete(id);
+  localStorage.setItem(LS_KEY, JSON.stringify([...set]));
+}
 
 interface LikeButtonProps {
   paletteId: string;
@@ -28,7 +42,6 @@ function formatCount(n: number) {
 }
 
 export function LikeButton({ paletteId, initialCount, initialLiked = false }: LikeButtonProps) {
-  const { t } = useLocale();
   const [liked, setLiked] = useState(initialLiked);
   const [count, setCount] = useState(initialCount);
   const iconRef = useRef<SVGSVGElement>(null);
@@ -36,6 +49,13 @@ export function LikeButton({ paletteId, initialCount, initialLiked = false }: Li
   const oldCountRef = useRef<HTMLSpanElement>(null);
   const [prev, setPrev] = useState<number | null>(null);
   const [isPending, startTransition] = useTransition();
+
+  // On mount, merge server liked state with localStorage (for anonymous users)
+  useEffect(() => {
+    if (!initialLiked && getLocalLikes().has(paletteId)) {
+      setLiked(true);
+    }
+  }, [paletteId, initialLiked]);
 
   useEffect(() => {
     if (prev === null) return;
@@ -60,15 +80,18 @@ export function LikeButton({ paletteId, initialCount, initialLiked = false }: Li
 
   const handleLike = () => {
     iconRef.current?.animate(ICON_POP, ICON_OPTS);
+    const nextLiked = !liked;
     startTransition(async () => {
       try {
-        const res = await fetch(`/api/palettes/${paletteId}/like`, { method: "POST" });
-        if (!res.ok) {
-          if (res.status === 401) toast.error(t.auth.signIn);
-          return;
-        }
+        const res = await fetch(`/api/palettes/${paletteId}/like`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action: nextLiked ? "like" : "unlike" }),
+        });
+        if (!res.ok) return;
         const data = (await res.json()) as { liked: boolean; count: number };
         setLiked(data.liked);
+        setLocalLike(paletteId, data.liked);
         if (data.count !== count) {
           setPrev(count);
           setCount(data.count);
