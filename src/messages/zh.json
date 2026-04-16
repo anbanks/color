@@ -186,6 +186,12 @@
     "dark": "深色",
     "language": "语言",
     "searchLanguage": "搜索语言...",
-    "noResults": "未找到语言"
+    "noResults": "未找到语言",
+    "uploadPhoto": "上传照片",
+    "changePhoto": "更换照片",
+    "removePhoto": "删除",
+    "invalidImage": "请选择图片",
+    "avatarUpdated": "照片已更新",
+    "avatarRemoved": "照片已删除"
   }
 }

@@ -12,9 +12,8 @@ interface Props {
   params: { slug: string; locale: string };
 }
 
-async function loadColors(slug: string): Promise<string[]> {
+async function loadColors(slug: string, env: CloudflareEnv): Promise<string[]> {
   try {
-    const { env } = await getCloudflareContext({ async: true });
     const db = getDb(env.DB);
     const rows = await db
       .select({ colors: palettes.colors })
@@ -26,9 +25,8 @@ async function loadColors(slug: string): Promise<string[]> {
       if (Array.isArray(parsed) && parsed.length) return parsed;
     }
   } catch {
-    // fall through to defaults
+    // ignore; fall back below
   }
-  // Fallback — derive from slug if it contains hex segments.
   const fromSlug = slug
     .split("-")
     .filter((s) => /^[0-9a-f]{6}$/i.test(s))
@@ -37,10 +35,25 @@ async function loadColors(slug: string): Promise<string[]> {
   return ["#FF6B6B", "#4ECDC4", "#FEED30", "#667EEA"];
 }
 
+const IMAGE_HEADERS = {
+  "Content-Type": "image/png",
+  "Cache-Control": "public, max-age=31536000, immutable",
+};
+
 export default async function Image({ params }: Props) {
-  const colors = await loadColors(params.slug);
+  const { env } = await getCloudflareContext({ async: true });
+  const cacheKey = `og/palette/${params.slug}.png`;
+
+  // Fast path: serve the cached PNG straight from R2.
+  const cached = await env.STORAGE.get(cacheKey);
+  if (cached) {
+    return new Response(cached.body, { headers: IMAGE_HEADERS });
+  }
+
+  const colors = await loadColors(params.slug, env);
   const heights = ["41%", "26%", "18%", "15%"]; // same ratios as PaletteCard
-  return new ImageResponse(
+
+  const rendered = new ImageResponse(
     (
       <div
         style={{
@@ -52,7 +65,6 @@ export default async function Image({ params }: Props) {
           fontFamily: "sans-serif",
         }}
       >
-        {/* Palette — 70% of the canvas. */}
         <div style={{ display: "flex", flexDirection: "column", width: "100%", height: "70%" }}>
           {colors.slice(0, 4).map((c, i) => (
             <div
@@ -65,7 +77,6 @@ export default async function Image({ params }: Props) {
             />
           ))}
         </div>
-        {/* Hex row + wordmark. */}
         <div
           style={{
             flex: 1,
@@ -91,4 +102,16 @@ export default async function Image({ params }: Props) {
     ),
     { ...size }
   );
+
+  // ArrayBuffer so we can both return it and stash a copy in R2.
+  const buffer = await rendered.arrayBuffer();
+  try {
+    await env.STORAGE.put(cacheKey, buffer, {
+      httpMetadata: { contentType: "image/png" },
+    });
+  } catch {
+    // Non-fatal — still serve the freshly rendered image.
+  }
+
+  return new Response(buffer, { headers: IMAGE_HEADERS });
 }

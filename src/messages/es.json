@@ -186,6 +186,12 @@
     "dark": "Oscuro",
     "language": "Idioma",
     "searchLanguage": "Buscar idioma...",
-    "noResults": "No se encontró idioma"
+    "noResults": "No se encontró idioma",
+    "uploadPhoto": "Subir foto",
+    "changePhoto": "Cambiar foto",
+    "removePhoto": "Eliminar",
+    "invalidImage": "Selecciona una imagen",
+    "avatarUpdated": "Foto actualizada",
+    "avatarRemoved": "Foto eliminada"
   }
 }

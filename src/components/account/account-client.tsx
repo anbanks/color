@@ -19,6 +19,7 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { AvatarUpload } from "./avatar-upload";
 
 const LANGUAGES = [
   { code: "en", label: "English" },
@@ -33,7 +34,7 @@ const LANGUAGES = [
 ];
 
 interface AccountClientProps {
-  user: { name: string | null; email: string | null };
+  user: { name: string | null; email: string | null; image: string | null };
 }
 
 export function AccountClient({ user }: AccountClientProps) {
@@ -133,6 +134,9 @@ export function AccountClient({ user }: AccountClientProps) {
         <h2 className="text-[14px] font-semibold text-gray-900 dark:text-white mb-4">
           {t.account.profile}
         </h2>
+        <div className="mb-5">
+          <AvatarUpload initialImage={user.image} name={user.name} />
+        </div>
         <form onSubmit={submitProfile} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>

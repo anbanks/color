@@ -186,6 +186,12 @@
     "dark": "ダーク",
     "language": "言語",
     "searchLanguage": "言語を検索...",
-    "noResults": "言語が見つかりません"
+    "noResults": "言語が見つかりません",
+    "uploadPhoto": "写真をアップロード",
+    "changePhoto": "写真を変更",
+    "removePhoto": "削除",
+    "invalidImage": "画像を選択してください",
+    "avatarUpdated": "写真を更新しました",
+    "avatarRemoved": "写真を削除しました"
   }
 }

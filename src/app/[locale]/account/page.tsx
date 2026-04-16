@@ -51,6 +51,7 @@ export default async function AccountPage({ params }: PageProps) {
             user={{
               name: session.user.name ?? null,
               email: session.user.email ?? null,
+              image: session.user.image ?? null,
             }}
           />
         </main>

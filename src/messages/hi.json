@@ -186,6 +186,12 @@
     "dark": "गहरा",
     "language": "भाषा",
     "searchLanguage": "भाषा खोजें...",
-    "noResults": "कोई भाषा नहीं मिली"
+    "noResults": "कोई भाषा नहीं मिली",
+    "uploadPhoto": "फ़ोटो अपलोड करें",
+    "changePhoto": "फ़ोटो बदलें",
+    "removePhoto": "हटाएँ",
+    "invalidImage": "कृपया एक छवि चुनें",
+    "avatarUpdated": "फ़ोटो अपडेट हो गई",
+    "avatarRemoved": "फ़ोटो हटा दी गई"
   }
 }

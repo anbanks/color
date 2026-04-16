@@ -186,6 +186,12 @@
     "dark": "Dark",
     "language": "Language",
     "searchLanguage": "Search language...",
-    "noResults": "No language found"
+    "noResults": "No language found",
+    "uploadPhoto": "Upload photo",
+    "changePhoto": "Change photo",
+    "removePhoto": "Remove",
+    "invalidImage": "Please pick an image",
+    "avatarUpdated": "Photo updated",
+    "avatarRemoved": "Photo removed"
   }
 }
