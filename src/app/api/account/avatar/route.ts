@@ -4,8 +4,6 @@ import { users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { auth } from "@/auth";
 
-export const runtime = "edge";
-
 const MAX_SIZE = 2 * 1024 * 1024; // 2 MB
 const ALLOWED_TYPES = new Set(["image/png", "image/jpeg", "image/webp"]);
 const EXT_BY_TYPE: Record<string, string> = {

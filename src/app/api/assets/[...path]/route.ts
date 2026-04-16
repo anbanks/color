@@ -1,7 +1,5 @@
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 
-export const runtime = "edge";
-
 // Public read-only proxy in front of the R2 bucket. Anyone with the URL can
 // fetch the object; never expose this for anything that should be private.
 export async function GET(
