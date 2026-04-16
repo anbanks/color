@@ -54,17 +54,22 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  webpack(config, { isServer }) {
+  webpack(config, { isServer, webpack }) {
     // Strip Next's built-in ES polyfill bundle on the client. The
     // browserslist targets in package.json already require engines that
-    // ship Array.at, Object.hasOwn, etc. natively.
+    // ship Array.at, Object.hasOwn, etc. natively. Next references the
+    // polyfill via a relative require ("../build/polyfills/polyfill-module"),
+    // so a name-keyed alias doesn't catch it — replace the resolved module
+    // instead.
     if (!isServer) {
       const empty = path.resolve("./src/lib/shims/empty.js");
-      config.resolve = config.resolve ?? {};
-      config.resolve.alias = {
-        ...(config.resolve.alias ?? {}),
-        "next/dist/build/polyfills/polyfill-module": empty,
-      };
+      config.plugins = config.plugins ?? [];
+      config.plugins.push(
+        new webpack.NormalModuleReplacementPlugin(
+          /[/\\]polyfills[/\\]polyfill-module(\.js)?$/,
+          empty
+        )
+      );
     }
     return config;
   },
