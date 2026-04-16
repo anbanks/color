@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useSession, signOut } from "next-auth/react";
+import { useAuthModal } from "@/components/auth/auth-modal-provider";
 import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { LogoDrop } from "@/components/logo-drop";
@@ -64,6 +65,7 @@ export function Header() {
   const { locale, t } = useLocale();
   const { data: session } = useSession();
   const { theme, setTheme } = useTheme();
+  const { openAuth } = useAuthModal();
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
   const router = useRouter();
@@ -272,8 +274,11 @@ export function Header() {
                 <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
                   <Link href={`/${locale}`} className="w-full">{t.menu.palettes}</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
-                  <Link href={`/${locale}/login`} className="w-full">{t.menu.login}</Link>
+                <DropdownMenuItem
+                  className="rounded-lg px-3 py-2 text-[13px] cursor-pointer"
+                  onClick={() => openAuth("login")}
+                >
+                  {t.menu.login}
                 </DropdownMenuItem>
                 <DropdownMenuSeparator className="xl:hidden" />
                 <DropdownMenuItem
