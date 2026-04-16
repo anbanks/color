@@ -2,7 +2,9 @@
 
 import { useEffect, useRef, useState, useTransition } from "react";
 import { Heart } from "lucide-react";
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { useLocale } from "@/lib/locale-context";
 
 interface LikeButtonProps {
   paletteId: string;
@@ -26,6 +28,7 @@ function formatCount(n: number) {
 }
 
 export function LikeButton({ paletteId, initialCount, initialLiked = false }: LikeButtonProps) {
+  const { t } = useLocale();
   const [liked, setLiked] = useState(initialLiked);
   const [count, setCount] = useState(initialCount);
   const iconRef = useRef<SVGSVGElement>(null);
@@ -60,7 +63,10 @@ export function LikeButton({ paletteId, initialCount, initialLiked = false }: Li
     startTransition(async () => {
       try {
         const res = await fetch(`/api/palettes/${paletteId}/like`, { method: "POST" });
-        if (!res.ok) return;
+        if (!res.ok) {
+          if (res.status === 401) toast.error(t.auth.signIn);
+          return;
+        }
         const data = (await res.json()) as { liked: boolean; count: number };
         setLiked(data.liked);
         if (data.count !== count) {
