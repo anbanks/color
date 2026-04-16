@@ -4,7 +4,7 @@ import { useState, useTransition } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Dialog } from "@base-ui/react/dialog";
-import { X } from "lucide-react";
+import { X, Mail, Lock, User as UserIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
@@ -20,6 +20,18 @@ const GoogleIcon = () => (
     <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
   </svg>
 );
+
+function InputWithIcon({
+  icon: Icon,
+  ...props
+}: React.ComponentProps<typeof Input> & { icon: React.ComponentType<{ className?: string }> }) {
+  return (
+    <div className="relative">
+      <Icon className="absolute left-3 top-1/2 -translate-y-1/2 h-[16px] w-[16px] text-gray-400 dark:text-white/35 pointer-events-none" />
+      <Input {...props} className="h-11 pl-10" />
+    </div>
+  );
+}
 
 function LoginView() {
   const router = useRouter();
@@ -54,7 +66,7 @@ function LoginView() {
         <p className="text-sm text-gray-400 dark:text-white/40 mt-1.5">{t.auth.signIn}</p>
       </div>
 
-      <Button variant="outline" className="w-full h-11" onClick={handleGoogle}>
+      <Button variant="outline" className="w-full h-11 cursor-pointer" onClick={handleGoogle}>
         <GoogleIcon />
         {t.auth.continueGoogle}
       </Button>
@@ -69,9 +81,9 @@ function LoginView() {
       </div>
 
       <form onSubmit={handleCredentials} className="space-y-3">
-        <Input type="email" placeholder={t.auth.email} value={email} onChange={(e) => setEmail(e.target.value)} required className="h-11" />
-        <Input type="password" placeholder={t.auth.password} value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} className="h-11" />
-        <Button type="submit" className="w-full h-11" disabled={isPending}>
+        <InputWithIcon icon={Mail} type="email" placeholder={t.auth.email} value={email} onChange={(e) => setEmail(e.target.value)} required />
+        <InputWithIcon icon={Lock} type="password" placeholder={t.auth.password} value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} />
+        <Button type="submit" className="w-full h-11 cursor-pointer" disabled={isPending}>
           {isPending ? t.auth.signingIn : t.auth.signInButton}
         </Button>
       </form>
@@ -141,7 +153,7 @@ function RegisterView() {
         <p className="text-sm text-gray-400 dark:text-white/40 mt-1.5">{t.auth.signUp}</p>
       </div>
 
-      <Button variant="outline" className="w-full h-11" onClick={handleGoogle}>
+      <Button variant="outline" className="w-full h-11 cursor-pointer" onClick={handleGoogle}>
         <GoogleIcon />
         {t.auth.continueGoogle}
       </Button>
@@ -156,11 +168,11 @@ function RegisterView() {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-3">
-        <Input type="text" placeholder={t.auth.name} value={name} onChange={(e) => setName(e.target.value)} required className="h-11" />
-        <Input type="email" placeholder={t.auth.email} value={email} onChange={(e) => setEmail(e.target.value)} required className="h-11" />
-        <Input type="password" placeholder={t.auth.passwordMinLength} value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} className="h-11" />
-        <Input type="password" placeholder={t.auth.confirmPassword} value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required minLength={6} className="h-11" />
-        <Button type="submit" className="w-full h-11" disabled={isPending}>
+        <InputWithIcon icon={UserIcon} type="text" placeholder={t.auth.name} value={name} onChange={(e) => setName(e.target.value)} required />
+        <InputWithIcon icon={Mail} type="email" placeholder={t.auth.email} value={email} onChange={(e) => setEmail(e.target.value)} required />
+        <InputWithIcon icon={Lock} type="password" placeholder={t.auth.passwordMinLength} value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} />
+        <InputWithIcon icon={Lock} type="password" placeholder={t.auth.confirmPassword} value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required minLength={6} />
+        <Button type="submit" className="w-full h-11 cursor-pointer" disabled={isPending}>
           {isPending ? t.auth.creatingAccount : t.auth.createAccount}
         </Button>
       </form>
