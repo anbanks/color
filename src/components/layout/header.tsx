@@ -110,8 +110,13 @@ export function Header() {
                 <div className="flex items-center ml-3">
                   <span className="inline-flex items-center gap-1 pl-3 pr-1 py-[3px] rounded-full text-[13px] font-medium bg-gray-100 dark:bg-white/10 text-gray-800 dark:text-white/90 border border-gray-200 dark:border-white/15">
                     {activeTag.charAt(0).toUpperCase() + activeTag.slice(1)}
-                    <button onClick={clearTag} className="ml-1 p-0.5 rounded-full hover:bg-gray-200 dark:hover:bg-white/15 transition-colors">
-                      <X className="h-3 w-3" />
+                    <button
+                      onClick={clearTag}
+                      aria-label="Clear filter"
+                      className="ml-1 p-0.5 rounded-full hover:bg-gray-200 dark:hover:bg-white/15 transition-colors"
+                    >
+                      <X className="h-3 w-3" aria-hidden="true" />
+                      <span className="sr-only">Clear filter</span>
                     </button>
                   </span>
                 </div>
@@ -132,8 +137,13 @@ export function Header() {
                 className={`w-full h-full pr-4 text-[14px] text-gray-700 dark:text-white/90 placeholder:text-gray-400 dark:placeholder:text-white/30 focus:outline-none bg-transparent ${activeTag ? "pl-2.5" : "pl-[42px]"}`}
               />
               {activeTag && (
-                <button onClick={clearTag} className="pr-3.5 text-gray-400 hover:text-gray-500 transition-colors">
-                  <X className="h-[15px] w-[15px]" />
+                <button
+                  onClick={clearTag}
+                  aria-label="Clear search"
+                  className="pr-3.5 text-gray-400 hover:text-gray-500 transition-colors"
+                >
+                  <X className="h-[15px] w-[15px]" aria-hidden="true" />
+                  <span className="sr-only">Clear search</span>
                 </button>
               )}
             </div>
@@ -174,8 +184,11 @@ export function Header() {
         <div className="shrink-0 flex items-center justify-end gap-1.5 px-3 md:px-5 box-border xl:min-w-[340px] xl:max-w-[340px]">
           {/* Language selector — xl+ only */}
           <DropdownMenu>
-            <DropdownMenuTrigger className="h-[38px] px-[10px] rounded-full hidden xl:flex items-center gap-[5px] hover:bg-black/5 dark:hover:bg-white/10 transition-colors outline-none text-[13px] text-gray-500 dark:text-white/60 cursor-pointer">
-              <Globe className="h-[15px] w-[15px]" strokeWidth={1.5} />
+            <DropdownMenuTrigger
+              aria-label="Language"
+              className="h-[38px] px-[10px] rounded-full hidden xl:flex items-center gap-[5px] hover:bg-black/5 dark:hover:bg-white/10 transition-colors outline-none text-[13px] text-gray-500 dark:text-white/60 cursor-pointer"
+            >
+              <Globe className="h-[15px] w-[15px]" strokeWidth={1.5} aria-hidden="true" />
               {locale.toUpperCase()}
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-40 rounded-xl shadow-xl shadow-black/[0.06] border-gray-200/80 dark:border-white/10 dark:bg-[#252525] p-1.5">
@@ -203,21 +216,27 @@ export function Header() {
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
             className="h-[38px] w-[38px] rounded-full hidden xl:flex items-center justify-center hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer"
             title={theme === "dark" ? "Light mode" : "Dark mode"}
+            aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
           >
             {theme === "dark" ? (
-              <Sun className="h-[18px] w-[18px] text-yellow-400" strokeWidth={1.5} />
+              <Sun className="h-[18px] w-[18px] text-yellow-400" strokeWidth={1.5} aria-hidden="true" />
             ) : (
-              <Moon className="h-[18px] w-[18px] text-gray-500" strokeWidth={1.5} />
+              <Moon className="h-[18px] w-[18px] text-gray-500" strokeWidth={1.5} aria-hidden="true" />
             )}
+            <span className="sr-only">{theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}</span>
           </button>
 
           {session?.user ? (
             <DropdownMenu>
-              <DropdownMenuTrigger className="group flex items-center gap-1.5 ml-1 pl-1 pr-2 h-[38px] rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors outline-none cursor-pointer">
-                <div className="h-[30px] w-[30px] rounded-full bg-gray-100 dark:bg-white/10 flex items-center justify-center text-[13px] font-semibold text-gray-500 dark:text-white/70">
+              <DropdownMenuTrigger
+                aria-label={t.menu.myAccount}
+                className="group flex items-center gap-1.5 ml-1 pl-1 pr-2 h-[38px] rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors outline-none cursor-pointer"
+              >
+                <div className="h-[30px] w-[30px] rounded-full bg-gray-100 dark:bg-white/10 flex items-center justify-center text-[13px] font-semibold text-gray-500 dark:text-white/70" aria-hidden="true">
                   {session.user.name?.[0]?.toUpperCase() || "?"}
                 </div>
-                <ChevronDown className="h-[15px] w-[15px] text-gray-500 dark:text-white/50 transition-transform duration-200 group-data-[popup-open]:rotate-180" strokeWidth={2} />
+                <ChevronDown className="h-[15px] w-[15px] text-gray-500 dark:text-white/50 transition-transform duration-200 group-data-[popup-open]:rotate-180" strokeWidth={2} aria-hidden="true" />
+                <span className="sr-only">{t.menu.myAccount}</span>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-52 rounded-xl shadow-xl shadow-black/[0.06] border-gray-200/80 dark:border-white/10 dark:bg-[#252525] p-1.5">
                 {(session.user as { role?: string }).role === "admin" && (
@@ -265,10 +284,14 @@ export function Header() {
             </DropdownMenu>
           ) : (
             <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center gap-0.5 outline-none cursor-pointer">
+              <DropdownMenuTrigger
+                aria-label="Menu"
+                className="flex items-center gap-0.5 outline-none cursor-pointer"
+              >
                 <div className="h-9 w-9 flex items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-white/10 transition-colors">
-                  <MoreHorizontal className="h-[20px] w-[20px] text-gray-700 dark:text-white/70" strokeWidth={2} />
+                  <MoreHorizontal className="h-[20px] w-[20px] text-gray-700 dark:text-white/70" strokeWidth={2} aria-hidden="true" />
                 </div>
+                <span className="sr-only">Menu</span>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-52 rounded-xl shadow-xl shadow-black/[0.06] border-gray-200/80 dark:border-white/10 dark:bg-[#252525] p-1.5">
                 <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
