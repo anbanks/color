@@ -1,11 +1,12 @@
 "use client";
 
-import { useMemo, useState, useTransition } from "react";
+import { useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useLocale } from "@/lib/locale-context";
 import { Search, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { classifyPalette } from "@/lib/classify-palette";
 
 const SUGGESTION_COLORS = [
   "Blue", "Teal", "Mint", "Green", "Sage", "Yellow", "Beige", "Brown",
@@ -22,37 +23,77 @@ const SUGGESTION_COLLECTIONS = [
 ];
 
 const ALL_SUGGESTIONS = [...SUGGESTION_COLORS, ...SUGGESTION_COLLECTIONS];
+const MAX_TAGS = 5;
+
+const DEFAULT_COLORS = ["#c0c0c0", "#b8b8b8", "#d0d0d0", "#d8d8d8"];
 
 export function PaletteCreator() {
   const router = useRouter();
   const { locale, t } = useLocale();
-  const [colors, setColors] = useState<string[]>([
-    "#c0c0c0", "#b8b8b8", "#d0d0d0", "#d8d8d8",
-  ]);
+  const [colors, setColors] = useState<string[]>(DEFAULT_COLORS);
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState("");
   const [focused, setFocused] = useState(false);
   const [isPending, startTransition] = useTransition();
+  // Tags the user explicitly dismissed — we won't re-suggest these even if
+  // the color set still implies them.
+  const dismissed = useRef<Set<string>>(new Set());
+  // Tags that were added automatically (vs manually). Used so we can strip
+  // them out when colors change, instead of the user having to prune.
+  const autoTags = useRef<Set<string>>(new Set());
+  const touched = useRef(false);
 
   const updateColor = (index: number, value: string) => {
+    touched.current = true;
     const next = [...colors];
     next[index] = value;
     setColors(next);
   };
 
+  // Recompute suggestions whenever the color set changes. Merge into the
+  // current tags, preserving the user's manual additions and removals.
+  useEffect(() => {
+    if (!touched.current) return;
+    const { colors: colorTags, tags: collectionTags } = classifyPalette(colors);
+    const suggested = [...colorTags, ...collectionTags].filter(
+      (tag) => !dismissed.current.has(tag)
+    );
+    setTags((prev) => {
+      const manual = prev.filter((t) => !autoTags.current.has(t));
+      const nextAuto = new Set<string>();
+      const merged: string[] = [];
+      for (const tag of manual) merged.push(tag);
+      for (const tag of suggested) {
+        if (merged.length >= MAX_TAGS) break;
+        if (!merged.includes(tag)) {
+          merged.push(tag);
+          nextAuto.add(tag);
+        }
+      }
+      autoTags.current = nextAuto;
+      return merged;
+    });
+  }, [colors]);
+
   const addTag = (raw: string) => {
     const tag = raw.trim();
     if (!tag) return;
     if (tags.includes(tag)) return;
-    if (tags.length >= 5) {
-      toast.error("Max 5 tags");
+    if (tags.length >= MAX_TAGS) {
+      toast.error(`Max ${MAX_TAGS} tags`);
       return;
     }
+    // Manual addition clears any prior dismissal, and stops the tag from
+    // being counted as "auto" so future color changes won't yank it.
+    dismissed.current.delete(tag);
+    autoTags.current.delete(tag);
     setTags([...tags, tag]);
     setTagInput("");
   };
 
   const removeTag = (tag: string) => {
+    dismissed.current.add(tag);
+    autoTags.current.delete(tag);
     setTags(tags.filter((t) => t !== tag));
   };
 
