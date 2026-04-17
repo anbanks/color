@@ -193,5 +193,10 @@
     "invalidImage": "Please pick an image",
     "avatarUpdated": "Photo updated",
     "avatarRemoved": "Photo removed"
+  },
+  "pwa": {
+    "installApp": "Install app",
+    "quickAccess": "Quick access on your device",
+    "install": "Install"
   }
 }

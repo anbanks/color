@@ -193,5 +193,10 @@
     "invalidImage": "Selecciona una imagen",
     "avatarUpdated": "Foto actualizada",
     "avatarRemoved": "Foto eliminada"
+  },
+  "pwa": {
+    "installApp": "Instalar app",
+    "quickAccess": "Acceso rápido en tu dispositivo",
+    "install": "Instalar"
   }
 }

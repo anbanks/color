@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { X, Download } from "lucide-react";
+import { X } from "lucide-react";
+import { useLocale } from "@/lib/locale-context";
+import { LogoDrop } from "@/components/logo-drop";
 
 const LS_KEY = "colorgrid_pwa_dismissed";
 const DISMISS_DAYS = 14;
@@ -54,25 +56,25 @@ export function InstallBanner() {
 
   if (!visible) return null;
 
+  const { t } = useLocale();
+
   return (
     <div className="fixed bottom-20 left-4 right-4 z-50 md:hidden animate-in slide-in-from-bottom-4 fade-in-0 duration-300">
       <div className="flex items-center gap-3 bg-white dark:bg-[#252525] rounded-2xl shadow-2xl shadow-black/15 ring-1 ring-black/5 dark:ring-white/10 px-4 py-3">
-        <div className="h-10 w-10 rounded-xl bg-gradient-to-b from-[#4ECDC4] to-[#667EEA] flex items-center justify-center shrink-0">
-          <Download className="h-5 w-5 text-white" strokeWidth={2} />
-        </div>
+        <LogoDrop className="h-10 w-10 shrink-0 text-gray-900 dark:text-white" />
         <div className="flex-1 min-w-0">
           <p className="text-[13px] font-semibold text-gray-900 dark:text-white leading-tight">
             Color Grid
           </p>
           <p className="text-[12px] text-gray-500 dark:text-white/50 leading-tight mt-0.5">
-            Install app for quick access
+            {t.pwa.quickAccess}
           </p>
         </div>
         <button
           onClick={handleInstall}
           className="shrink-0 px-4 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-[13px] font-medium rounded-lg cursor-pointer"
         >
-          Install
+          {t.pwa.install}
         </button>
         <button
           onClick={handleDismiss}

@@ -193,5 +193,10 @@
     "invalidImage": "画像を選択してください",
     "avatarUpdated": "写真を更新しました",
     "avatarRemoved": "写真を削除しました"
+  },
+  "pwa": {
+    "installApp": "アプリをインストール",
+    "quickAccess": "デバイスですばやくアクセス",
+    "install": "インストール"
   }
 }

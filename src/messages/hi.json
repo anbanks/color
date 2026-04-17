@@ -193,5 +193,10 @@
     "invalidImage": "कृपया एक छवि चुनें",
     "avatarUpdated": "फ़ोटो अपडेट हो गई",
     "avatarRemoved": "फ़ोटो हटा दी गई"
+  },
+  "pwa": {
+    "installApp": "ऐप इंस्टॉल करें",
+    "quickAccess": "अपने डिवाइस पर त्वरित पहुँच",
+    "install": "इंस्टॉल"
   }
 }
