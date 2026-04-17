@@ -1,6 +1,7 @@
 import { isValidLocale, getDictionary, locales, type Locale } from "@/lib/i18n";
 import { LocaleProvider } from "@/lib/locale-context";
 import { MobileTabs } from "@/components/layout/mobile-tabs";
+import { InstallBanner } from "@/components/pwa/install-banner";
 import { AuthModalProvider } from "@/components/auth/auth-modal-provider";
 import { AuthModal } from "@/components/auth/auth-modal";
 import { SITE_URL, SITE_NAME } from "@/lib/site";
@@ -101,6 +102,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
           {children}
         </div>
         <MobileTabs />
+        <InstallBanner />
         <AuthModal />
       </AuthModalProvider>
     </LocaleProvider>
