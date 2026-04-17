@@ -28,7 +28,3 @@ export function generateSeedSQL(): string {
   return statements.join("\n");
 }
 
-// Run directly: npx tsx src/db/seed.ts
-if (typeof require !== "undefined" && require.main === module) {
-  console.log(generateSeedSQL());
-}

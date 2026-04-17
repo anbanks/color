@@ -69,6 +69,15 @@ export async function POST(request: NextRequest) {
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  const { env } = await getCloudflareContext({ async: true });
+
+  const rateLimitKey = `ratelimit:palette:${session?.user?.id || request.headers.get("cf-connecting-ip") || "anon"}`;
+  const current = await env.CACHE.get(rateLimitKey);
+  if (current && Number(current) >= 10) {
+    return Response.json({ error: "Rate limit exceeded" }, { status: 429 });
+  }
+  await env.CACHE.put(rateLimitKey, String((Number(current) || 0) + 1), { expirationTtl: 3600 });
+
   const body = (await request.json()) as { colors?: string[]; tags?: string[] };
   const validHex = /^#[0-9a-fA-F]{6}$/;
   if (!body.colors || body.colors.length !== 4 || body.colors.some((c) => !validHex.test(c))) {
@@ -76,7 +85,6 @@ export async function POST(request: NextRequest) {
   }
 
   const tags = (body.tags || []).slice(0, 5);
-  const { env } = await getCloudflareContext({ async: true });
   const db = getDb(env.DB);
   const id = createId();
   const slug = generateSlug(body.colors);

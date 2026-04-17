@@ -12,6 +12,9 @@ export async function PATCH(
   if (!session?.user) {
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
+  if ((session.user as { role?: string }).role !== "admin") {
+    return Response.json({ error: "Forbidden" }, { status: 403 });
+  }
 
   try {
     const { id } = await params;
@@ -43,6 +46,9 @@ export async function DELETE(
   const session = await auth();
   if (!session?.user) {
     return Response.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  if ((session.user as { role?: string }).role !== "admin") {
+    return Response.json({ error: "Forbidden" }, { status: 403 });
   }
 
   try {
