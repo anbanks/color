@@ -48,8 +48,11 @@ export function MobileTabs() {
             <li key={item.key} className="flex-1">
               <Link
                 href={href}
+                onClick={() => {
+                  try { navigator.vibrate?.(8); } catch {}
+                }}
                 className={cn(
-                  "h-full flex flex-col items-center justify-center gap-[3px] text-[11px] transition-colors",
+                  "h-full flex flex-col items-center justify-center gap-[3px] text-[11px] transition-colors active:scale-90 transition-transform duration-100",
                   isActive
                     ? "text-gray-900 dark:text-white font-medium"
                     : "text-gray-500 dark:text-white/55 hover:text-gray-800 dark:hover:text-white/85"
