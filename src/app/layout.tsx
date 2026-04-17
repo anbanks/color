@@ -59,12 +59,11 @@ export default async function RootLayout({
   return (
     <html lang={lang} className={`${inter.variable} h-full antialiased`} suppressHydrationWarning>
       <head>
-        {/* esbuild --keepNames polyfill — Next inlines helpers (e.g. next-themes)
-            that reference __name but leaves the declaration out of the snippet. */}
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "if(typeof __name==='undefined'){globalThis.__name=function(f,n){try{Object.defineProperty(f,'name',{value:n,configurable:true})}catch(e){}return f}}",
+              "if(typeof __name==='undefined'){globalThis.__name=function(f,n){try{Object.defineProperty(f,'name',{value:n,configurable:true})}catch(e){}return f}}" +
+              ";if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js')}",
           }}
         />
       </head>
