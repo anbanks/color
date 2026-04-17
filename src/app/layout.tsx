@@ -67,7 +67,8 @@ export default async function RootLayout({
           dangerouslySetInnerHTML={{
             __html:
               "if(typeof __name==='undefined'){globalThis.__name=function(f,n){try{Object.defineProperty(f,'name',{value:n,configurable:true})}catch(e){}return f}}" +
-              ";if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js')}",
+              ";if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js')}" +
+              ";window.__pwaPrompt=null;window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();window.__pwaPrompt=e})",
           }}
         />
       </head>

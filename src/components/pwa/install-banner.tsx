@@ -26,6 +26,17 @@ export function InstallBanner() {
       // ignore
     }
 
+    // The inline head script already calls preventDefault() on
+    // beforeinstallprompt and stashes it on window.__pwaPrompt so the
+    // native Chrome mini-infobar never shows.
+    const win = window as Window & { __pwaPrompt?: BeforeInstallPromptEvent | null };
+    if (win.__pwaPrompt) {
+      setDeferredPrompt(win.__pwaPrompt);
+      setVisible(true);
+      return;
+    }
+
+    // Fallback: event hasn't fired yet.
     const handler = (e: Event) => {
       e.preventDefault();
       setDeferredPrompt(e as BeforeInstallPromptEvent);
