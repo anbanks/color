@@ -35,9 +35,13 @@ export async function generateSitemaps() {
 export default async function sitemap({
   id,
 }: {
-  id: number;
+  id: number | string;
 }): Promise<MetadataRoute.Sitemap> {
-  if (id === 0) {
+  // Next passes the URL segment as a string, so a `=== 0` compare with a
+  // number would always fail. Normalize before routing.
+  const numId = typeof id === "string" ? Number(id) : id;
+
+  if (numId === 0) {
     const entries: MetadataRoute.Sitemap = [];
     for (const path of STATIC_PATHS) {
       for (const locale of LOCALES) {
@@ -56,7 +60,7 @@ export default async function sitemap({
   try {
     const { env } = await getCloudflareContext({ async: true });
     const db = getDb(env.DB);
-    const offset = (id - 1) * PALETTES_PER_SITEMAP;
+    const offset = (numId - 1) * PALETTES_PER_SITEMAP;
     const published = await db
       .select({
         slug: palettes.slug,
