@@ -3,31 +3,35 @@
 import { useEffect, useState } from "react";
 import { LogoDrop } from "@/components/logo-drop";
 
-export function PwaSplash() {
-  const [show, setShow] = useState(false);
-  const [fadeOut, setFadeOut] = useState(false);
-
-  useEffect(() => {
+function shouldShowSplash(): boolean {
+  try {
     const isStandalone =
       window.matchMedia("(display-mode: standalone)").matches ||
       (navigator as Navigator & { standalone?: boolean }).standalone === true;
-    if (!isStandalone) return;
+    if (!isStandalone) return false;
+    if (sessionStorage.getItem("colorgrid_splash_seen")) return false;
+    sessionStorage.setItem("colorgrid_splash_seen", "1");
+    return true;
+  } catch {
+    return false;
+  }
+}
 
-    try {
-      if (sessionStorage.getItem("colorgrid_splash_seen")) return;
-      sessionStorage.setItem("colorgrid_splash_seen", "1");
-    } catch {
-      return;
-    }
+export function PwaSplash() {
+  const [show, setShow] = useState(
+    () => typeof window !== "undefined" && shouldShowSplash()
+  );
+  const [fadeOut, setFadeOut] = useState(false);
 
-    setShow(true);
+  useEffect(() => {
+    if (!show) return;
     const fadeTimer = setTimeout(() => setFadeOut(true), 1400);
     const hideTimer = setTimeout(() => setShow(false), 1800);
     return () => {
       clearTimeout(fadeTimer);
       clearTimeout(hideTimer);
     };
-  }, []);
+  }, [show]);
 
   if (!show) return null;
 
