@@ -18,7 +18,7 @@ import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { LogoDrop } from "@/components/logo-drop";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { tagLabel, colorLabel } from "@/lib/tag-labels";
+import { tagLabel, colorLabel, COLOR_SLUGS, TAG_SLUGS } from "@/lib/tag-labels";
 
 const LANGUAGES: { code: string; label: string }[] = [
   { code: "en", label: "English" },
@@ -73,7 +73,17 @@ export function Header() {
 
   // Detect active tag from URL /palettes/[tag]
   const tagMatch = pathname.match(/\/palettes\/([^/]+)/);
-  const activeTag = tagMatch ? tagMatch[1] : null;
+  const activeTagSlug = tagMatch ? tagMatch[1] : null;
+  const activeTag = activeTagSlug;
+
+  // Translate the slug to the current locale display name.
+  const activeTagLabel = (() => {
+    if (!activeTagSlug) return "";
+    const cap = activeTagSlug.charAt(0).toUpperCase() + activeTagSlug.slice(1);
+    if ((COLOR_SLUGS as readonly string[]).includes(cap)) return colorLabel(cap, locale);
+    if ((TAG_SLUGS as readonly string[]).includes(cap)) return tagLabel(cap, locale);
+    return cap;
+  })();
 
   const selectTag = (tag: string) => {
     router.push(`/${locale}/palettes/${tag.toLowerCase()}`);
@@ -109,7 +119,7 @@ export function Header() {
               {activeTag ? (
                 <div className="flex items-center ml-3">
                   <span className="inline-flex items-center gap-1 pl-3 pr-1 py-[3px] rounded-full text-[13px] font-medium bg-gray-100 dark:bg-white/10 text-gray-800 dark:text-white/90 border border-gray-200 dark:border-white/15">
-                    {activeTag.charAt(0).toUpperCase() + activeTag.slice(1)}
+                    {activeTagLabel}
                     <button
                       onClick={clearTag}
                       aria-label="Clear filter"
