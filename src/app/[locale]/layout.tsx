@@ -2,7 +2,6 @@ import { isValidLocale, getDictionary, locales, type Locale } from "@/lib/i18n";
 import { LocaleProvider } from "@/lib/locale-context";
 import { MobileTabs } from "@/components/layout/mobile-tabs";
 import { InstallBanner } from "@/components/pwa/install-banner";
-import { PwaSplash } from "@/components/pwa/pwa-splash";
 import { AuthModalProvider } from "@/components/auth/auth-modal-provider";
 import { AuthModal } from "@/components/auth/auth-modal";
 import { SITE_URL, SITE_NAME } from "@/lib/site";
@@ -104,7 +103,6 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
         </div>
         <MobileTabs />
         <InstallBanner />
-        <PwaSplash />
         <AuthModal />
       </AuthModalProvider>
     </LocaleProvider>
