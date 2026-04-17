@@ -22,7 +22,11 @@ export function PaletteCard({ id, slug, colors, likesCount, liked, initialSaved,
 
   return (
     <div className="item">
-      <Link href={`/${locale}/palette/${slug}`} className="block">
+      <Link
+        href={`/${locale}/palette/${slug}`}
+        className="block active:scale-[0.97] transition-transform duration-100"
+        onClick={() => { try { navigator.vibrate?.(8); } catch {} }}
+      >
         <div
           className="palette"
           style={{ boxShadow: "0 10px 20px 0 rgba(0,0,0,0.05)" }}
