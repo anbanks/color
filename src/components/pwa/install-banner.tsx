@@ -23,27 +23,31 @@ export function InstallBanner() {
       const dismissed = localStorage.getItem(LS_KEY);
       if (dismissed && Date.now() - Number(dismissed) < DISMISS_DAYS * 86400000) return;
     } catch {
-      // ignore
-    }
-
-    // The inline head script already calls preventDefault() on
-    // beforeinstallprompt and stashes it on window.__pwaPrompt so the
-    // native Chrome mini-infobar never shows.
-    const win = window as Window & { __pwaPrompt?: BeforeInstallPromptEvent | null };
-    if (win.__pwaPrompt) {
-      setDeferredPrompt(win.__pwaPrompt);
-      setVisible(true);
       return;
     }
 
-    // Fallback: event hasn't fired yet.
+    const win = window as Window & { __pwaPrompt?: BeforeInstallPromptEvent | null };
+
+    // Check periodically if the inline head script captured the prompt.
+    const check = setInterval(() => {
+      if (win.__pwaPrompt) {
+        clearInterval(check);
+        setDeferredPrompt(win.__pwaPrompt);
+        setVisible(true);
+      }
+    }, 500);
+
     const handler = (e: Event) => {
       e.preventDefault();
+      clearInterval(check);
       setDeferredPrompt(e as BeforeInstallPromptEvent);
       setVisible(true);
     };
     window.addEventListener("beforeinstallprompt", handler);
-    return () => window.removeEventListener("beforeinstallprompt", handler);
+    return () => {
+      clearInterval(check);
+      window.removeEventListener("beforeinstallprompt", handler);
+    };
   }, []);
 
   const handleInstall = async () => {
