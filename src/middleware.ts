@@ -28,6 +28,9 @@ export default auth((req) => {
     pathname.startsWith("/api") ||
     pathname.startsWith("/_next") ||
     pathname === "/extension" ||
+    pathname.startsWith("/icon") ||
+    pathname.startsWith("/apple-icon") ||
+    pathname.startsWith("/sitemap") ||
     pathname.includes(".")
   ) {
     return NextResponse.next();
