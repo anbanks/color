@@ -65,9 +65,7 @@ export default function SettingsPage() {
       {/* Resend Card */}
       <div className="border border-gray-200 dark:border-white/10 rounded-xl p-5 mb-6">
         <div className="flex items-center gap-2.5 mb-4">
-          <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center">
-            <Mail className="h-4 w-4 text-white" />
-          </div>
+          <Mail className="h-5 w-5 text-gray-900 dark:text-white" />
           <div>
             <h2 className="text-[15px] font-semibold text-gray-900 dark:text-white">Resend</h2>
             <p className="text-[12px] text-gray-400 dark:text-white/40">Email service for password reset and notifications</p>
