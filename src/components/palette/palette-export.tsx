@@ -51,7 +51,7 @@ export function PaletteExport({ paletteId }: PaletteExportProps) {
         <Code className="h-[15px] w-[15px]" />
       </button>
 
-      <Drawer open={open} onOpenChange={setOpen} shouldScaleBackground={false}>
+      <Drawer open={open} onOpenChange={setOpen}>
         <DrawerContent>
           <DrawerHeader>
             <DrawerTitle>Export</DrawerTitle>

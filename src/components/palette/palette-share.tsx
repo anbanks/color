@@ -74,7 +74,7 @@ export function PaletteShare({ slug }: PaletteShareProps) {
         <Share2 className="h-[15px] w-[15px]" />
       </button>
 
-      <Drawer open={open} onOpenChange={setOpen} shouldScaleBackground={false}>
+      <Drawer open={open} onOpenChange={setOpen}>
         <DrawerContent>
           <DrawerHeader>
             <DrawerTitle>Share</DrawerTitle>
