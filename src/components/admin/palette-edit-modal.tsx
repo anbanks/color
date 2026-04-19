@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { useLocale } from "@/lib/locale-context";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 
 interface PaletteEditModalProps {
   palette: {
@@ -25,6 +26,7 @@ export function PaletteEditModal({ palette, onClose }: PaletteEditModalProps) {
   const [colors, setColors] = useState<string[]>([...palette.colors]);
   const [status, setStatus] = useState(palette.status);
   const [isPending, startTransition] = useTransition();
+  const [deleteOpen, setDeleteOpen] = useState(false);
   const router = useRouter();
   const { locale, t } = useLocale();
 
@@ -55,7 +57,6 @@ export function PaletteEditModal({ palette, onClose }: PaletteEditModalProps) {
   };
 
   const handleDelete = () => {
-    if (!confirm(t.admin.rejected ? "Delete this palette?" : "Delete?")) return;
     startTransition(async () => {
       try {
         await fetch(`/api/palettes/${palette.id}`, { method: "DELETE" });
@@ -160,12 +161,21 @@ export function PaletteEditModal({ palette, onClose }: PaletteEditModalProps) {
         {/* Footer */}
         <div className="flex items-center justify-between px-6 py-4 border-t border-gray-100 dark:border-white/[0.06]">
           <button
-            onClick={handleDelete}
+            onClick={() => setDeleteOpen(true)}
             disabled={isPending}
-            className="text-[14px] text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300 font-medium transition-colors disabled:opacity-50"
+            className="text-[14px] text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300 font-medium transition-colors disabled:opacity-50 cursor-pointer"
           >
             {locale === "pt" ? "Excluir" : locale === "es" ? "Eliminar" : "Delete"}
           </button>
+          <ConfirmDialog
+            open={deleteOpen}
+            onOpenChange={setDeleteOpen}
+            title="Delete palette"
+            description="This palette will be permanently deleted. This action cannot be undone."
+            confirmLabel="Delete"
+            destructive
+            onConfirm={handleDelete}
+          />
           <button
             onClick={handleSave}
             disabled={isPending}

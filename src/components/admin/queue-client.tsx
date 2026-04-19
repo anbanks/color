@@ -6,6 +6,7 @@ import { Clock, Play, RefreshCw, ArrowDownToLine } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 
 interface QueueState {
   counts: {
@@ -21,6 +22,7 @@ interface QueueState {
 export function QueueClient() {
   const [state, setState] = useState<QueueState | null>(null);
   const [rateInput, setRateInput] = useState("");
+  const [seedOpen, setSeedOpen] = useState(false);
   const [pending, startTransition] = useTransition();
 
   const load = async () => {
@@ -74,12 +76,6 @@ export function QueueClient() {
   };
 
   const seedFromPublished = () => {
-    if (
-      !confirm(
-        "Move ALL currently published palettes back to the approved queue? This will hide them from the public feed until the cron republishes them gradually."
-      )
-    )
-      return;
     startTransition(async () => {
       const res = await fetch("/api/admin/queue/seed", { method: "POST" });
       if (res.ok) {
@@ -194,7 +190,7 @@ export function QueueClient() {
             Refresh
           </Button>
           <Button
-            onClick={seedFromPublished}
+            onClick={() => setSeedOpen(true)}
             disabled={pending}
             variant="outline"
             className="h-10 cursor-pointer text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-500/30"
@@ -202,6 +198,15 @@ export function QueueClient() {
             <ArrowDownToLine className="h-4 w-4 mr-1.5" />
             Move ALL published → queue
           </Button>
+          <ConfirmDialog
+            open={seedOpen}
+            onOpenChange={setSeedOpen}
+            title="Move all published to queue"
+            description="This will hide ALL published palettes from the public feed until the cron republishes them gradually. Are you sure?"
+            confirmLabel="Move all"
+            destructive
+            onConfirm={seedFromPublished}
+          />
         </div>
         <p className="text-[11px] text-gray-400 dark:text-white/30 mt-3 max-w-2xl">
           Use the bulk move once when you want to switch an existing dataset

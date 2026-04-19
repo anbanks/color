@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useTransition, useCallback } from "react";
+import { useState, useTransition } from "react";
 import { signOut } from "next-auth/react";
+import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { useRouter, usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 import { toast } from "sonner";
@@ -49,6 +50,7 @@ export function AccountClient({ user }: AccountClientProps) {
   const [next, setNext] = useState("");
   const [confirm, setConfirm] = useState("");
   const [langOpen, setLangOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
   const [pending, startTransition] = useTransition();
   const [profilePending, startProfileTransition] = useTransition();
 
@@ -318,15 +320,23 @@ export function AccountClient({ user }: AccountClientProps) {
           variant="outline"
           size="sm"
           className="border-red-300 text-red-600 hover:bg-red-50 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-900/20 cursor-pointer"
-          onClick={() => {
-            if (!window.confirm("Are you sure? This cannot be undone.")) return;
+          onClick={() => setDeleteOpen(true)}
+        >
+          Delete Account
+        </Button>
+        <ConfirmDialog
+          open={deleteOpen}
+          onOpenChange={setDeleteOpen}
+          title="Delete Account"
+          description="Are you sure? This will permanently delete your account and all associated data. This action cannot be undone."
+          confirmLabel="Delete"
+          destructive
+          onConfirm={() => {
             fetch("/api/account/delete", { method: "POST" }).then(() => {
               signOut({ callbackUrl: "/" });
             });
           }}
-        >
-          Delete Account
-        </Button>
+        />
       </section>
     </div>
   );

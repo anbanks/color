@@ -3,7 +3,8 @@
 import { useState, useTransition } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { Dialog } from "@base-ui/react/dialog";
+import { Dialog, DialogOverlay, DialogPortal } from "@/components/ui/dialog";
+import { Dialog as DialogPrimitive } from "@base-ui/react/dialog";
 import { X, Mail, Lock, User as UserIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -191,16 +192,16 @@ export function AuthModal() {
   const { open, view, closeAuth } = useAuthModal();
 
   return (
-    <Dialog.Root open={open} onOpenChange={(o: boolean) => { if (!o) closeAuth(); }}>
-      <Dialog.Backdrop className="fixed inset-0 z-50 bg-black/30 backdrop-blur-md data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0" />
-      <Dialog.Portal>
-        <Dialog.Popup className="fixed top-1/2 left-1/2 z-50 w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 rounded-2xl bg-white dark:bg-[#252525] p-6 shadow-2xl shadow-black/20 ring-1 ring-black/5 dark:ring-white/10 sm:max-w-[400px] max-h-[90vh] overflow-y-auto outline-none data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95">
-          <Dialog.Close className="absolute top-3 right-3 p-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-white/10 transition-colors cursor-pointer text-gray-400 hover:text-gray-600 dark:hover:text-white/80">
+    <Dialog open={open} onOpenChange={(o: boolean) => { if (!o) closeAuth(); }}>
+      <DialogPortal>
+        <DialogOverlay className="bg-black/30 backdrop-blur-md" />
+        <DialogPrimitive.Popup className="fixed top-1/2 left-1/2 z-50 w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 rounded-2xl bg-white dark:bg-[#252525] p-6 shadow-2xl shadow-black/20 ring-1 ring-black/5 dark:ring-white/10 sm:max-w-[400px] max-h-[90vh] overflow-y-auto outline-none data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95">
+          <DialogPrimitive.Close className="absolute top-3 right-3 p-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-white/10 transition-colors cursor-pointer text-gray-400 hover:text-gray-600 dark:hover:text-white/80">
             <X className="h-5 w-5" />
-          </Dialog.Close>
+          </DialogPrimitive.Close>
           {view === "login" ? <LoginView /> : <RegisterView />}
-        </Dialog.Popup>
-      </Dialog.Portal>
-    </Dialog.Root>
+        </DialogPrimitive.Popup>
+      </DialogPortal>
+    </Dialog>
   );
 }
