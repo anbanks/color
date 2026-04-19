@@ -222,8 +222,8 @@ export default async function PalettePage({ params }: PageProps) {
 
           {/* Related — same layout as normal listing (full main width) */}
           {related.length > 0 && (
-            <section className="mt-12 pt-8 border-t border-gray-100">
-              <h2 className="text-lg font-semibold text-gray-700 px-5 mb-3">{t.single.relatedPalettes}</h2>
+            <section className="mt-12 pt-8 border-t border-gray-100 dark:border-white/10">
+              <h2 className="text-lg font-semibold text-gray-700 dark:text-white px-5 mb-3">{t.single.relatedPalettes}</h2>
               <div className="feed-grid">
                 {related.map((p) => (
                   <PaletteCard
