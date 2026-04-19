@@ -1,10 +1,3 @@
-// Thin wrapper around the Resend API. The API key is stored as a
-// Cloudflare Worker secret (RESEND_API_KEY) and configured via the
-// admin settings page or `wrangler secret put`.
-//
-// If no key is configured, send() returns { ok: false } silently so
-// the app keeps working without email capability.
-
 const RESEND_ENDPOINT = "https://api.resend.com/emails";
 
 interface SendInput {
@@ -20,11 +13,31 @@ interface SendResult {
   error?: string;
 }
 
+// Reads the API key from KV (admin settings) first, falls back to env secret.
+async function getApiKey(env: CloudflareEnv): Promise<string | undefined> {
+  try {
+    const fromKV = await env.CACHE.get("settings:RESEND_API_KEY");
+    if (fromKV) return fromKV;
+  } catch {}
+  return env.RESEND_API_KEY;
+}
+
+async function getFromEmail(env: CloudflareEnv): Promise<string> {
+  try {
+    const fromKV = await env.CACHE.get("settings:RESEND_FROM_EMAIL");
+    if (fromKV) return fromKV;
+  } catch {}
+  return "Color Grid <noreply@colorgrid.co>";
+}
+
 export async function sendEmail(
-  apiKey: string | undefined,
+  env: CloudflareEnv,
   { to, subject, html, from }: SendInput
 ): Promise<SendResult> {
+  const apiKey = await getApiKey(env);
   if (!apiKey) return { ok: false, error: "No RESEND_API_KEY configured" };
+
+  const fromAddr = from || (await getFromEmail(env));
 
   try {
     const res = await fetch(RESEND_ENDPOINT, {
@@ -34,7 +47,7 @@ export async function sendEmail(
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: from || "Color Grid <noreply@colorgrid.co>",
+        from: fromAddr,
         to: [to],
         subject,
         html,

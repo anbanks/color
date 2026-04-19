@@ -7,6 +7,7 @@ import {
   Monitor,
   Palette,
   Clock,
+  Settings,
   LogOut,
   ChevronUp,
   User,
@@ -45,6 +46,7 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
     { href: "", label: t.admin.dashboard, icon: Monitor },
     { href: "/palettes", label: t.admin.palettesTitle, icon: Palette },
     { href: "/queue", label: "Queue", icon: Clock },
+    { href: "/settings", label: "Settings", icon: Settings },
   ];
 
   return (

@@ -23,7 +23,7 @@ export async function POST(request: Request) {
   await env.CACHE.put(`reset:${token}`, found[0].id, { expirationTtl: TOKEN_TTL });
 
   const resetUrl = `https://colorgrid.co/en/reset-password?token=${token}`;
-  await sendEmail(env.RESEND_API_KEY, {
+  await sendEmail(env, {
     to: email.trim().toLowerCase(),
     subject: "Reset your Color Grid password",
     html: `<p>Click the link below to reset your password. This link expires in 1 hour.</p><p><a href="${resetUrl}">${resetUrl}</a></p><p>If you didn't request this, ignore this email.</p>`,
