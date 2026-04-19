@@ -18,6 +18,9 @@ jobs:
 
       - run: npx opennextjs-cloudflare build
 
+      - name: Inject scheduled handler
+        run: node scripts/inject-scheduled.js
+
       - uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
