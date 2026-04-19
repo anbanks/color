@@ -152,7 +152,7 @@
 }
 
 .feed-grid {
-  padding: 5px 20px 30px;
+  padding: 0 20px 30px;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   grid-column-gap: 3%;

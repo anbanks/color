@@ -98,7 +98,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
-        <div className="site-container pt-[52px] pb-[80px] md:pb-0">
+        <div className="site-container pt-[62px] pb-[80px] md:pb-0">
           {children}
         </div>
         <MobileTabs />
