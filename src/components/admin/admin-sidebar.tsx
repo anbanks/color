@@ -7,6 +7,7 @@ import {
   Monitor,
   SwatchBook,
   Timer,
+  Tags,
   Settings,
   LogOut,
   ChevronUp,
@@ -46,6 +47,7 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
     { href: "", label: t.admin.dashboard, icon: Monitor },
     { href: "/palettes", label: t.admin.palettesTitle, icon: SwatchBook },
     { href: "/queue", label: "Queue", icon: Timer },
+    { href: "/tags", label: "Tags", icon: Tags },
     { href: "/settings", label: "Settings", icon: Settings },
   ];
 
