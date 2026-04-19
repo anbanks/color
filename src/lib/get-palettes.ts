@@ -86,9 +86,10 @@ export async function getPalettesByTag(tag: string): Promise<PaletteItem[]> {
     );
 
     // Build SQL conditions: tags LIKE '%"Blue"%' AND tags LIKE '%"Orange"%'
-    const conditions = [eq(palettes.status, "published" as const)];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const conditions: any[] = [eq(palettes.status, "published" as const)];
     for (const t of parts) {
-      conditions.push(sql`${palettes.tags} LIKE ${"%" + JSON.stringify(t).slice(0, -1) + "%"}` as any);
+      conditions.push(sql`${palettes.tags} LIKE ${"%" + JSON.stringify(t).slice(0, -1) + "%"}`);
     }
 
     const r = await db
