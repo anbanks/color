@@ -169,9 +169,8 @@ export default async function PalettePage({ params }: PageProps) {
               ))}
             </div>
 
-            {/* Mockup + Contrast */}
-            <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-6">
-
+            {/* Contrast */}
+            <div className="mt-10">
               <ContrastChecker colors={colors} />
             </div>
 

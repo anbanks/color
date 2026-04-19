@@ -20,7 +20,7 @@ export function ContrastChecker({ colors }: ContrastCheckerProps) {
   return (
     <div className="space-y-3">
       <h3 className="text-sm font-medium text-gray-700">Contrast Check (WCAG 2.1)</h3>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
         {pairs.map((pair, i) => {
           const config = levelConfig[pair.level];
           return (
