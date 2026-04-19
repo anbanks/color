@@ -21,7 +21,7 @@ export function PaletteCard({ id, slug, colors, likesCount, liked, initialSaved,
   const { locale } = useLocale();
 
   return (
-    <div className="item">
+    <article className="item">
       <Link
         href={`/${locale}/palette/${slug}`}
         className="block active:scale-[0.97] transition-transform duration-100"
@@ -66,6 +66,6 @@ export function PaletteCard({ id, slug, colors, likesCount, liked, initialSaved,
           <span className="text-[12px] opacity-70 shrink-0">{timeAgo}</span>
         )}
       </div>
-    </div>
+    </article>
   );
 }

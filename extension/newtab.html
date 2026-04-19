@@ -177,12 +177,31 @@
     let allPalettes = [];
     let currentIndex = 0;
 
+    function copyToClipboard(text) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => showCopied()).catch(() => fallbackCopy(text));
+      } else {
+        fallbackCopy(text);
+      }
+    }
+
+    function fallbackCopy(text) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showCopied();
+    }
+
     function applyPalette(colors) {
       for (let i = 0; i < 4; i++) {
         document.getElementById('s' + i).style.backgroundColor = colors[i];
       }
 
-      // Update hex codes
       const container = document.getElementById('hexCodes');
       container.innerHTML = '';
       colors.forEach(c => {
@@ -191,8 +210,7 @@
         el.textContent = c.toUpperCase();
         el.onclick = (e) => {
           e.stopPropagation();
-          navigator.clipboard.writeText(c.toUpperCase());
-          showCopied();
+          copyToClipboard(c.toUpperCase());
         };
         container.appendChild(el);
       });
@@ -204,7 +222,18 @@
       setTimeout(() => el.classList.remove('show'), 1200);
     }
 
-    function nextPalette() {
+    async function nextPalette() {
+      try {
+        const res = await fetch(API_URL);
+        if (!res.ok) throw new Error('API error');
+        const data = await res.json();
+        if (data.palettes && data.palettes.length > 0) {
+          allPalettes = data.palettes.map(p => p.colors);
+          currentIndex = 0;
+          applyPalette(allPalettes[0]);
+          return;
+        }
+      } catch (e) {}
       currentIndex = (currentIndex + 1) % allPalettes.length;
       applyPalette(allPalettes[currentIndex]);
     }
@@ -230,6 +259,7 @@
       // Fetch from API
       try {
         const res = await fetch(API_URL);
+        if (!res.ok) throw new Error('HTTP ' + res.status);
         const data = await res.json();
         if (data.palettes && data.palettes.length > 0) {
           allPalettes = data.palettes.map(p => p.colors);

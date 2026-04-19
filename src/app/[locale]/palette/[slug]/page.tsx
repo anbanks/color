@@ -7,6 +7,7 @@ import { LikeButton } from "@/components/palette/like-button";
 import { ContrastChecker } from "@/components/palette/contrast-checker";
 import { SiteMockup } from "@/components/preview/site-mockup";
 import { PaletteCard } from "@/components/palette/palette-card";
+import { PaletteExport } from "@/components/palette/palette-export";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { getDb } from "@/db";
 import { palettes, paletteContent } from "@/db/schema";
@@ -149,6 +150,7 @@ export default async function PalettePage({ params }: PageProps) {
             <div className="flex items-center gap-3 mt-4">
               <LikeButton paletteId={palette.id} initialCount={palette.likesCount} />
               <PaletteActions slug={slug} colors={colors} />
+              <PaletteExport paletteId={palette.id} />
               <span className="ml-auto text-[13px] text-gray-400">
                 {palette.publishedAt ? new Date(typeof palette.publishedAt === "number" ? palette.publishedAt * 1000 : palette.publishedAt).toLocaleDateString() : ""}
               </span>
