@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Mail, Key, Send } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Settings {
   RESEND_API_KEY: string;
@@ -55,7 +56,28 @@ export default function SettingsPage() {
     });
   };
 
-  if (loading) return <div className="p-6 text-gray-400">Loading...</div>;
+  if (loading) return (
+    <div className="p-6 max-w-2xl space-y-6">
+      <div>
+        <Skeleton className="h-6 w-28 mb-2" />
+        <Skeleton className="h-3 w-64" />
+      </div>
+      <div className="border border-gray-200 dark:border-white/10 rounded-xl p-5 space-y-4">
+        <div className="flex items-center gap-2.5">
+          <Skeleton className="h-5 w-5 rounded" />
+          <div>
+            <Skeleton className="h-4 w-16 mb-1" />
+            <Skeleton className="h-3 w-48" />
+          </div>
+        </div>
+        <div className="space-y-3">
+          <div><Skeleton className="h-3 w-14 mb-1" /><Skeleton className="h-10 w-full" /></div>
+          <div><Skeleton className="h-3 w-20 mb-1" /><Skeleton className="h-10 w-full" /></div>
+        </div>
+        <div className="flex justify-end"><Skeleton className="h-10 w-24" /></div>
+      </div>
+    </div>
+  );
 
   return (
     <div className="p-6 max-w-2xl">
