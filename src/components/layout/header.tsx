@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useLocale } from "@/lib/locale-context";
-import { X, Search, MoreHorizontal, Sun, Moon, Globe, ChevronDown, User, LogOut, Plus, Bookmark } from "lucide-react";
+import { X, Search, MoreHorizontal, Sun, Moon, Globe, Monitor, ChevronDown, User, LogOut, Plus, Bookmark } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
 import {
@@ -255,8 +255,8 @@ export function Header() {
                       render={<Link href={`/${locale}/admin`} />}
                       className="rounded-lg px-3 py-2 text-[13px] cursor-pointer"
                     >
-                      <Globe className="h-4 w-4 mr-2 text-gray-500" />
-                      {t.menu.admin}
+                      <Monitor className="h-4 w-4 mr-2 text-gray-500" />
+                      Dashboard
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                   </>
