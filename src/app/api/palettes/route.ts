@@ -1,7 +1,7 @@
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { getDb } from "@/db";
 import { palettes } from "@/db/schema";
-import { desc, sql, eq } from "drizzle-orm";
+import { desc, sql, eq, ne, and } from "drizzle-orm";
 import { NextRequest } from "next/server";
 import { auth } from "@/auth";
 import { createId } from "@paralleldrive/cuid2";
@@ -16,27 +16,32 @@ export async function GET(request: NextRequest) {
 
   const sort = request.nextUrl.searchParams.get("sort") || "new";
   const page = parseInt(request.nextUrl.searchParams.get("page") || "0");
-  const offset = page * PAGE_SIZE;
+  const limit = Math.min(parseInt(request.nextUrl.searchParams.get("limit") || String(PAGE_SIZE)), 60);
+  const exclude = request.nextUrl.searchParams.get("exclude");
+  const offset = page * limit;
 
-  const published = eq(palettes.status, "published");
+  const where = exclude
+    ? and(eq(palettes.status, "published"), ne(palettes.id, exclude))
+    : eq(palettes.status, "published");
+
   let results;
 
   switch (sort) {
     case "popular":
       results = await db.select().from(palettes)
-        .where(published).orderBy(desc(palettes.likesCount))
-        .limit(PAGE_SIZE).offset(offset);
+        .where(where).orderBy(desc(palettes.likesCount))
+        .limit(limit).offset(offset);
       break;
     case "random":
       results = await db.select().from(palettes)
-        .where(published).orderBy(sql`RANDOM()`)
-        .limit(PAGE_SIZE);
+        .where(where).orderBy(sql`RANDOM()`)
+        .limit(limit);
       break;
     case "new":
     default:
       results = await db.select().from(palettes)
-        .where(published).orderBy(desc(palettes.publishedAt))
-        .limit(PAGE_SIZE).offset(offset);
+        .where(where).orderBy(desc(palettes.publishedAt))
+        .limit(limit).offset(offset);
       break;
   }
 
@@ -59,7 +64,7 @@ export async function GET(request: NextRequest) {
   return Response.json({
     palettes: withState,
     page,
-    hasMore: results.length === PAGE_SIZE,
+    hasMore: results.length === limit,
   });
 }
 

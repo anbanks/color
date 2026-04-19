@@ -9,7 +9,7 @@ import { ContrastChecker } from "@/components/palette/contrast-checker";
 import { PaletteStrips } from "@/components/palette/palette-strips";
 import { ColorSwatches } from "@/components/palette/color-swatches";
 import { PaletteTags } from "@/components/palette/palette-tags";
-import { PaletteCard } from "@/components/palette/palette-card";
+import { RelatedPalettes } from "@/components/palette/related-palettes";
 import { PaletteExport } from "@/components/palette/palette-export";
 import { PaletteShare } from "@/components/palette/palette-share";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
@@ -236,23 +236,8 @@ export default async function PalettePage({ params }: PageProps) {
             )}
           </div>
 
-          {/* Related — same layout as normal listing (full main width) */}
-          {related.length > 0 && (
-            <section className="mt-12 pt-8 border-t border-gray-100 dark:border-white/10">
-              <h2 className="text-lg font-semibold text-gray-700 dark:text-white px-5 mb-3">{t.single.relatedPalettes}</h2>
-              <div className="feed-grid">
-                {related.map((p) => (
-                  <PaletteCard
-                    key={p.id}
-                    id={p.id}
-                    slug={p.slug}
-                    colors={p.colors}
-                    likesCount={p.likesCount}
-                  />
-                ))}
-              </div>
-            </section>
-          )}
+          {/* Related — infinite scroll */}
+          <RelatedPalettes initial={related} excludeId={palette.id} />
         </main>
 
         {/* Right panel — 340px, sticky (same as feed) */}
