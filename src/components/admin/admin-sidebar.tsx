@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useLocale } from "@/lib/locale-context";
 import {
-  LayoutDashboard,
+  Monitor,
   SwatchBook,
   Timer,
   Settings,
@@ -43,14 +43,14 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
   const base = `/${locale}/admin`;
 
   const navItems = [
-    { href: "", label: t.admin.dashboard, icon: LayoutDashboard },
+    { href: "", label: t.admin.dashboard, icon: Monitor },
     { href: "/palettes", label: t.admin.palettesTitle, icon: SwatchBook },
     { href: "/queue", label: "Queue", icon: Timer },
     { href: "/settings", label: "Settings", icon: Settings },
   ];
 
   return (
-    <Sidebar collapsible="icon" className="bg-white dark:bg-[#1a1a1a] border-r border-gray-200/60 dark:border-white/[0.06]">
+    <Sidebar collapsible="icon" className="bg-[#ffffff] dark:bg-[#1a1a1a] border-r border-gray-200/60 dark:border-white/[0.06]">
       <SidebarHeader>
         <Link
           href={base}
