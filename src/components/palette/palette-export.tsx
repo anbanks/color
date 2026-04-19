@@ -33,11 +33,11 @@ export function PaletteExport({ paletteId }: PaletteExportProps) {
     <div className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className="inline-flex items-center gap-[6px] h-[34px] px-[14px] rounded-full border-[1.5px] border-gray-300 dark:border-white/20 text-[14px] text-gray-500 dark:text-white/60 bg-white dark:bg-white/5 hover:border-gray-400 dark:hover:border-white/30 hover:text-gray-700 dark:hover:text-white transition-all cursor-pointer"
+        className="inline-flex items-center justify-center h-[36px] w-[36px] rounded-full border border-gray-200 dark:border-white/15 text-gray-500 dark:text-white/60 bg-white dark:bg-white/5 hover:border-gray-300 dark:hover:border-white/25 hover:text-gray-700 dark:hover:text-white transition-all cursor-pointer"
+        title="Export"
+        aria-label="Export"
       >
-        <Code className="h-4 w-4" />
-        Export
-        <ChevronDown className={cn("h-3 w-3 transition-transform", open && "rotate-180")} />
+        <Code className="h-[15px] w-[15px]" />
       </button>
       {open && (
         <>

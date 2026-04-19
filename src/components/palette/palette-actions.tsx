@@ -32,33 +32,34 @@ function downloadImage(colors: string[], slug: string) {
   }, "image/png");
 }
 
+const btnClass =
+  "inline-flex items-center justify-center h-[36px] w-[36px] rounded-full border border-gray-200 dark:border-white/15 text-gray-500 dark:text-white/60 bg-white dark:bg-white/5 hover:border-gray-300 dark:hover:border-white/25 hover:text-gray-700 dark:hover:text-white transition-all cursor-pointer";
+
 export function PaletteActions({ slug, colors }: PaletteActionsProps) {
   const { t } = useLocale();
-
-  const handleDownload = () => downloadImage(colors, slug);
-
-  const handleCopyLink = () => {
-    const url = `${window.location.origin}${window.location.pathname}`;
-    navigator.clipboard.writeText(url).then(() => {
-      toast.success("Link copied!");
-    });
-  };
 
   return (
     <>
       <button
-        onClick={handleDownload}
-        className="inline-flex items-center gap-[6px] h-[34px] px-[14px] rounded-full border-[1.5px] border-gray-300 dark:border-white/20 text-[14px] text-gray-500 dark:text-white/60 bg-white dark:bg-white/5 hover:border-gray-400 dark:hover:border-white/30 hover:text-gray-700 dark:hover:text-white transition-all cursor-pointer"
+        onClick={() => downloadImage(colors, slug)}
+        className={btnClass}
+        title={t.single.image}
+        aria-label={t.single.image}
       >
-        <Download className="h-4 w-4" />
-        {t.single.image}
+        <Download className="h-[15px] w-[15px]" />
       </button>
       <button
-        onClick={handleCopyLink}
-        className="inline-flex items-center gap-[6px] h-[34px] px-[14px] rounded-full border-[1.5px] border-gray-300 dark:border-white/20 text-[14px] text-gray-500 dark:text-white/60 bg-white dark:bg-white/5 hover:border-gray-400 dark:hover:border-white/30 hover:text-gray-700 dark:hover:text-white transition-all cursor-pointer"
+        onClick={() => {
+          navigator.clipboard.writeText(
+            `${window.location.origin}${window.location.pathname}`
+          );
+          toast.success("Link copied!");
+        }}
+        className={btnClass}
+        title={t.single.link}
+        aria-label={t.single.link}
       >
-        <Link2 className="h-4 w-4" />
-        {t.single.link}
+        <Link2 className="h-[15px] w-[15px]" />
       </button>
     </>
   );

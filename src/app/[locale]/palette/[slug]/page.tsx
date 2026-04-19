@@ -4,6 +4,7 @@ import { RightPanel } from "@/components/layout/right-panel";
 import { PaletteDetail } from "@/components/palette/palette-detail";
 import { PaletteContent } from "@/components/seo/palette-content";
 import { LikeButton } from "@/components/palette/like-button";
+import { SaveButton } from "@/components/palette/save-button";
 import { ContrastChecker } from "@/components/palette/contrast-checker";
 import { PaletteStrips } from "@/components/palette/palette-strips";
 import { ColorSwatches } from "@/components/palette/color-swatches";
@@ -145,15 +146,22 @@ export default async function PalettePage({ params }: PageProps) {
             <PaletteStrips colors={colors} />
 
             {/* Actions */}
-            <div className="flex items-center gap-3 mt-4">
-              <LikeButton paletteId={palette.id} initialCount={palette.likesCount} />
-              <PaletteActions slug={slug} colors={colors} />
-              <PaletteExport paletteId={palette.id} />
-              <PaletteShare slug={slug} />
-              <span className="ml-auto text-[13px] text-gray-500 dark:text-white/60 font-semibold">
-                {palette.publishedAt ? new Date(typeof palette.publishedAt === "number" ? palette.publishedAt * 1000 : palette.publishedAt).toLocaleDateString() : ""}
-              </span>
+            <div className="flex items-center justify-between mt-4">
+              <div className="flex items-center gap-2">
+                <LikeButton paletteId={palette.id} initialCount={palette.likesCount} />
+                <SaveButton paletteId={palette.id} />
+              </div>
+              <div className="flex items-center gap-1.5">
+                <PaletteActions slug={slug} colors={colors} />
+                <PaletteExport paletteId={palette.id} />
+                <PaletteShare slug={slug} />
+              </div>
             </div>
+            {palette.publishedAt && (
+              <div className="mt-2 text-[13px] text-gray-500 dark:text-white/60 font-semibold">
+                {new Date(typeof palette.publishedAt === "number" ? palette.publishedAt * 1000 : palette.publishedAt).toLocaleDateString()}
+              </div>
+            )}
 
             {/* Color swatches */}
             <ColorSwatches colors={colors} />

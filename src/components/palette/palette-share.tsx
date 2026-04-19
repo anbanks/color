@@ -45,15 +45,16 @@ export function PaletteShare({ slug }: PaletteShareProps) {
     <div className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className="inline-flex items-center gap-[6px] h-[34px] px-[14px] rounded-full border-[1.5px] border-gray-300 dark:border-white/20 text-[14px] text-gray-500 dark:text-white/60 bg-white dark:bg-white/5 hover:border-gray-400 dark:hover:border-white/30 hover:text-gray-700 dark:hover:text-white transition-all cursor-pointer"
+        className="inline-flex items-center justify-center h-[36px] w-[36px] rounded-full border border-gray-200 dark:border-white/15 text-gray-500 dark:text-white/60 bg-white dark:bg-white/5 hover:border-gray-300 dark:hover:border-white/25 hover:text-gray-700 dark:hover:text-white transition-all cursor-pointer"
+        title="Share"
+        aria-label="Share"
       >
-        <Share2 className="h-4 w-4" />
-        Share
+        <Share2 className="h-[15px] w-[15px]" />
       </button>
       {open && (
         <>
           <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
-          <div className="absolute top-[calc(100%+6px)] left-0 z-50 w-48 bg-white dark:bg-[#252525] rounded-xl shadow-xl shadow-black/10 ring-1 ring-black/5 dark:ring-white/10 p-1.5">
+          <div className="absolute top-[calc(100%+6px)] right-0 z-50 w-48 bg-white dark:bg-[#252525] rounded-xl shadow-xl shadow-black/10 ring-1 ring-black/5 dark:ring-white/10 p-1.5">
             {options.map((opt) => {
               const Icon = opt.icon;
               return (
