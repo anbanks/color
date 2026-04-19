@@ -18,6 +18,7 @@ interface PaletteRow {
   id: string;
   slug: string;
   colors: string[];
+  tags?: string[];
   status: string;
   likesCount: number;
   createdAt: string;
@@ -61,6 +62,7 @@ export function PaletteTable({ palettes }: PaletteTableProps) {
             <TableRow className="border-gray-200/60 dark:border-white/[0.06]">
               <TableHead className="text-[13px] text-gray-500 dark:text-white/40">{t.admin.table.date}</TableHead>
               <TableHead className="text-[13px] text-gray-500 dark:text-white/40">{t.admin.table.palette}</TableHead>
+              <TableHead className="text-[13px] text-gray-500 dark:text-white/40">Tags</TableHead>
               <TableHead className="text-[13px] text-gray-500 dark:text-white/40">{t.admin.table.status}</TableHead>
               <TableHead className="text-[13px] text-gray-500 dark:text-white/40 text-right">{t.admin.table.likes}</TableHead>
             </TableRow>
@@ -85,6 +87,18 @@ export function PaletteTable({ palettes }: PaletteTableProps) {
                     <div className="flex gap-[2px] h-[32px] rounded-[4px] overflow-hidden w-[140px]">
                       {p.colors.map((c, i) => (
                         <div key={i} className="flex-1 h-full" style={{ backgroundColor: c }} />
+                      ))}
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex flex-wrap gap-1 max-w-[280px]">
+                      {(p.tags || []).map((tag) => (
+                        <span
+                          key={tag}
+                          className="inline-block px-1.5 py-[1px] text-[10px] font-medium rounded bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-white/60"
+                        >
+                          {tag}
+                        </span>
                       ))}
                     </div>
                   </TableCell>

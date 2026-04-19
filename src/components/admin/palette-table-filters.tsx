@@ -9,6 +9,7 @@ interface PaletteRow {
   id: string;
   slug: string;
   colors: string[];
+  tags?: string[];
   status: string;
   likesCount: number;
   createdAt: string;

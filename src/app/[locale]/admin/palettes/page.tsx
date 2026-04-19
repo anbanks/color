@@ -24,6 +24,7 @@ async function getAllPalettes() {
       palettes: r.map((p) => ({
         id: p.id, slug: p.slug, status: p.status,
         colors: JSON.parse(p.colors) as string[],
+        tags: p.tags ? JSON.parse(p.tags) as string[] : [],
         likesCount: p.likesCount,
         createdAt: p.createdAt ? new Date(p.createdAt).toISOString() : new Date().toISOString(),
       })),
