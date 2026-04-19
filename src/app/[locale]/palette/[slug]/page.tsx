@@ -124,8 +124,9 @@ export default async function PalettePage({ params }: PageProps) {
 
   const rawTags: string[] = (() => {
     try {
-      if (!palette.tags) return [];
-      const parsed = typeof palette.tags === "string" ? JSON.parse(palette.tags) : palette.tags;
+      const t = (palette as Record<string, unknown>).tags;
+      if (!t) return [];
+      const parsed = typeof t === "string" ? JSON.parse(t) : t;
       return Array.isArray(parsed) ? parsed : [];
     } catch { return []; }
   })();
