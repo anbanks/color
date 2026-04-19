@@ -151,9 +151,9 @@ export function QueueClient() {
             max={100}
             value={rateInput}
             onChange={(e) => setRateInput(e.target.value)}
-            className="h-9"
+            className="h-10"
           />
-          <Button onClick={saveRate} disabled={pending} size="sm">
+          <Button onClick={saveRate} disabled={pending} className="h-10 px-4 cursor-pointer">
             Save rate
           </Button>
         </div>
@@ -169,11 +169,11 @@ export function QueueClient() {
           Manual actions
         </h3>
         <div className="flex flex-wrap gap-2">
-          <Button onClick={drainNow} disabled={pending} variant="outline" size="sm">
+          <Button onClick={drainNow} disabled={pending} variant="outline" className="h-10 cursor-pointer">
             <Play className="h-4 w-4 mr-1.5" />
             Drain now ({state.rate})
           </Button>
-          <Button onClick={load} disabled={pending} variant="outline" size="sm">
+          <Button onClick={load} disabled={pending} variant="outline" className="h-10 cursor-pointer">
             <RefreshCw className="h-4 w-4 mr-1.5" />
             Refresh
           </Button>
@@ -181,8 +181,7 @@ export function QueueClient() {
             onClick={seedFromPublished}
             disabled={pending}
             variant="outline"
-            size="sm"
-            className="text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-500/30"
+            className="h-10 cursor-pointer text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-500/30"
           >
             <ArrowDownToLine className="h-4 w-4 mr-1.5" />
             Move ALL published → queue
