@@ -1,6 +1,7 @@
 "use client";
 
-import { createContext, useCallback, useContext, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 
 type AuthView = "login" | "register";
 
@@ -27,6 +28,22 @@ export function useAuthModal() {
 export function AuthModalProvider({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
   const [view, setView] = useState<AuthView>("login");
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  // Open modal when ?auth=login or ?auth=register is in URL
+  useEffect(() => {
+    const authParam = searchParams.get("auth");
+    if (authParam === "login" || authParam === "register") {
+      setView(authParam);
+      setOpen(true);
+      // Clean the URL without reload
+      const url = new URL(window.location.href);
+      url.searchParams.delete("auth");
+      router.replace(url.pathname + url.search, { scroll: false });
+    }
+  }, [searchParams, router]);
 
   const openAuth = useCallback((v: AuthView = "login") => {
     setView(v);

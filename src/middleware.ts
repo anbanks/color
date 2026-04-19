@@ -57,7 +57,7 @@ export default auth((req) => {
   const isAdmin = adminPaths.some((p) => pathWithoutLocale.startsWith(p));
 
   if ((isProtected || isAdmin) && !req.auth) {
-    return NextResponse.redirect(new URL(`/${pathLocale}/login`, req.url));
+    return NextResponse.redirect(new URL(`/${pathLocale}?auth=login`, req.url));
   }
 
   if (isAdmin && req.auth) {

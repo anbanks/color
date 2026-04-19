@@ -5,7 +5,7 @@ import Credentials from "next-auth/providers/credentials";
 export const { handlers, auth, signIn, signOut } = NextAuth({
   session: { strategy: "jwt" },
   pages: {
-    signIn: "/en/login",
+    signIn: "/en?auth=login",
   },
   providers: [
     Google({

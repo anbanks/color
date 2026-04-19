@@ -46,7 +46,7 @@ function ResetForm() {
       });
       if (res.ok) {
         toast.success(t.account.passwordChanged);
-        router.push(`/${locale}/login`);
+        router.push(`/${locale}?auth=login`);
       } else {
         const data = (await res.json()) as { error?: string };
         toast.error(data.error || "Failed");
@@ -96,7 +96,7 @@ function ResetForm() {
         )}
 
         <p className="text-center text-sm text-gray-400 dark:text-white/40">
-          <Link href={`/${locale}/login`} className="text-gray-700 dark:text-white/80 font-medium hover:underline">
+          <Link href={`/${locale}?auth=login`} className="text-gray-700 dark:text-white/80 font-medium hover:underline">
             {t.auth.signInLink}
           </Link>
         </p>

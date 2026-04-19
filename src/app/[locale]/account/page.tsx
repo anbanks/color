@@ -30,7 +30,7 @@ export default async function AccountPage({ params }: PageProps) {
   const session = await auth();
 
   if (!session?.user) {
-    redirect(`/${locale}/login`);
+    redirect(`/${locale}?auth=login`);
   }
 
   return (
