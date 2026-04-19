@@ -115,7 +115,7 @@ export function Header() {
         {/* Search — always visible on desktop, full width */}
         <div className="w-full px-5 box-border">
           <div className="relative">
-            <div className="relative flex items-center h-[42px] border border-gray-200/80 dark:border-white/10 rounded-full bg-[#fafafa] dark:bg-white/5 hover:bg-white dark:hover:bg-white/10 hover:border-gray-300 dark:hover:border-white/20 focus-within:bg-white dark:focus-within:bg-white/10 focus-within:border-gray-300 dark:focus-within:border-white/20 focus-within:shadow-sm transition-all">
+            <div className="relative flex items-center h-[42px] border border-gray-200/80 dark:border-white/10 rounded-full bg-[#fafafa] dark:bg-white/5 hover:bg-white dark:hover:bg-white/10 hover:border-gray-300 dark:hover:border-white/20 focus-within:bg-white dark:focus-within:bg-white/10 focus-within:border-gray-300 dark:focus-within:border-white/20 transition-all">
               {activeTag ? (
                 <div className="flex items-center ml-3">
                   <span className="inline-flex items-center gap-1 pl-3 pr-1 py-[3px] rounded-full text-[13px] font-medium bg-gray-100 dark:bg-white/10 text-gray-800 dark:text-white/90 border border-gray-200 dark:border-white/15">
