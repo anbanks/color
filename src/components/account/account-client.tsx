@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 import { toast } from "sonner";
@@ -40,8 +40,10 @@ interface AccountClientProps {
 export function AccountClient({ user }: AccountClientProps) {
   const router = useRouter();
   const pathname = usePathname();
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, resolvedTheme } = useTheme();
   const { locale, t } = useLocale();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
   const [name, setName] = useState(user.name ?? "");
   const [email, setEmail] = useState(user.email ?? "");
   const [current, setCurrent] = useState("");
@@ -239,17 +241,17 @@ export function AccountClient({ user }: AccountClientProps) {
         <div className="flex gap-2">
           <Button
             type="button"
-            variant={theme === "light" ? "default" : "outline"}
+            variant={mounted && resolvedTheme === "light" ? "default" : "outline"}
             size="sm"
             onClick={() => setTheme("light")}
-            className="min-w-24"
+            className="min-w-24 cursor-pointer"
           >
             <Sun className="mr-1.5 size-4" />
             {t.account.light}
           </Button>
           <Button
             type="button"
-            variant={theme === "dark" ? "default" : "outline"}
+            variant={mounted && resolvedTheme === "dark" ? "default" : "outline"}
             size="sm"
             onClick={() => setTheme("dark")}
             className="min-w-24"
