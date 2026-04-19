@@ -157,11 +157,6 @@ export default async function PalettePage({ params }: PageProps) {
                 <PaletteShare slug={slug} />
               </div>
             </div>
-            {palette.publishedAt && (
-              <div className="mt-2 text-[13px] text-gray-500 dark:text-white/60 font-semibold">
-                {new Date(typeof palette.publishedAt === "number" ? palette.publishedAt * 1000 : palette.publishedAt).toLocaleDateString()}
-              </div>
-            )}
 
             {/* Color swatches */}
             <ColorSwatches colors={colors} />
