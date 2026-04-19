@@ -168,11 +168,11 @@ export default async function PalettePage({ params }: PageProps) {
               </div>
             </div>
 
-            {/* Color swatches */}
-            <ColorSwatches colors={colors} />
-
             {/* Tags */}
             <PaletteTags tags={rawTags} />
+
+            {/* Color swatches */}
+            <ColorSwatches colors={colors} />
 
             {/* Contrast */}
             <div className="mt-10">

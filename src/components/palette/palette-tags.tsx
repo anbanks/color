@@ -19,35 +19,41 @@ export function PaletteTags({ tags }: PaletteTagsProps) {
   const collTags = tags.filter((t) => collectionSet.has(t));
 
   return (
-    <div className="mt-6 space-y-3">
+    <div className="mt-6 space-y-2">
       {colorTags.length > 0 && (
-        <div className="flex flex-wrap gap-1.5">
-          {colorTags.map((tag) => (
-            <Link
-              key={tag}
-              href={`/${locale}/palettes/${tag.toLowerCase()}`}
-              className="inline-flex items-center gap-1.5 px-3 py-[5px] text-[12px] font-medium rounded-full border border-gray-200 dark:border-white/15 text-gray-600 dark:text-white/70 hover:border-gray-300 dark:hover:border-white/25 hover:bg-gray-50 dark:hover:bg-white/10 transition-all"
-            >
-              <span
-                className="w-[10px] h-[10px] rounded-full shrink-0 border border-black/[0.06]"
-                style={{ backgroundColor: getTagColor(tag) }}
-              />
-              {colorLabel(tag, locale)}
-            </Link>
-          ))}
+        <div>
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-gray-400 dark:text-white/35 mb-1.5 block">Colors</span>
+          <div className="flex flex-wrap gap-1.5">
+            {colorTags.map((tag) => (
+              <Link
+                key={tag}
+                href={`/${locale}/palettes/${tag.toLowerCase()}`}
+                className="inline-flex items-center gap-1.5 px-3 py-[5px] text-[12px] font-medium rounded-full border border-gray-200 dark:border-white/15 text-gray-600 dark:text-white/70 hover:border-gray-300 dark:hover:border-white/25 hover:bg-gray-50 dark:hover:bg-white/10 transition-all"
+              >
+                <span
+                  className="w-[10px] h-[10px] rounded-full shrink-0 border border-black/[0.06]"
+                  style={{ backgroundColor: getTagColor(tag) }}
+                />
+                {colorLabel(tag, locale)}
+              </Link>
+            ))}
+          </div>
         </div>
       )}
       {collTags.length > 0 && (
-        <div className="flex flex-wrap gap-1.5">
-          {collTags.map((tag) => (
-            <Link
-              key={tag}
-              href={`/${locale}/palettes/${tag.toLowerCase()}`}
-              className="px-3 py-[5px] text-[12px] font-medium rounded-full border border-gray-200 dark:border-white/15 text-gray-600 dark:text-white/70 hover:border-gray-300 dark:hover:border-white/25 hover:bg-gray-50 dark:hover:bg-white/10 transition-all"
-            >
-              {tagLabel(tag, locale)}
-            </Link>
-          ))}
+        <div>
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-gray-400 dark:text-white/35 mb-1.5 block">Collections</span>
+          <div className="flex flex-wrap gap-1.5">
+            {collTags.map((tag) => (
+              <Link
+                key={tag}
+                href={`/${locale}/palettes/${tag.toLowerCase()}`}
+                className="px-3 py-[5px] text-[12px] font-medium rounded-full border border-gray-200 dark:border-white/15 text-gray-600 dark:text-white/70 hover:border-gray-300 dark:hover:border-white/25 hover:bg-gray-50 dark:hover:bg-white/10 transition-all"
+              >
+                {tagLabel(tag, locale)}
+              </Link>
+            ))}
+          </div>
         </div>
       )}
     </div>
