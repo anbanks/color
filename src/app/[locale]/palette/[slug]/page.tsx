@@ -5,7 +5,7 @@ import { PaletteDetail } from "@/components/palette/palette-detail";
 import { PaletteContent } from "@/components/seo/palette-content";
 import { LikeButton } from "@/components/palette/like-button";
 import { ContrastChecker } from "@/components/palette/contrast-checker";
-import { SiteMockup } from "@/components/preview/site-mockup";
+// import { SiteMockup } from "@/components/preview/site-mockup";
 import { PaletteCard } from "@/components/palette/palette-card";
 import { PaletteExport } from "@/components/palette/palette-export";
 import { PaletteShare } from "@/components/palette/palette-share";
@@ -172,7 +172,7 @@ export default async function PalettePage({ params }: PageProps) {
 
             {/* Mockup + Contrast */}
             <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <SiteMockup colors={colors} />
+              {/* <SiteMockup colors={colors} /> */}
               <ContrastChecker colors={colors} />
             </div>
 
