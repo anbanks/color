@@ -131,7 +131,7 @@ export function Header() {
                   </span>
                 </div>
               ) : (
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-[16px] w-[16px] text-gray-400" strokeWidth={1.5} />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-[16px] w-[16px] text-gray-500 dark:text-white/50" strokeWidth={1.5} />
               )}
               <input
                 type="text"
@@ -144,7 +144,7 @@ export function Header() {
                   if (e.key === "Enter" && query.trim()) selectTag(query.trim());
                   if (e.key === "Escape") setSearchOpen(false);
                 }}
-                className={`w-full h-full pr-4 text-[14px] text-gray-700 dark:text-white/90 placeholder:text-gray-400 dark:placeholder:text-white/30 focus:outline-none bg-transparent ${activeTag ? "pl-2.5" : "pl-[42px]"}`}
+                className={`w-full h-full pr-4 text-[14px] text-gray-700 dark:text-white/90 placeholder:text-gray-500 dark:placeholder:text-white/40 focus:outline-none bg-transparent ${activeTag ? "pl-2.5" : "pl-[42px]"}`}
               />
               {activeTag && (
                 <button
