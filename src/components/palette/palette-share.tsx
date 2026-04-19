@@ -3,17 +3,22 @@
 import { useState } from "react";
 import { Share2, Link2, MessageCircle } from "lucide-react";
 import { toast } from "sonner";
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/drawer";
 
 interface PaletteShareProps {
   slug: string;
 }
 
-const btnClass =
+const triggerClass =
   "inline-flex items-center justify-center h-[36px] w-[36px] rounded-full border border-gray-200 dark:border-white/15 text-gray-500 dark:text-white/60 bg-white dark:bg-white/5 hover:border-gray-300 dark:hover:border-white/25 hover:text-gray-700 dark:hover:text-white transition-all cursor-pointer";
 
 const itemClass =
-  "w-full flex items-center gap-3 text-left px-4 py-3 text-[14px] text-gray-700 dark:text-white/80 hover:bg-gray-50 dark:hover:bg-white/10 cursor-pointer transition-colors";
+  "w-full flex items-center gap-4 text-left px-6 py-3.5 text-[15px] text-gray-800 dark:text-white/85 active:bg-gray-100 dark:active:bg-white/10 transition-colors cursor-pointer border-b border-gray-100 dark:border-white/[0.06] last:border-0";
 
 export function PaletteShare({ slug }: PaletteShareProps) {
   const [open, setOpen] = useState(false);
@@ -26,7 +31,7 @@ export function PaletteShare({ slug }: PaletteShareProps) {
   const options = [
     {
       label: "Copy link",
-      icon: Link2,
+      icon: <Link2 className="h-[18px] w-[18px]" />,
       action: () => {
         navigator.clipboard.writeText(url);
         toast.success("Link copied!");
@@ -34,13 +39,13 @@ export function PaletteShare({ slug }: PaletteShareProps) {
     },
     {
       label: "WhatsApp",
-      icon: MessageCircle,
+      icon: <MessageCircle className="h-[18px] w-[18px]" />,
       action: () =>
         window.open(`https://wa.me/?text=${encodeURIComponent(url)}`, "_blank"),
     },
     {
       label: "X (Twitter)",
-      icon: () => <span className="text-[14px] font-bold w-4 text-center">𝕏</span>,
+      icon: <span className="text-[16px] font-bold w-[18px] text-center">𝕏</span>,
       action: () =>
         window.open(
           `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent("Check out this color palette")}`,
@@ -49,7 +54,7 @@ export function PaletteShare({ slug }: PaletteShareProps) {
     },
     {
       label: "Pinterest",
-      icon: () => <span className="text-[14px] font-bold w-4 text-center">P</span>,
+      icon: <span className="text-[16px] font-bold w-[18px] text-center">P</span>,
       action: () =>
         window.open(
           `https://pinterest.com/pin/create/button/?url=${encodeURIComponent(url)}`,
@@ -58,71 +63,39 @@ export function PaletteShare({ slug }: PaletteShareProps) {
     },
   ];
 
-  const renderOptions = () =>
-    options.map((opt) => {
-      const Icon = opt.icon;
-      return (
-        <button
-          key={opt.label}
-          onClick={() => {
-            opt.action();
-            setOpen(false);
-          }}
-          className={itemClass}
-        >
-          <Icon className="h-4 w-4" />
-          {opt.label}
-        </button>
-      );
-    });
-
   return (
     <>
       <button
         onClick={() => setOpen(true)}
-        className={btnClass}
+        className={triggerClass}
         title="Share"
         aria-label="Share"
       >
         <Share2 className="h-[15px] w-[15px]" />
       </button>
 
-      {/* Desktop dropdown */}
-      {open && (
-        <div className="hidden md:block">
-          <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
-          <div className="absolute top-[calc(100%+6px)] right-0 z-50 w-48 bg-white dark:bg-[#252525] rounded-xl shadow-xl shadow-black/10 ring-1 ring-black/5 dark:ring-white/10 p-1.5">
-            {options.map((opt) => {
-              const Icon = opt.icon;
-              return (
-                <button
-                  key={opt.label}
-                  onClick={() => {
-                    opt.action();
-                    setOpen(false);
-                  }}
-                  className="w-full flex items-center gap-2.5 text-left px-3 py-2 text-[13px] text-gray-700 dark:text-white/80 rounded-lg hover:bg-gray-50 dark:hover:bg-white/10 cursor-pointer transition-colors"
-                >
-                  <span className="w-4 h-4 flex items-center justify-center shrink-0">
-                    <Icon className="h-4 w-4" />
-                  </span>
-                  {opt.label}
-                </button>
-              );
-            })}
+      <Drawer open={open} onOpenChange={setOpen}>
+        <DrawerContent>
+          <DrawerHeader>
+            <DrawerTitle>Share</DrawerTitle>
+          </DrawerHeader>
+          <div className="pb-[env(safe-area-inset-bottom)]">
+            {options.map((opt) => (
+              <button
+                key={opt.label}
+                onClick={() => {
+                  opt.action();
+                  setOpen(false);
+                }}
+                className={itemClass}
+              >
+                {opt.icon}
+                {opt.label}
+              </button>
+            ))}
           </div>
-        </div>
-      )}
-
-      {/* Mobile drawer */}
-      <Sheet open={open} onOpenChange={setOpen}>
-        <SheetContent side="bottom" showCloseButton={false} className="md:hidden rounded-t-2xl pb-[env(safe-area-inset-bottom)]">
-          <SheetHeader>
-            <SheetTitle>Share</SheetTitle>
-          </SheetHeader>
-          <div className="-mx-4">{renderOptions()}</div>
-        </SheetContent>
-      </Sheet>
+        </DrawerContent>
+      </Drawer>
     </>
   );
 }
