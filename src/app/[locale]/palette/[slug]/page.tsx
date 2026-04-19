@@ -8,6 +8,7 @@ import { SaveButton } from "@/components/palette/save-button";
 import { ContrastChecker } from "@/components/palette/contrast-checker";
 import { PaletteStrips } from "@/components/palette/palette-strips";
 import { ColorSwatches } from "@/components/palette/color-swatches";
+import { PaletteTags } from "@/components/palette/palette-tags";
 import { PaletteCard } from "@/components/palette/palette-card";
 import { PaletteExport } from "@/components/palette/palette-export";
 import { PaletteShare } from "@/components/palette/palette-share";
@@ -121,6 +122,14 @@ export default async function PalettePage({ params }: PageProps) {
     ? (JSON.parse(palette.colors) as string[])
     : palette.colors;
 
+  const rawTags: string[] = (() => {
+    try {
+      if (!palette.tags) return [];
+      const parsed = typeof palette.tags === "string" ? JSON.parse(palette.tags) : palette.tags;
+      return Array.isArray(parsed) ? parsed : [];
+    } catch { return []; }
+  })();
+
   const t = getDictionary(locale as Locale);
 
   return (
@@ -160,6 +169,9 @@ export default async function PalettePage({ params }: PageProps) {
 
             {/* Color swatches */}
             <ColorSwatches colors={colors} />
+
+            {/* Tags */}
+            <PaletteTags tags={rawTags} />
 
             {/* Contrast */}
             <div className="mt-10">
