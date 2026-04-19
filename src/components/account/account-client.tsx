@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useCallback } from "react";
+import { signOut } from "next-auth/react";
 import { useRouter, usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 import { toast } from "sonner";
@@ -302,6 +303,30 @@ export function AccountClient({ user }: AccountClientProps) {
             </Command>
           </PopoverContent>
         </Popover>
+      </section>
+
+      {/* Danger zone */}
+      <section className="border border-red-200 dark:border-red-900/30 rounded-xl p-5">
+        <h2 className="text-[14px] font-semibold text-red-600 dark:text-red-400 mb-2">
+          Danger Zone
+        </h2>
+        <p className="text-[13px] text-gray-500 dark:text-white/40 mb-4">
+          Permanently delete your account and all associated data.
+        </p>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          className="border-red-300 text-red-600 hover:bg-red-50 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-900/20 cursor-pointer"
+          onClick={() => {
+            if (!window.confirm("Are you sure? This cannot be undone.")) return;
+            fetch("/api/account/delete", { method: "POST" }).then(() => {
+              signOut({ callbackUrl: "/" });
+            });
+          }}
+        >
+          Delete Account
+        </Button>
       </section>
     </div>
   );

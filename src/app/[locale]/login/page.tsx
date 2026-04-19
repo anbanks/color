@@ -74,11 +74,22 @@ function LoginForm() {
         </div> */}
 
         <form onSubmit={handleCredentials} className="space-y-4">
-          <Input type="email" placeholder={t.auth.email} value={email} onChange={(e) => setEmail(e.target.value)} required className="h-11" />
-          <Input type="password" placeholder={t.auth.password} value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} className="h-11" />
-          <Button type="submit" className="w-full h-11" disabled={isPending}>
+          <div>
+            <label htmlFor="login-email" className="sr-only">{t.auth.email}</label>
+            <Input id="login-email" type="email" placeholder={t.auth.email} value={email} onChange={(e) => setEmail(e.target.value)} required className="h-11" />
+          </div>
+          <div>
+            <label htmlFor="login-password" className="sr-only">{t.auth.password}</label>
+            <Input id="login-password" type="password" placeholder={t.auth.password} value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} className="h-11" />
+          </div>
+          <Button type="submit" className="w-full h-11 cursor-pointer" disabled={isPending}>
             {isPending ? t.auth.signingIn : t.auth.signInButton}
           </Button>
+          <div className="text-right">
+            <Link href={`/${locale}/reset-password`} className="text-[12px] text-gray-400 dark:text-white/40 hover:underline">
+              Forgot password?
+            </Link>
+          </div>
         </form>
 
         <p className="text-center text-sm text-gray-400 dark:text-white/40">

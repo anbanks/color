@@ -98,11 +98,11 @@ export default function RegisterPage() {
         </div> */}
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <Input type="text" placeholder={t.auth.name} value={name} onChange={(e) => setName(e.target.value)} required className="h-11" />
-          <Input type="email" placeholder={t.auth.email} value={email} onChange={(e) => setEmail(e.target.value)} required className="h-11" />
-          <Input type="password" placeholder={t.auth.passwordMinLength} value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} className="h-11" />
-          <Input type="password" placeholder={t.auth.confirmPassword} value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required minLength={6} className="h-11" />
-          <Button type="submit" className="w-full h-11" disabled={isPending}>
+          <div><label htmlFor="reg-name" className="sr-only">{t.auth.name}</label><Input id="reg-name" type="text" placeholder={t.auth.name} value={name} onChange={(e) => setName(e.target.value)} required className="h-11" /></div>
+          <div><label htmlFor="reg-email" className="sr-only">{t.auth.email}</label><Input id="reg-email" type="email" placeholder={t.auth.email} value={email} onChange={(e) => setEmail(e.target.value)} required className="h-11" /></div>
+          <div><label htmlFor="reg-pw" className="sr-only">{t.auth.passwordMinLength}</label><Input id="reg-pw" type="password" placeholder={t.auth.passwordMinLength} value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} className="h-11" /></div>
+          <div><label htmlFor="reg-confirm" className="sr-only">{t.auth.confirmPassword}</label><Input id="reg-confirm" type="password" placeholder={t.auth.confirmPassword} value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required minLength={6} className="h-11" /></div>
+          <Button type="submit" className="w-full h-11 cursor-pointer" disabled={isPending}>
             {isPending ? t.auth.creatingAccount : t.auth.createAccount}
           </Button>
         </form>
