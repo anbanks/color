@@ -79,12 +79,25 @@ export async function getPalettesByTag(tag: string): Promise<PaletteItem[]> {
   try {
     const { env } = await getCloudflareContext({ async: true });
     const db = getDb(env.DB);
-    const r = await db.select().from(palettes).where(eq(palettes.status, "published")).orderBy(desc(palettes.likesCount)).limit(40);
-    return format(r).filter((p) => {
-      const raw = r.find((x) => x.id === p.id);
-      if (!raw?.tags) return false;
-      const tags = JSON.parse(raw.tags) as string[];
-      return tags.some((t) => t.toLowerCase().includes(tag.toLowerCase()));
-    });
+
+    // Support combo tags: "blue-orange" → filter palettes with BOTH "Blue" AND "Orange"
+    const parts = tag.split("-").map(
+      (t) => t.charAt(0).toUpperCase() + t.slice(1).toLowerCase()
+    );
+
+    // Build SQL conditions: tags LIKE '%"Blue"%' AND tags LIKE '%"Orange"%'
+    const conditions = [eq(palettes.status, "published" as const)];
+    for (const t of parts) {
+      conditions.push(sql`${palettes.tags} LIKE ${"%" + JSON.stringify(t).slice(0, -1) + "%"}` as any);
+    }
+
+    const r = await db
+      .select()
+      .from(palettes)
+      .where(sql.join(conditions, sql` AND `))
+      .orderBy(desc(palettes.likesCount))
+      .limit(60);
+
+    return enrich(format(r));
   } catch { return []; }
 }

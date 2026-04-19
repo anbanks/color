@@ -10,11 +10,12 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { tag, locale } = await params;
-  const title = tag.charAt(0).toUpperCase() + tag.slice(1);
+  const parts = tag.split("-").map(t => t.charAt(0).toUpperCase() + t.slice(1));
+  const title = parts.join(" & ");
   const canonical = `${SITE_URL}/${locale}/palettes/${tag}`;
   return {
     title: `${title} Color Palettes`,
-    description: `Discover beautiful ${tag} color palettes for your next design project.`,
+    description: `Discover beautiful ${tag.replace(/-/g, " and ")} color palettes for your next design project. Curated combinations for designers and developers.`,
     alternates: {
       canonical,
       languages: {

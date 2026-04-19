@@ -6,6 +6,35 @@ import { eq } from "drizzle-orm";
 import { SITE_URL, LOCALES } from "@/lib/site";
 
 const STATIC_PATHS = ["", "/popular", "/random", "/collections"];
+
+// Top tag combos matching ColorHunt's category structure for SEO coverage
+const TAG_PAGES = [
+  "pastel","purple","pink","blue","green","summer","sunset","maroon","earth",
+  "orange","warm","red","fall","yellow","light","dark","black","neon","teal",
+  "grey","white","brown","navy","gold","halloween","cream","beige","vintage",
+  "retro","spring","wedding","cold","nature","peach","sage","winter","sky",
+  "sea","gradient","rainbow","mint","christmas","coffee","space","night",
+  "happy","skin","kids","food",
+  "blue-purple","blue-yellow","blue-orange","blue-green","blue-pink",
+  "blue-brown","blue-grey","blue-black","blue-teal","blue-dark",
+  "blue-mint","blue-navy","blue-white",
+  "red-blue","red-green","red-yellow","red-purple","red-grey","red-brown",
+  "red-black","red-orange","red-maroon",
+  "pink-purple","pink-green","pink-brown","pink-orange","pink-blue-purple",
+  "green-purple","green-yellow","green-grey","green-black",
+  "brown-green","brown-orange","brown-grey",
+  "black-white","black-red","black-purple","black-yellow","black-grey",
+  "black-gold","black-brown",
+  "pastel-blue","pastel-pink","pastel-purple","pastel-green","pastel-orange",
+  "pastel-grey","pastel-brown",
+  "dark-white","dark-green","dark-pink","dark-grey","dark-red",
+  "orange-green","orange-yellow",
+  "purple-grey","purple-navy","purple-orange",
+  "navy-white","navy-pink",
+  "beige-brown","beige-green",
+  "sunset-yellow","warm-orange",
+  "vintage-blue","vintage-red","vintage-green",
+];
 const PALETTES_PER_SITEMAP = 5000;
 
 function alternates(path: string) {
@@ -51,6 +80,17 @@ export default async function sitemap({
           changeFrequency: path === "" ? "daily" : "weekly",
           priority: path === "" ? 1 : 0.7,
           alternates: { languages: alternates(path) },
+        });
+      }
+    }
+    for (const tag of TAG_PAGES) {
+      for (const locale of LOCALES) {
+        entries.push({
+          url: `${SITE_URL}/${locale}/palettes/${tag}`,
+          lastModified: new Date(),
+          changeFrequency: "weekly",
+          priority: 0.7,
+          alternates: { languages: alternates(`/palettes/${tag}`) },
         });
       }
     }
