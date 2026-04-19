@@ -150,7 +150,7 @@ export default async function PalettePage({ params }: PageProps) {
               <PaletteActions slug={slug} colors={colors} />
               <PaletteExport paletteId={palette.id} />
               <PaletteShare slug={slug} />
-              <span className="ml-auto text-[13px] text-gray-400">
+              <span className="ml-auto text-[13px] text-gray-500 dark:text-white/60 font-semibold">
                 {palette.publishedAt ? new Date(typeof palette.publishedAt === "number" ? palette.publishedAt * 1000 : palette.publishedAt).toLocaleDateString() : ""}
               </span>
             </div>
