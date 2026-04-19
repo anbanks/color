@@ -43,7 +43,7 @@ export function ContrastChecker({ colors }: ContrastCheckerProps) {
               </span>
               <span
                 className={cn(
-                  "text-xs font-medium px-2 py-0.5 rounded-full",
+                  "text-xs font-medium px-2 py-0.5 rounded-full whitespace-nowrap shrink-0",
                   config.bg,
                   config.text
                 )}

@@ -5,6 +5,8 @@ import { PaletteDetail } from "@/components/palette/palette-detail";
 import { PaletteContent } from "@/components/seo/palette-content";
 import { LikeButton } from "@/components/palette/like-button";
 import { ContrastChecker } from "@/components/palette/contrast-checker";
+import { PaletteStrips } from "@/components/palette/palette-strips";
+import { ColorSwatches } from "@/components/palette/color-swatches";
 import { PaletteCard } from "@/components/palette/palette-card";
 import { PaletteExport } from "@/components/palette/palette-export";
 import { PaletteShare } from "@/components/palette/palette-share";
@@ -140,11 +142,7 @@ export default async function PalettePage({ params }: PageProps) {
           {/* Palette expanded */}
           <div className="max-w-[820px] mx-auto px-5">
             {/* Palette card large */}
-            <div className="rounded-[10px] overflow-hidden shadow-[0_1px_6px_rgba(0,0,0,0.07)]">
-              {colors.map((color, i) => (
-                <div key={i} className="h-[100px]" style={{ backgroundColor: color }} />
-              ))}
-            </div>
+            <PaletteStrips colors={colors} />
 
             {/* Actions */}
             <div className="flex items-center gap-3 mt-4">
@@ -157,17 +155,8 @@ export default async function PalettePage({ params }: PageProps) {
               </span>
             </div>
 
-            {/* Color circles */}
-            <div className="flex items-center justify-center gap-6 mt-8">
-              {colors.map((color, i) => (
-                <div
-                  key={i}
-                  className="w-10 h-10 rounded-full shadow-sm"
-                  style={{ backgroundColor: color }}
-                  title={color.toUpperCase()}
-                />
-              ))}
-            </div>
+            {/* Color swatches */}
+            <ColorSwatches colors={colors} />
 
             {/* Contrast */}
             <div className="mt-10">
