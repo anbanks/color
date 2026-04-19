@@ -138,7 +138,7 @@ export default async function PalettePage({ params }: PageProps) {
         </div>
 
         {/* Main content */}
-        <main className="flex-1 min-w-0 pt-[6px] pb-16 box-border">
+        <main className="flex-1 min-w-0 pb-16 box-border">
           {/* Palette expanded */}
           <div className="max-w-[820px] mx-auto px-5">
             {/* Palette card large */}
