@@ -209,7 +209,7 @@ export default function SettingsPage() {
 
           <div className="bg-gray-50 dark:bg-white/[0.03] rounded-lg p-3">
             <p className="text-[12px] text-gray-500 dark:text-white/50">
-              <span className="font-medium text-gray-700 dark:text-white/70">Model:</span> Llama 3.1 8B (free) — generates title, description, psychology and applications in 9 languages per palette
+              <span className="font-medium text-gray-700 dark:text-white/70">Model:</span> Google Gemma 2 9B (free) — generates title, description, psychology and applications in 9 languages per palette
             </p>
           </div>
 
