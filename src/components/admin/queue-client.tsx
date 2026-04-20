@@ -28,6 +28,7 @@ export function QueueClient() {
   const [aiRateInput, setAiRateInput] = useState("");
   const [seedOpen, setSeedOpen] = useState(false);
   const [pending, startTransition] = useTransition();
+  const [aiLogs, setAiLogs] = useState<{ time: string; generated: number; errors: number; ids: string[] }[]>([]);
 
   const load = async () => {
     try {
@@ -37,6 +38,11 @@ export function QueueClient() {
       setState(data);
       setRateInput(String(data.rate));
       setAiRateInput(String(data.aiRate));
+
+      fetch("/api/admin/ai-log", { cache: "no-store" })
+        .then((r) => r.json())
+        .then((d) => setAiLogs((d as { logs: typeof aiLogs }).logs || []))
+        .catch(() => {});
     } catch {
       toast.error("Failed to load queue");
     }
@@ -231,6 +237,35 @@ export function QueueClient() {
           </p>
         )}
       </div>
+
+      {/* AI Generation Log */}
+      {aiLogs.length > 0 && (
+        <div className="bg-white dark:bg-white/[0.03] border border-gray-200/60 dark:border-white/[0.06] rounded-lg p-5">
+          <h3 className="text-[13px] font-semibold text-gray-900 dark:text-white mb-3">
+            AI Generation Log
+          </h3>
+          <div className="max-h-[250px] overflow-y-auto space-y-1.5">
+            {aiLogs.map((log, i) => (
+              <div key={i} className="flex items-center gap-3 text-[12px] py-1.5 border-b border-gray-100 dark:border-white/[0.04] last:border-0">
+                <span className="text-gray-400 dark:text-white/30 tabular-nums shrink-0">
+                  {new Date(log.time).toLocaleString([], { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })}
+                </span>
+                <span className={log.generated > 0 ? "text-green-600 dark:text-green-400 font-medium" : "text-gray-400 dark:text-white/30"}>
+                  {log.generated > 0 ? `✓ ${log.generated} generated` : "— skip"}
+                </span>
+                {log.errors > 0 && (
+                  <span className="text-red-500 font-medium">✗ {log.errors} errors</span>
+                )}
+                {log.ids.length > 0 && (
+                  <span className="text-gray-400 dark:text-white/25 truncate">
+                    {log.ids.join(", ")}
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className="bg-white dark:bg-white/[0.03] border border-gray-200/60 dark:border-white/[0.06] rounded-lg p-5">
         <h3 className="text-[13px] font-semibold text-gray-900 dark:text-white mb-3">

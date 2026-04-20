@@ -7,7 +7,8 @@ import { createId } from "@paralleldrive/cuid2";
 const LOCALES = ["en", "pt", "es", "fr", "de", "it", "ja", "zh", "hi"] as const;
 const DEFAULT_MODEL = "meta-llama/llama-3.3-70b-instruct:free";
 const RATE_KEY = "queue:ai_generate_per_run";
-const DEFAULT_RATE = 2;
+const LOG_KEY = "queue:ai_log";
+const DEFAULT_RATE = 3;
 
 const LOCALE_NAMES: Record<string, string> = {
   en: "English", pt: "Portuguese", es: "Spanish", fr: "French",
@@ -84,6 +85,7 @@ export async function GET() {
 
   let generated = 0;
   const ids: string[] = [];
+  const errors: { id: string; error: string }[] = [];
 
   for (const palette of needsContent) {
     try {
@@ -140,14 +142,22 @@ export async function GET() {
 
       generated++;
       ids.push(palette.id);
-    } catch {
-      // skip this palette
+    } catch (e) {
+      errors.push({ id: palette.id, error: String(e) });
     }
   }
 
+  const now = new Date().toISOString();
+  const logEntry = { time: now, generated, errors: errors.length, ids, errorDetails: errors };
+
   try {
-    await env.CACHE.put("queue:ai_last_run", new Date().toISOString());
+    // Keep last 50 log entries
+    const prevLog = await env.CACHE.get(LOG_KEY);
+    const logs = prevLog ? JSON.parse(prevLog) : [];
+    logs.unshift(logEntry);
+    await env.CACHE.put(LOG_KEY, JSON.stringify(logs.slice(0, 50)));
+    await env.CACHE.put("queue:ai_last_run", now);
   } catch {}
 
-  return Response.json({ generated, rate, ids });
+  return Response.json({ generated, rate, ids, errors });
 }
