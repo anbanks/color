@@ -176,13 +176,35 @@ export function PaletteEditModal({ palette, onClose }: PaletteEditModalProps) {
             destructive
             onConfirm={handleDelete}
           />
-          <button
-            onClick={handleSave}
-            disabled={isPending}
-            className="px-5 py-2 rounded-lg bg-gray-900 dark:bg-white/10 text-white text-[14px] font-medium hover:bg-gray-800 dark:hover:bg-white/15 transition-colors disabled:opacity-50"
-          >
-            {locale === "pt" ? "Salvar" : locale === "es" ? "Guardar" : "Save"}
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => {
+                startTransition(async () => {
+                  try {
+                    const res = await fetch("/api/admin/generate-content", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ paletteId: palette.id }),
+                    });
+                    const data = (await res.json()) as { ok?: boolean; error?: string };
+                    if (data.ok) toast.success("AI content generated for 9 languages");
+                    else toast.error(data.error || "Failed");
+                  } catch { toast.error("Failed"); }
+                });
+              }}
+              disabled={isPending}
+              className="px-4 py-2 rounded-lg border border-gray-200 dark:border-white/15 text-[14px] font-medium text-gray-600 dark:text-white/70 hover:bg-gray-50 dark:hover:bg-white/10 transition-colors disabled:opacity-50 cursor-pointer"
+            >
+              {isPending ? "Generating..." : "✨ AI Content"}
+            </button>
+            <button
+              onClick={handleSave}
+              disabled={isPending}
+              className="px-5 py-2 rounded-lg bg-gray-900 dark:bg-white/10 text-white text-[14px] font-medium hover:bg-gray-800 dark:hover:bg-white/15 transition-colors disabled:opacity-50 cursor-pointer"
+            >
+              {locale === "pt" ? "Salvar" : locale === "es" ? "Guardar" : "Save"}
+            </button>
+          </div>
         </div>
       </div>
     </div>
