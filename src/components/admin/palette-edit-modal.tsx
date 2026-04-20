@@ -3,7 +3,6 @@
 import { useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { X } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { useLocale } from "@/lib/locale-context";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -262,7 +261,7 @@ export function PaletteEditModal({ palette, onClose }: PaletteEditModalProps) {
               </div>
             ) : (
               <div className="text-center py-6 text-[13px] text-gray-400 dark:text-white/30 border border-dashed border-gray-200 dark:border-white/10 rounded-lg">
-                No content yet — click "✨ Generate AI" to create
+                No content yet — click &quot;✨ Generate AI&quot; to create
               </div>
             )}
           </div>
