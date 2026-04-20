@@ -71,16 +71,8 @@ export default auth((req) => {
     return NextResponse.next({ request: { headers: forwardHeaders } });
   }
 
-  // No locale in path — this is the default (EN) or needs detection
-  const acceptLang = req.headers.get("accept-language") || "";
-  const detected = detectLocale(acceptLang);
-
-  // If detected language is NOT default → redirect to /{locale}/path
-  if (detected !== defaultLocale) {
-    return NextResponse.redirect(new URL(`/${detected}${pathname}`, req.url));
-  }
-
-  // Default locale (EN): rewrite internally to /en/* but keep URL clean
+  // No locale in path — serve as default locale (EN).
+  // No auto-redirect based on Accept-Language — user picks language manually.
   const forwardHeaders = new Headers(req.headers);
   forwardHeaders.set("x-locale", defaultLocale);
 
