@@ -54,40 +54,31 @@ export async function GET() {
 
   const db = getDb(env.DB);
 
-  // Find approved OR published palettes without complete content
-  const candidates = await db
+  // Find palettes without complete content (< 9 locales) using subquery
+  const needsContent = await db
     .select({ id: palettes.id, colors: palettes.colors })
     .from(palettes)
-    .where(sql`${palettes.status} IN ('approved', 'published')`)
+    .where(sql`${palettes.status} IN ('approved', 'published') AND ${palettes.id} NOT IN (
+      SELECT ${paletteContent.paletteId} FROM ${paletteContent}
+      GROUP BY ${paletteContent.paletteId} HAVING count(*) >= 9
+    )`)
     .orderBy(palettes.createdAt)
-    .limit(50);
-
-  if (!candidates.length) {
-    return Response.json({ generated: 0, message: "No palettes in queue" });
-  }
-
-  // Check which have incomplete content
-  const needsContent: { id: string; colors: string[] }[] = [];
-  for (const c of candidates) {
-    if (needsContent.length >= rate) break;
-    const count = await db
-      .select({ n: sql<number>`count(*)` })
-      .from(paletteContent)
-      .where(eq(paletteContent.paletteId, c.id));
-    if ((count[0]?.n || 0) < 9) {
-      needsContent.push({ id: c.id, colors: JSON.parse(c.colors) as string[] });
-    }
-  }
+    .limit(rate);
 
   if (!needsContent.length) {
-    return Response.json({ generated: 0, message: "All queued palettes have content" });
+    return Response.json({ generated: 0, message: "All palettes have complete content" });
   }
+
+  const toProcess = needsContent.map((c) => ({
+    id: c.id,
+    colors: JSON.parse(c.colors) as string[],
+  }));
 
   let generated = 0;
   const ids: string[] = [];
   const errors: { id: string; error: string }[] = [];
 
-  for (const palette of needsContent) {
+  for (const palette of toProcess) {
     try {
       const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
         method: "POST",
