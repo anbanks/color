@@ -42,7 +42,8 @@ export default function SettingsPage() {
 
     fetch("https://openrouter.ai/api/v1/models")
       .then((r) => r.json())
-      .then((data: { data?: { id: string; name: string; pricing?: { prompt?: string; completion?: string } }[] }) => {
+      .then((raw) => {
+        const data = raw as { data?: { id: string; name: string; pricing?: { prompt?: string; completion?: string } }[] };
         const all = (data.data || [])
           .filter((m) => !m.id.includes("lyria") && !m.id.includes("elephant"))
           .map((m) => ({
