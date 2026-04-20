@@ -38,7 +38,7 @@ export function PaletteEditModal({ palette, onClose }: PaletteEditModalProps) {
   const [seoLocale, setSeoLocale] = useState("en");
   const [seoLoading, setSeoLoading] = useState(true);
   const router = useRouter();
-  const { t } = useLocale();
+  const { locale, t } = useLocale();
 
   const seo = seoByLocale[seoLocale] ?? null;
   const setSeo = (val: SeoContent | null) => {
