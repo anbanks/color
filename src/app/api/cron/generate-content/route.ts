@@ -77,6 +77,7 @@ export async function GET() {
   let generated = 0;
   const ids: string[] = [];
   const errors: { id: string; error: string }[] = [];
+  const details: { id: string; colors: string[]; localesSaved: string[]; title?: string; rawResponse?: string }[] = [];
 
   for (const palette of toProcess) {
     try {
@@ -135,6 +136,14 @@ export async function GET() {
         }
       }
 
+      const localesSaved = Object.keys(allLocales).filter(l => allLocales[l]?.title);
+      details.push({
+        id: palette.id,
+        colors: palette.colors,
+        localesSaved,
+        title: allLocales.en?.title,
+        rawResponse: content.slice(0, 500),
+      });
       generated++;
       ids.push(palette.id);
     } catch (e) {
@@ -143,7 +152,7 @@ export async function GET() {
   }
 
   const now = new Date().toISOString();
-  const logEntry = { time: now, generated, errors: errors.length, ids, errorDetails: errors };
+  const logEntry = { time: now, generated, errors: errors.length, ids, errorDetails: errors, details, model, rate };
 
   try {
     // Keep last 50 log entries

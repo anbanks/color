@@ -28,7 +28,6 @@ export function QueueClient() {
   const [aiRateInput, setAiRateInput] = useState("");
   const [seedOpen, setSeedOpen] = useState(false);
   const [pending, startTransition] = useTransition();
-  const [aiLogs, setAiLogs] = useState<{ time: string; generated: number; errors: number; ids: string[]; errorDetails?: { id: string; error: string }[] }[]>([]);
 
   const load = async () => {
     try {
@@ -38,11 +37,6 @@ export function QueueClient() {
       setState(data);
       setRateInput(String(data.rate));
       setAiRateInput(String(data.aiRate));
-
-      fetch("/api/admin/ai-log", { cache: "no-store" })
-        .then((r) => r.json())
-        .then((d) => setAiLogs((d as { logs: typeof aiLogs }).logs || []))
-        .catch(() => {});
     } catch {
       toast.error("Failed to load queue");
     }
@@ -238,61 +232,6 @@ export function QueueClient() {
         )}
       </div>
 
-      {/* AI Generation Log */}
-      {aiLogs.length > 0 && (
-        <div className="bg-white dark:bg-white/[0.03] border border-gray-200/60 dark:border-white/[0.06] rounded-lg p-5">
-          <h3 className="text-[13px] font-semibold text-gray-900 dark:text-white mb-3">
-            AI Generation Log
-          </h3>
-          <div className="max-h-[400px] overflow-y-auto">
-            <table className="w-full text-[12px]">
-              <thead>
-                <tr className="border-b border-gray-200/60 dark:border-white/[0.06] text-gray-500 dark:text-white/40">
-                  <th className="text-left py-2 px-2 font-medium">Time</th>
-                  <th className="text-left py-2 px-2 font-medium">Status</th>
-                  <th className="text-left py-2 px-2 font-medium">Palettes</th>
-                  <th className="text-left py-2 px-2 font-medium">Details</th>
-                </tr>
-              </thead>
-              <tbody>
-                {aiLogs.map((log, i) => (
-                  <tr key={i} className="border-b border-gray-100 dark:border-white/[0.04]">
-                    <td className="py-2 px-2 text-gray-400 dark:text-white/30 tabular-nums whitespace-nowrap">
-                      {new Date(log.time).toLocaleString([], { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })}
-                    </td>
-                    <td className="py-2 px-2">
-                      {log.generated > 0 ? (
-                        <span className="text-green-600 dark:text-green-400 font-medium">✓ {log.generated}</span>
-                      ) : (
-                        <span className="text-gray-400 dark:text-white/30">—</span>
-                      )}
-                      {log.errors > 0 && (
-                        <span className="text-red-500 font-medium ml-2">✗ {log.errors}</span>
-                      )}
-                    </td>
-                    <td className="py-2 px-2 text-gray-500 dark:text-white/50 font-mono">
-                      {log.ids.length > 0 ? log.ids.join(", ") : "—"}
-                    </td>
-                    <td className="py-2 px-2 text-gray-400 dark:text-white/30 max-w-[300px]">
-                      {log.errorDetails && log.errorDetails.length > 0 ? (
-                        <div className="space-y-1">
-                          {log.errorDetails.map((e, j) => (
-                            <div key={j} className="text-red-500 text-[11px] break-all">
-                              <span className="font-mono font-medium">{e.id}:</span> {e.error.slice(0, 150)}
-                            </div>
-                          ))}
-                        </div>
-                      ) : log.generated > 0 ? (
-                        <span className="text-green-600 dark:text-green-400">9/9 locales each</span>
-                      ) : null}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )}
 
       <div className="bg-white dark:bg-white/[0.03] border border-gray-200/60 dark:border-white/[0.06] rounded-lg p-5">
         <h3 className="text-[13px] font-semibold text-gray-900 dark:text-white mb-3">
