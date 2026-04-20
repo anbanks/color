@@ -273,7 +273,7 @@ export default function SettingsPage() {
                 onClick={() => {
                   startAiTestTransition(async () => {
                     const res = await fetch("/api/admin/test-openai", { method: "POST" });
-                    const data = (await res.json()) as { ok: boolean; reply?: string; error?: string };
+                    const data = (await res.json()) as { ok: boolean; reply?: string; error?: string; model?: string };
                     if (data.ok) toast.success(`Connected — ${data.model}`);
                     else toast.error(data.error || "Failed");
                   });
