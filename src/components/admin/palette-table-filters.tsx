@@ -25,23 +25,38 @@ export function PaletteTableWithFilters({ palettes, counts }: Props) {
   const [active, setActive] = useState("all");
   const { t } = useLocale();
 
+  const withAI = palettes.filter((p) => (p.contentCount || 0) > 0).length;
+  const readyCount = palettes.filter((p) => (p.contentCount || 0) >= 9).length;
+  const noAI = palettes.filter((p) => (p.contentCount || 0) === 0).length;
+
   const filters = [
     { key: "all", label: t.admin.all },
     { key: "published", label: t.admin.published },
     { key: "approved", label: t.admin.scheduled },
     { key: "pending", label: t.admin.pending },
     { key: "rejected", label: t.admin.rejected },
+    { key: "has-ai", label: "AI ✓" },
+    { key: "no-ai", label: "AI ✗" },
   ];
 
-  const filtered = active === "all"
-    ? palettes
-    : palettes.filter((p) => p.status === active);
+  const filterCounts: Record<string, number> = {
+    ...counts,
+    "has-ai": withAI,
+    "no-ai": noAI,
+  };
+
+  const filtered = (() => {
+    if (active === "all") return palettes;
+    if (active === "has-ai") return palettes.filter((p) => (p.contentCount || 0) > 0);
+    if (active === "no-ai") return palettes.filter((p) => (p.contentCount || 0) === 0);
+    return palettes.filter((p) => p.status === active);
+  })();
 
   return (
     <div>
       <div className="flex items-center gap-1 mb-5">
         {filters.map((f) => {
-          const count = counts[f.key] || 0;
+          const count = filterCounts[f.key] || 0;
           const isActive = active === f.key;
           return (
             <button
