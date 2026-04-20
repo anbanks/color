@@ -44,7 +44,8 @@ export function PaletteEditModal({ palette, onClose }: PaletteEditModalProps) {
   useEffect(() => {
     fetch(`/api/admin/palette-content?id=${palette.id}&locale=${locale}`)
       .then((r) => r.json())
-      .then((data: { content?: SeoContent }) => {
+      .then((raw) => {
+        const data = raw as { content?: SeoContent };
         if (data.content) setSeo(data.content);
         setSeoLoading(false);
       })
