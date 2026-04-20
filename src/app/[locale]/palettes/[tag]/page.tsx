@@ -42,7 +42,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const translated = parts.map(p => translateTag(p, locale));
   const titleLabel = translated.join(" & ");
   const pw = palettesWord[locale] || palettesWord.en;
-  const title = `${titleLabel} — ${pw}`;
+  const title = `${titleLabel} ${pw}`;
   const descFn = descTemplates[locale] || descTemplates.en;
   const description = descFn(translated.join(locale === "ja" || locale === "zh" ? "・" : " & "));
   const canonical = localeUrl(locale, `/palettes/${tag}`);

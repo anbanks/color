@@ -17,7 +17,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${SITE_NAME} — Discover Beautiful Color Palettes`,
+    default: `Discover Beautiful Color Palettes | ${SITE_NAME}`,
     template: `%s | ${SITE_NAME}`,
   },
   description:
