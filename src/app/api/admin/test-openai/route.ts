@@ -8,20 +8,22 @@ export async function POST() {
   }
 
   const { env } = await getCloudflareContext({ async: true });
-  const apiKey = await env.CACHE.get("settings:OPENAI_API_KEY");
+  const apiKey = await env.CACHE.get("settings:OPENROUTER_API_KEY");
   if (!apiKey) {
     return Response.json({ ok: false, error: "No API key configured" }, { status: 400 });
   }
 
   try {
-    const res = await fetch("https://api.openai.com/v1/chat/completions", {
+    const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
+        "HTTP-Referer": "https://colorgrid.co",
+        "X-Title": "Color Grid",
       },
       body: JSON.stringify({
-        model: "gpt-4o-mini",
+        model: "meta-llama/llama-3.1-8b-instruct:free",
         messages: [
           { role: "user", content: "Reply with exactly: OK" },
         ],
@@ -40,7 +42,7 @@ export async function POST() {
     const data = (await res.json()) as { choices?: { message?: { content?: string } }[] };
     const reply = data.choices?.[0]?.message?.content?.trim() || "";
 
-    return Response.json({ ok: true, reply, model: "gpt-4o-mini" });
+    return Response.json({ ok: true, reply, model: "llama-3.1-8b-instruct (free)" });
   } catch (e) {
     return Response.json({ ok: false, error: String(e) });
   }
