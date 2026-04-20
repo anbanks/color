@@ -33,13 +33,16 @@ export default function LogsPage() {
     fetch("/api/admin/ai-log", { cache: "no-store" })
       .then((r) => r.json())
       .then((d) => {
-        setLogs((d as { logs: LogEntry[] }).logs || []);
-        setLoading(false);
+        const t = setTimeout(() => {
+          setLogs((d as { logs: LogEntry[] }).logs || []);
+          setLoading(false);
+        }, 0);
+        return () => clearTimeout(t);
       })
-      .catch(() => setLoading(false));
+      .catch(() => setTimeout(() => setLoading(false), 0));
   };
 
-  useEffect(() => { load(); }, []);
+  useEffect(() => { const t = setTimeout(load, 0); return () => clearTimeout(t); }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (loading) {
     return (
