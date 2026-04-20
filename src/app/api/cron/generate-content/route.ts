@@ -117,6 +117,13 @@ export async function GET() {
         const fields = allLocales[locale];
         if (!fields?.title) continue;
 
+        const safe = {
+          title: fields.title || "Untitled",
+          description: fields.description || "",
+          applications: fields.applications || "",
+          psychology: fields.psychology || "",
+        };
+
         const existing = await db
           .select({ id: paletteContent.id })
           .from(paletteContent)
@@ -125,17 +132,14 @@ export async function GET() {
 
         if (existing[0]) {
           await db.update(paletteContent)
-            .set({ title: fields.title, description: fields.description, applications: fields.applications, psychology: fields.psychology })
+            .set(safe)
             .where(eq(paletteContent.id, existing[0].id));
         } else {
           await db.insert(paletteContent).values({
             id: createId(),
             paletteId: palette.id,
             locale,
-            title: fields.title,
-            description: fields.description,
-            applications: fields.applications,
-            psychology: fields.psychology,
+            ...safe,
           });
         }
       }
