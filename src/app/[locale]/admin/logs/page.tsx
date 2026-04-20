@@ -18,7 +18,10 @@ interface LogEntry {
     colors: string[];
     localesSaved: string[];
     title?: string;
-    rawResponse?: string;
+    prompt?: string;
+    request?: object;
+    response?: string;
+    httpStatus?: number;
   }[];
   errorDetails?: { id: string; error: string }[];
 }
@@ -132,11 +135,31 @@ export default function LogsPage() {
                           </span>
                         ))}
                       </div>
-                      {d.rawResponse && (
+                      <div className="flex items-center gap-2 text-[11px] text-gray-400 dark:text-white/30">
+                        {d.httpStatus && (
+                          <span className={d.httpStatus === 200 ? "text-green-600" : "text-red-500"}>
+                            HTTP {d.httpStatus}
+                          </span>
+                        )}
+                      </div>
+                      {d.prompt && (
                         <details className="text-[11px]">
-                          <summary className="text-gray-400 dark:text-white/30 cursor-pointer hover:text-gray-600">API Response</summary>
-                          <pre className="mt-1 p-2 rounded bg-gray-100 dark:bg-white/[0.04] text-gray-600 dark:text-white/50 overflow-x-auto whitespace-pre-wrap break-all text-[10px] max-h-[200px] overflow-y-auto">
-                            {d.rawResponse}
+                          <summary className="text-blue-500 dark:text-blue-400 cursor-pointer hover:underline font-medium">→ Request (prompt)</summary>
+                          <pre className="mt-1 p-2 rounded bg-blue-50 dark:bg-blue-900/10 text-gray-700 dark:text-white/60 overflow-x-auto whitespace-pre-wrap break-all text-[10px] max-h-[200px] overflow-y-auto border border-blue-100 dark:border-blue-900/20">
+                            {d.prompt}
+                          </pre>
+                          {d.request && (
+                            <pre className="mt-1 p-2 rounded bg-blue-50 dark:bg-blue-900/10 text-gray-600 dark:text-white/50 text-[10px] border border-blue-100 dark:border-blue-900/20">
+                              {JSON.stringify(d.request, null, 2)}
+                            </pre>
+                          )}
+                        </details>
+                      )}
+                      {d.response && (
+                        <details className="text-[11px]">
+                          <summary className="text-green-600 dark:text-green-400 cursor-pointer hover:underline font-medium">← Response</summary>
+                          <pre className="mt-1 p-2 rounded bg-green-50 dark:bg-green-900/10 text-gray-700 dark:text-white/60 overflow-x-auto whitespace-pre-wrap break-all text-[10px] max-h-[300px] overflow-y-auto border border-green-100 dark:border-green-900/20">
+                            {d.response}
                           </pre>
                         </details>
                       )}

@@ -77,10 +77,18 @@ export async function GET() {
   let generated = 0;
   const ids: string[] = [];
   const errors: { id: string; error: string }[] = [];
-  const details: { id: string; colors: string[]; localesSaved: string[]; title?: string; rawResponse?: string }[] = [];
+  const details: { id: string; colors: string[]; localesSaved: string[]; title?: string; prompt?: string; request?: object; response?: string; httpStatus?: number }[] = [];
 
   for (const palette of toProcess) {
     try {
+      const prompt = buildPrompt(palette.colors);
+      const requestBody = {
+        model,
+        messages: [{ role: "user", content: prompt }],
+        max_tokens: 2000,
+        temperature: 0.7,
+      };
+
       const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
         method: "POST",
         headers: {
@@ -89,17 +97,18 @@ export async function GET() {
           "HTTP-Referer": "https://colorgrid.co",
           "X-Title": "Color Grid",
         },
-        body: JSON.stringify({
-          model,
-          messages: [{ role: "user", content: buildPrompt(palette.colors) }],
-          max_tokens: 2000,
-          temperature: 0.7,
-        }),
+        body: JSON.stringify(requestBody),
       });
 
-      if (!res.ok) continue;
+      const rawBody = await res.text();
 
-      const data = (await res.json()) as { choices?: { message?: { content?: string } }[] };
+      if (!res.ok) {
+        errors.push({ id: palette.id, error: `HTTP ${res.status}: ${rawBody.slice(0, 300)}` });
+        details.push({ id: palette.id, colors: palette.colors, localesSaved: [], prompt, request: requestBody, response: rawBody.slice(0, 1000), httpStatus: res.status });
+        continue;
+      }
+
+      const data = JSON.parse(rawBody) as { choices?: { message?: { content?: string } }[] };
       let content = data.choices?.[0]?.message?.content?.trim() || "";
       content = content.replace(/^```json?\s*/i, "").replace(/\s*```$/i, "").trim();
 
@@ -142,7 +151,10 @@ export async function GET() {
         colors: palette.colors,
         localesSaved,
         title: allLocales.en?.title,
-        rawResponse: content.slice(0, 500),
+        prompt: prompt.slice(0, 200),
+        request: { model, max_tokens: 2000, temperature: 0.7 },
+        response: rawBody.slice(0, 1500),
+        httpStatus: res.status,
       });
       generated++;
       ids.push(palette.id);
