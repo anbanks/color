@@ -14,14 +14,18 @@ interface QueueState {
     approved: number;
     published: number;
     rejected: number;
+    readyToPublish: number;
   };
   rate: number;
+  aiRate: number;
   lastRun: string | null;
+  aiLastRun: string | null;
 }
 
 export function QueueClient() {
   const [state, setState] = useState<QueueState | null>(null);
   const [rateInput, setRateInput] = useState("");
+  const [aiRateInput, setAiRateInput] = useState("");
   const [seedOpen, setSeedOpen] = useState(false);
   const [pending, startTransition] = useTransition();
 
@@ -32,6 +36,7 @@ export function QueueClient() {
       const data = (await res.json()) as QueueState;
       setState(data);
       setRateInput(String(data.rate));
+      setAiRateInput(String(data.aiRate));
     } catch {
       toast.error("Failed to load queue");
     }
@@ -116,10 +121,10 @@ export function QueueClient() {
   }
 
   const cards = [
-    { label: "Pending review", value: state.counts.pending, tone: "pending" },
     { label: "In queue", value: state.counts.approved, tone: "approved" },
+    { label: "Ready to publish", value: state.counts.readyToPublish, tone: "ready" },
+    { label: "Awaiting AI", value: state.counts.approved - state.counts.readyToPublish, tone: "pending" },
     { label: "Published", value: state.counts.published, tone: "published" },
-    { label: "Rejected", value: state.counts.rejected, tone: "rejected" },
   ];
 
   return (
@@ -172,6 +177,57 @@ export function QueueClient() {
         {state.lastRun && (
           <p className="text-[11px] text-gray-400 dark:text-white/30 mt-3">
             Last run: {new Date(state.lastRun).toLocaleString()}
+          </p>
+        )}
+      </div>
+
+      <div className="bg-white dark:bg-white/[0.03] border border-gray-200/60 dark:border-white/[0.06] rounded-lg p-5">
+        <div className="flex items-center gap-2 mb-3">
+          <Clock className="h-4 w-4 text-gray-500 dark:text-white/50" />
+          <h3 className="text-[13px] font-semibold text-gray-900 dark:text-white">
+            AI Content Generation
+          </h3>
+        </div>
+        <p className="text-[12px] text-gray-500 dark:text-white/40 mb-4">
+          Runs every 5 minutes. Generates titles, descriptions, applications and psychology in 9 languages for{" "}
+          <span className="font-medium text-gray-700 dark:text-white/70">{state.aiRate}</span>{" "}
+          palette(s) per run. Only palettes with all 9 translations can be published.
+        </p>
+        <div className="flex items-center gap-2 max-w-sm">
+          <Input
+            type="number"
+            min={1}
+            max={10}
+            value={aiRateInput}
+            onChange={(e) => setAiRateInput(e.target.value)}
+            className="h-10"
+          />
+          <Button
+            onClick={() => {
+              const value = parseInt(aiRateInput, 10);
+              if (!Number.isFinite(value) || value < 1 || value > 10) {
+                toast.error("Rate must be between 1 and 10");
+                return;
+              }
+              startTransition(async () => {
+                const res = await fetch("/api/admin/queue/rate", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ aiRate: value }),
+                });
+                if (res.ok) { toast.success("AI rate updated"); load(); }
+                else toast.error("Failed");
+              });
+            }}
+            disabled={pending}
+            className="h-10 px-4 cursor-pointer"
+          >
+            Save rate
+          </Button>
+        </div>
+        {state.aiLastRun && (
+          <p className="text-[11px] text-gray-400 dark:text-white/30 mt-3">
+            Last run: {new Date(state.aiLastRun).toLocaleString()}
           </p>
         )}
       </div>

@@ -1,12 +1,15 @@
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { getDb } from "@/db";
-import { palettes } from "@/db/schema";
+import { palettes, paletteContent } from "@/db/schema";
 import { eq, sql } from "drizzle-orm";
 import { auth } from "@/auth";
 
 const RATE_KEY = "queue:publish_per_run";
+const AI_RATE_KEY = "queue:ai_generate_per_run";
 const LAST_RUN_KEY = "queue:last_run";
+const AI_LAST_RUN_KEY = "queue:ai_last_run";
 const DEFAULT_RATE = 5;
+const DEFAULT_AI_RATE = 2;
 
 export async function GET() {
   const session = await auth();
@@ -28,15 +31,30 @@ export async function GET() {
   const map: Record<string, number> = {};
   for (const row of counts) map[row.status] = row.count;
 
+  // Count approved palettes with complete translations (9 locales)
+  let readyToPublish = 0;
+  if (map["approved"]) {
+    const readyRows = await db
+      .select({ n: sql<number>`count(*)` })
+      .from(palettes)
+      .where(sql`${palettes.status} = 'approved' AND ${palettes.id} IN (
+        SELECT ${paletteContent.paletteId} FROM ${paletteContent}
+        GROUP BY ${paletteContent.paletteId} HAVING count(*) >= 9
+      )`);
+    readyToPublish = readyRows[0]?.n || 0;
+  }
+
   let rate = DEFAULT_RATE;
+  let aiRate = DEFAULT_AI_RATE;
   let lastRun: string | null = null;
+  let aiLastRun: string | null = null;
   try {
     const r = await env.CACHE.get(RATE_KEY);
-    if (r) {
-      const parsed = parseInt(r, 10);
-      if (Number.isFinite(parsed) && parsed > 0) rate = parsed;
-    }
+    if (r) { const p = parseInt(r, 10); if (Number.isFinite(p) && p > 0) rate = p; }
+    const ar = await env.CACHE.get(AI_RATE_KEY);
+    if (ar) { const p = parseInt(ar, 10); if (Number.isFinite(p) && p > 0) aiRate = p; }
     lastRun = await env.CACHE.get(LAST_RUN_KEY);
+    aiLastRun = await env.CACHE.get(AI_LAST_RUN_KEY);
   } catch {}
 
   return Response.json({
@@ -45,8 +63,11 @@ export async function GET() {
       approved: map["approved"] || 0,
       published: map["published"] || 0,
       rejected: map["rejected"] || 0,
+      readyToPublish,
     },
     rate,
+    aiRate,
     lastRun,
+    aiLastRun,
   });
 }
