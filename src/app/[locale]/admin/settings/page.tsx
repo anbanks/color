@@ -24,7 +24,8 @@ interface ModelOption {
 export default function SettingsPage() {
   const [settings, setSettings] = useState<Settings>({ RESEND_API_KEY: "", RESEND_FROM_EMAIL: "", OPENROUTER_API_KEY: "", OPENROUTER_MODEL: "" });
   const [loading, setLoading] = useState(true);
-  const [pending, startTransition] = useTransition();
+  const [resendPending, startResendTransition] = useTransition();
+  const [aiPending, startAiTransition] = useTransition();
   const [models, setModels] = useState<ModelOption[]>([]);
   const [testEmail, setTestEmail] = useState("");
   const [testPending, startTestTransition] = useTransition();
@@ -57,14 +58,14 @@ export default function SettingsPage() {
       .catch(() => {});
   }, []);
 
-  const handleSave = () => {
-    startTransition(async () => {
+  const saveSettings = (transition: typeof startResendTransition, label: string) => {
+    transition(async () => {
       const res = await fetch("/api/admin/settings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(settings),
       });
-      if (res.ok) toast.success("Settings saved");
+      if (res.ok) toast.success(`${label} saved`);
       else toast.error("Failed to save");
     });
   };
@@ -162,8 +163,8 @@ export default function SettingsPage() {
           </div>
 
           <div className="flex justify-end">
-            <Button onClick={handleSave} disabled={pending} className="min-w-[120px] cursor-pointer">
-              {pending ? "Saving..." : "Save"}
+            <Button onClick={() => saveSettings(startResendTransition, "Resend")} disabled={resendPending} className="min-w-[120px] cursor-pointer">
+              {resendPending ? "Saving..." : "Save"}
             </Button>
           </div>
         </div>
@@ -273,7 +274,7 @@ export default function SettingsPage() {
                   startAiTestTransition(async () => {
                     const res = await fetch("/api/admin/test-openai", { method: "POST" });
                     const data = (await res.json()) as { ok: boolean; reply?: string; error?: string };
-                    if (data.ok) toast.success(`OpenAI OK — model replied: "${data.reply}"`);
+                    if (data.ok) toast.success(`Connected — ${data.model}`);
                     else toast.error(data.error || "Failed");
                   });
                 }}
@@ -281,8 +282,8 @@ export default function SettingsPage() {
                 {aiTestPending ? "Testing..." : "Test Connection"}
               </Button>
             )}
-            <Button onClick={handleSave} disabled={pending} className="min-w-[120px] cursor-pointer">
-              {pending ? "Saving..." : "Save"}
+            <Button onClick={() => saveSettings(startAiTransition, "OpenRouter")} disabled={aiPending} className="min-w-[120px] cursor-pointer">
+              {aiPending ? "Saving..." : "Save"}
             </Button>
           </div>
         </div>
