@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useCallback, useContext, useState } from "react";
+import { createContext, useCallback, useContext, useRef, useState } from "react";
 
 type AuthView = "login" | "register";
 
@@ -24,22 +24,26 @@ export function useAuthModal() {
   return useContext(AuthModalContext);
 }
 
-function getAuthFromUrl(): { open: boolean; view: AuthView } {
-  if (typeof window === "undefined") return { open: false, view: "login" };
-  const param = new URLSearchParams(window.location.search).get("auth");
-  if (param === "login" || param === "register") {
-    // Clean param from URL immediately
-    const url = new URL(window.location.href);
-    url.searchParams.delete("auth");
-    window.history.replaceState({}, "", url.pathname + url.search);
-    return { open: true, view: param };
-  }
-  return { open: false, view: "login" };
-}
-
 export function AuthModalProvider({ children }: { children: React.ReactNode }) {
-  const [open, setOpen] = useState(() => getAuthFromUrl().open);
-  const [view, setView] = useState<AuthView>(() => getAuthFromUrl().view);
+  const [open, setOpen] = useState(false);
+  const [view, setView] = useState<AuthView>("login");
+  const checked = useRef(false);
+
+  // Check URL param after hydration (runs once on first render in browser)
+  if (typeof window !== "undefined" && !checked.current) {
+    checked.current = true;
+    const param = new URLSearchParams(window.location.search).get("auth");
+    if (param === "login" || param === "register") {
+      const url = new URL(window.location.href);
+      url.searchParams.delete("auth");
+      window.history.replaceState({}, "", url.pathname + url.search);
+      // Schedule open after hydration completes
+      setTimeout(() => {
+        setView(param);
+        setOpen(true);
+      }, 0);
+    }
+  }
 
   const openAuth = useCallback((v: AuthView = "login") => {
     setView(v);
