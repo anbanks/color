@@ -28,15 +28,15 @@ export function AuthModalProvider({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
   const [view, setView] = useState<AuthView>("login");
 
-  // Check URL param after mount (not during render)
+  // Check URL param after mount — setTimeout avoids sync setState in effect
   useEffect(() => {
     const param = new URLSearchParams(window.location.search).get("auth");
     if (param === "login" || param === "register") {
       const url = new URL(window.location.href);
       url.searchParams.delete("auth");
       window.history.replaceState({}, "", url.pathname + url.search);
-      setView(param);
-      setOpen(true);
+      const t = setTimeout(() => { setView(param); setOpen(true); }, 0);
+      return () => clearTimeout(t);
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
