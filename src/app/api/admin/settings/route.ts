@@ -1,7 +1,7 @@
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { auth } from "@/auth";
 
-const SETTINGS_KEYS = ["RESEND_API_KEY", "RESEND_FROM_EMAIL"] as const;
+const SETTINGS_KEYS = ["RESEND_API_KEY", "RESEND_FROM_EMAIL", "OPENAI_API_KEY"] as const;
 
 export async function GET() {
   const session = await auth();
