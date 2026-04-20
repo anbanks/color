@@ -10,7 +10,7 @@ async function getAllPalettes() {
     const { env } = await getCloudflareContext({ async: true });
     const db = getDb(env.DB);
 
-    const r = await db.select().from(palettes).orderBy(desc(palettes.createdAt)).limit(200);
+    const r = await db.select().from(palettes).orderBy(desc(palettes.publishedAt), desc(palettes.createdAt)).limit(500);
 
     const statusCounts = await db
       .select({ status: palettes.status, count: sql<number>`count(*)` })
