@@ -54,11 +54,11 @@ export async function GET() {
 
   const db = getDb(env.DB);
 
-  // Find approved palettes without complete content (less than 9 locales)
+  // Find approved OR published palettes without complete content
   const candidates = await db
     .select({ id: palettes.id, colors: palettes.colors })
     .from(palettes)
-    .where(eq(palettes.status, "approved"))
+    .where(sql`${palettes.status} IN ('approved', 'published')`)
     .orderBy(palettes.createdAt)
     .limit(50);
 
