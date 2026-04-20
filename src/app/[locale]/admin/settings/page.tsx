@@ -20,6 +20,7 @@ export default function SettingsPage() {
   const [pending, startTransition] = useTransition();
   const [testEmail, setTestEmail] = useState("");
   const [testPending, startTestTransition] = useTransition();
+  const [aiTestPending, startAiTestTransition] = useTransition();
 
   useEffect(() => {
     fetch("/api/admin/settings")
@@ -211,7 +212,24 @@ export default function SettingsPage() {
             </p>
           </div>
 
-          <div className="flex justify-end">
+          <div className="flex justify-end gap-2">
+            {settings.OPENAI_API_KEY && (
+              <Button
+                variant="outline"
+                disabled={aiTestPending}
+                className="cursor-pointer"
+                onClick={() => {
+                  startAiTestTransition(async () => {
+                    const res = await fetch("/api/admin/test-openai", { method: "POST" });
+                    const data = (await res.json()) as { ok: boolean; reply?: string; error?: string };
+                    if (data.ok) toast.success(`OpenAI OK — model replied: "${data.reply}"`);
+                    else toast.error(data.error || "Failed");
+                  });
+                }}
+              >
+                {aiTestPending ? "Testing..." : "Test Connection"}
+              </Button>
+            )}
             <Button onClick={handleSave} disabled={pending} className="min-w-[120px] cursor-pointer">
               {pending ? "Saving..." : "Save"}
             </Button>
