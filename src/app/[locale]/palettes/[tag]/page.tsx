@@ -1,7 +1,8 @@
 import { PaletteFeed } from "@/components/palette/palette-feed";
 import { getPalettesByTag } from "@/lib/get-palettes";
 import { locales, getDictionary, type Locale } from "@/lib/i18n";
-import { SITE_URL, SITE_NAME } from "@/lib/site";
+import { SITE_NAME } from "@/lib/site";
+import { localeUrl, localeAlternates } from "@/lib/locale-url";
 import { tagLabel, colorLabel, COLOR_SLUGS, TAG_SLUGS } from "@/lib/tag-labels";
 import type { Metadata } from "next";
 
@@ -44,19 +45,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const title = `${titleLabel} — ${pw}`;
   const descFn = descTemplates[locale] || descTemplates.en;
   const description = descFn(translated.join(locale === "ja" || locale === "zh" ? "・" : " & "));
-  const canonical = `${SITE_URL}/${locale}/palettes/${tag}`;
+  const canonical = localeUrl(locale, `/palettes/${tag}`);
 
   return {
     title,
     description,
     alternates: {
       canonical,
-      languages: {
-        ...Object.fromEntries(
-          locales.map((l) => [l, `${SITE_URL}/${l}/palettes/${tag}`])
-        ),
-        "x-default": `${SITE_URL}/en/palettes/${tag}`,
-      },
+      languages: localeAlternates(locales, `/palettes/${tag}`),
     },
     openGraph: {
       type: "website",

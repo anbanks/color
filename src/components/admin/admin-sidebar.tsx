@@ -41,7 +41,8 @@ interface AdminSidebarProps {
 export function AdminSidebar({ user }: AdminSidebarProps) {
   const pathname = usePathname();
   const { locale, t } = useLocale();
-  const base = `/${locale}/admin`;
+  const prefix = locale === "en" ? "" : `/${locale}`;
+  const base = `${prefix}/admin`;
 
   const navItems = [
     { href: "", label: t.admin.dashboard, icon: Monitor },
@@ -124,7 +125,7 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
                 className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
               >
                 <DropdownMenuItem
-                  render={<Link href={`/${locale}/account`} />}
+                  render={<Link href={`${prefix}/account`} />}
                   className="cursor-pointer"
                 >
                   <User className="mr-2 size-4" />

@@ -19,6 +19,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { LogoDrop } from "@/components/logo-drop";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { tagLabel, colorLabel, COLOR_SLUGS, TAG_SLUGS } from "@/lib/tag-labels";
+import { useLocalePath } from "@/hooks/use-locale-path";
 
 const LANGUAGES: { code: string; label: string }[] = [
   { code: "en", label: "English" },
@@ -66,6 +67,7 @@ export function Header() {
   const { data: session } = useSession();
   const { theme, setTheme } = useTheme();
   const { openAuth } = useAuthModal();
+  const lp = useLocalePath();
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
   const router = useRouter();
@@ -86,13 +88,13 @@ export function Header() {
   })();
 
   const selectTag = (tag: string) => {
-    router.push(`/${locale}/palettes/${tag.toLowerCase()}`);
+    router.push(lp(`/palettes/${tag.toLowerCase()}`));
     setSearchOpen(false);
     setQuery("");
   };
 
   const clearTag = () => {
-    router.push(`/${locale}`);
+    router.push(lp("/"));
   };
 
   return (
@@ -100,14 +102,14 @@ export function Header() {
       <div className="site-container flex items-center">
         {/* Logo — .left min-width:200px */}
         <div className="min-w-[200px] shrink-0 hidden md:block px-5 box-border">
-          <Link href={`/${locale}`} className="logo flex items-center gap-2.5 group">
+          <Link href={lp("/")} className="logo flex items-center gap-2.5 group">
             <LogoDrop className="h-[30px] w-[30px] shrink-0 text-gray-900 dark:text-white" />
             <span className="text-[19px] font-semibold tracking-tight text-gray-900 dark:text-white">Color Grid</span>
           </Link>
         </div>
         {/* Logo mobile — icon only */}
         <div className="md:hidden pl-4 pr-2 shrink-0">
-          <Link href={`/${locale}`} className="logo flex items-center">
+          <Link href={lp("/")} className="logo flex items-center">
             <LogoDrop className="h-[28px] w-[28px] shrink-0 text-gray-900 dark:text-white" />
           </Link>
         </div>
@@ -208,9 +210,15 @@ export function Header() {
                     key={lang.code}
                     className={cn("rounded-lg px-3 py-2 text-[13px] cursor-pointer", locale === lang.code && "font-medium bg-gray-50 dark:bg-white/[0.04]")}
                     onClick={() => {
-                      const segments = pathname.split("/");
-                      segments[1] = lang.code;
-                      router.push(segments.join("/"));
+                      // Strip current locale prefix from pathname
+                      let pathWithout = pathname;
+                      const currentPrefix = locale === "en" ? null : `/${locale}`;
+                      if (currentPrefix && pathname.startsWith(currentPrefix)) {
+                        pathWithout = pathname.slice(currentPrefix.length) || "/";
+                      }
+                      // Add new locale prefix (EN = no prefix)
+                      const newPath = lang.code === "en" ? pathWithout : `/${lang.code}${pathWithout === "/" ? "" : pathWithout}`;
+                      router.push(newPath);
                     }}
                   >
                     {lang.label}
@@ -252,7 +260,7 @@ export function Header() {
                 {(session.user as { role?: string }).role === "admin" && (
                   <>
                     <DropdownMenuItem
-                      render={<Link href={`/${locale}/admin`} />}
+                      render={<Link href={lp("/admin")} />}
                       className="rounded-lg px-3 py-2 text-[13px] cursor-pointer"
                     >
                       <Monitor className="h-4 w-4 mr-2 text-gray-500" />
@@ -262,21 +270,21 @@ export function Header() {
                   </>
                 )}
                 <DropdownMenuItem
-                  render={<Link href={`/${locale}/create`} />}
+                  render={<Link href={lp("/create")} />}
                   className="rounded-lg px-3 py-2 text-[13px] cursor-pointer"
                 >
                   <Plus className="h-4 w-4 mr-2 text-gray-500" />
                   {t.palette.createTitle}
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  render={<Link href={`/${locale}/collections`} />}
+                  render={<Link href={lp("/collections")} />}
                   className="rounded-lg px-3 py-2 text-[13px] cursor-pointer"
                 >
                   <Bookmark className="h-4 w-4 mr-2 text-gray-500" />
                   {t.collections.title}
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  render={<Link href={`/${locale}/account`} />}
+                  render={<Link href={lp("/account")} />}
                   className="rounded-lg px-3 py-2 text-[13px] cursor-pointer"
                 >
                   <User className="h-4 w-4 mr-2 text-gray-500" />
@@ -305,7 +313,7 @@ export function Header() {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-52 rounded-xl shadow-xl shadow-black/[0.06] border-gray-200/80 dark:border-white/10 dark:bg-[#252525] p-1.5">
                 <DropdownMenuItem className="rounded-lg px-3 py-2 text-[13px]">
-                  <Link href={`/${locale}`} className="w-full">{t.menu.palettes}</Link>
+                  <Link href={lp("/")} className="w-full">{t.menu.palettes}</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   className="rounded-lg px-3 py-2 text-[13px] cursor-pointer"
@@ -328,9 +336,11 @@ export function Header() {
                         key={lang.code}
                         className={cn("rounded-lg px-3 py-2 text-[13px] cursor-pointer", locale === lang.code && "font-medium")}
                         onClick={() => {
-                          const segments = pathname.split("/");
-                          segments[1] = lang.code;
-                          router.push(segments.join("/"));
+                          let pathWithout = pathname;
+                          const cp = locale === "en" ? null : `/${locale}`;
+                          if (cp && pathname.startsWith(cp)) pathWithout = pathname.slice(cp.length) || "/";
+                          const np = lang.code === "en" ? pathWithout : `/${lang.code}${pathWithout === "/" ? "" : pathWithout}`;
+                          router.push(np);
                         }}
                       >
                         <Globe className="h-4 w-4 mr-2 text-gray-400" />

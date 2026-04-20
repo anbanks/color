@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { locales, type Locale } from "./i18n";
-import { SITE_URL, SITE_NAME } from "./site";
+import { SITE_NAME } from "./site";
+import { localeUrl, localeAlternates } from "./locale-url";
 
 interface RouteMetaInput {
   locale: string;
@@ -10,8 +11,6 @@ interface RouteMetaInput {
   robots?: Metadata["robots"];
 }
 
-// Builds the standard Metadata object (canonical, hreflang for 9 locales +
-// x-default, OpenGraph, Twitter) for any locale-prefixed route.
 export function buildRouteMetadata({
   locale,
   path,
@@ -24,19 +23,14 @@ export function buildRouteMetadata({
     : "en";
   const trimmed = path.replace(/^\/+/, "");
   const suffix = trimmed ? `/${trimmed}` : "";
-  const canonical = `${SITE_URL}/${safeLocale}${suffix}`;
+  const canonical = localeUrl(safeLocale, suffix);
 
   return {
     title,
     description,
     alternates: {
       canonical,
-      languages: {
-        ...Object.fromEntries(
-          locales.map((l) => [l, `${SITE_URL}/${l}${suffix}`])
-        ),
-        "x-default": `${SITE_URL}/en${suffix}`,
-      },
+      languages: localeAlternates(locales, suffix),
     },
     openGraph: {
       type: "website",

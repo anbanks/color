@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useLocale } from "@/lib/locale-context";
+import { useLocalePath } from "@/hooks/use-locale-path";
 import { Search, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { classifyPalette } from "@/lib/classify-palette";
@@ -29,7 +30,8 @@ const DEFAULT_COLORS = ["#c0c0c0", "#b8b8b8", "#d0d0d0", "#d8d8d8"];
 
 export function PaletteCreator() {
   const router = useRouter();
-  const { locale, t } = useLocale();
+  const { t } = useLocale();
+  const lp = useLocalePath();
   const [colors, setColors] = useState<string[]>(DEFAULT_COLORS);
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState("");
@@ -115,7 +117,7 @@ export function PaletteCreator() {
 
         if (res.ok) {
           toast.success("Palette submitted!");
-          router.push(`/${locale}`);
+          router.push(lp("/"));
         } else {
           const data = (await res.json()) as { error?: string };
           toast.error(data.error || "Failed to create");

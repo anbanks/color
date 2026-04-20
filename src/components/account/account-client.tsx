@@ -79,9 +79,11 @@ export function AccountClient({ user }: AccountClientProps) {
   };
 
   const switchLocale = (code: string) => {
-    const segments = pathname.split("/");
-    segments[1] = code;
-    router.push(segments.join("/"));
+    let pathWithout = pathname;
+    const cp = locale === "en" ? null : `/${locale}`;
+    if (cp && pathname.startsWith(cp)) pathWithout = pathname.slice(cp.length) || "/";
+    const np = code === "en" ? pathWithout : `/${code}${pathWithout === "/" ? "" : pathWithout}`;
+    router.push(np);
     setLangOpen(false);
   };
 

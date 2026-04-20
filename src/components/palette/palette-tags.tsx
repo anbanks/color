@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useLocale } from "@/lib/locale-context";
+import { useLocalePath } from "@/hooks/use-locale-path";
 import { COLOR_SLUGS, TAG_SLUGS, colorLabel, tagLabel } from "@/lib/tag-labels";
 
 interface PaletteTagsProps {
@@ -13,6 +14,7 @@ const collectionSet = new Set<string>(TAG_SLUGS);
 
 export function PaletteTags({ tags }: PaletteTagsProps) {
   const { locale } = useLocale();
+  const lp = useLocalePath();
   if (!tags.length) return null;
 
   const colorTags = tags.filter((t) => colorSet.has(t));
@@ -27,7 +29,7 @@ export function PaletteTags({ tags }: PaletteTagsProps) {
             {colorTags.map((tag) => (
               <Link
                 key={tag}
-                href={`/${locale}/palettes/${tag.toLowerCase()}`}
+                href={lp(`/palettes/${tag.toLowerCase()}`)}
                 className="inline-flex items-center gap-1.5 px-3 py-[5px] text-[12px] font-medium rounded-full border border-gray-200 dark:border-white/15 text-gray-600 dark:text-white/70 hover:border-gray-300 dark:hover:border-white/25 hover:bg-gray-50 dark:hover:bg-white/10 transition-all"
               >
                 <span
@@ -47,7 +49,7 @@ export function PaletteTags({ tags }: PaletteTagsProps) {
             {collTags.map((tag) => (
               <Link
                 key={tag}
-                href={`/${locale}/palettes/${tag.toLowerCase()}`}
+                href={lp(`/palettes/${tag.toLowerCase()}`)}
                 className="px-3 py-[5px] text-[12px] font-medium rounded-full border border-gray-200 dark:border-white/15 text-gray-600 dark:text-white/70 hover:border-gray-300 dark:hover:border-white/25 hover:bg-gray-50 dark:hover:bg-white/10 transition-all"
               >
                 {tagLabel(tag, locale)}

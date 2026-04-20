@@ -3,12 +3,14 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useLocale } from "@/lib/locale-context";
+import { useLocalePath } from "@/hooks/use-locale-path";
 import { cn } from "@/lib/utils";
 
 export function NavCategories() {
   const searchParams = useSearchParams();
   const current = searchParams.get("sort") || "trending";
-  const { locale, t } = useLocale();
+  const { t } = useLocale();
+  const lp = useLocalePath();
 
   const categories = [
     { label: t.nav.trending, value: "trending" },
@@ -22,7 +24,7 @@ export function NavCategories() {
       {categories.map((cat) => (
         <Link
           key={cat.value}
-          href={`/${locale}?sort=${cat.value}`}
+          href={`${lp("/")}?sort=${cat.value}`}
           className={cn(
             "px-3 py-1.5 text-sm rounded-full transition-colors",
             current === cat.value

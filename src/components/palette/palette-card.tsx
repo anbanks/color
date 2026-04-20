@@ -4,6 +4,7 @@ import { LikeButton } from "./like-button";
 import { SaveButton } from "./save-button";
 import { useCopyColor } from "@/hooks/use-copy-color";
 import { useLocale } from "@/lib/locale-context";
+import { useLocalePath } from "@/hooks/use-locale-path";
 import Link from "next/link";
 
 interface PaletteCardProps {
@@ -18,12 +19,12 @@ interface PaletteCardProps {
 
 export function PaletteCard({ id, slug, colors, likesCount, liked, initialSaved, timeAgo }: PaletteCardProps) {
   const { copy } = useCopyColor();
-  const { locale } = useLocale();
+  const lp = useLocalePath();
 
   return (
     <article className="item">
       <Link
-        href={`/${locale}/palette/${slug}`}
+        href={lp(`/palette/${slug}`)}
         className="block active:scale-[0.97] transition-transform duration-100"
         onClick={() => { try { navigator.vibrate?.(8); } catch {} }}
       >

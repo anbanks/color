@@ -5,6 +5,7 @@ import { InstallBanner } from "@/components/pwa/install-banner";
 import { AuthModalProvider } from "@/components/auth/auth-modal-provider";
 import { AuthModal } from "@/components/auth/auth-modal";
 import { SITE_URL, SITE_NAME } from "@/lib/site";
+import { localeUrl, localeAlternates } from "@/lib/locale-url";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
@@ -43,7 +44,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     openGraph: {
       type: "website",
       siteName: SITE_NAME,
-      url: `${SITE_URL}/${locale}`,
+      url: localeUrl(locale),
       title: t.site.title,
       description: t.site.description,
       locale: ogLocaleMap[locale],
@@ -57,11 +58,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       description: t.site.description,
     },
     alternates: {
-      canonical: `${SITE_URL}/${locale}`,
-      languages: {
-        ...Object.fromEntries(locales.map((l) => [l, `${SITE_URL}/${l}`])),
-        "x-default": `${SITE_URL}/en`,
-      },
+      canonical: localeUrl(locale),
+      languages: localeAlternates(locales),
     },
   };
 }
@@ -79,13 +77,13 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: SITE_NAME,
-    url: `${SITE_URL}/${locale}`,
+    url: localeUrl(locale),
     inLanguage: locale,
     potentialAction: {
       "@type": "SearchAction",
       target: {
         "@type": "EntryPoint",
-        urlTemplate: `${SITE_URL}/${locale}/palettes/{search_term_string}`,
+        urlTemplate: `${localeUrl(locale)}/palettes/{search_term_string}`,
       },
       "query-input": "required name=search_term_string",
     },

@@ -4,6 +4,7 @@ import { getDb } from "@/db";
 import { palettes } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { SITE_URL, LOCALES } from "@/lib/site";
+import { localeUrl, localeAlternates } from "@/lib/locale-url";
 
 const STATIC_PATHS = ["", "/popular", "/random", "/collections"];
 
@@ -38,9 +39,7 @@ const TAG_PAGES = [
 const PALETTES_PER_SITEMAP = 5000;
 
 function alternates(path: string) {
-  return Object.fromEntries(
-    LOCALES.map((l) => [l, `${SITE_URL}/${l}${path}`])
-  );
+  return localeAlternates(LOCALES, path);
 }
 
 export async function generateSitemaps() {
@@ -75,7 +74,7 @@ export default async function sitemap({
     for (const path of STATIC_PATHS) {
       for (const locale of LOCALES) {
         entries.push({
-          url: `${SITE_URL}/${locale}${path}`,
+          url: localeUrl(locale, path),
           lastModified: new Date(),
           changeFrequency: path === "" ? "daily" : "weekly",
           priority: path === "" ? 1 : 0.7,
@@ -86,7 +85,7 @@ export default async function sitemap({
     for (const tag of TAG_PAGES) {
       for (const locale of LOCALES) {
         entries.push({
-          url: `${SITE_URL}/${locale}/palettes/${tag}`,
+          url: localeUrl(locale, `/palettes/${tag}`),
           lastModified: new Date(),
           changeFrequency: "weekly",
           priority: 0.7,
@@ -118,7 +117,7 @@ export default async function sitemap({
         : new Date();
       for (const locale of LOCALES) {
         entries.push({
-          url: `${SITE_URL}/${locale}/palette/${p.slug}`,
+          url: localeUrl(locale, `/palette/${p.slug}`),
           lastModified,
           changeFrequency: "monthly",
           priority: 0.8,

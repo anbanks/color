@@ -6,6 +6,7 @@ import { useLocale } from "@/lib/locale-context";
 import { Sparkles, Flame, Orbit, Bookmark } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { tagLabel } from "@/lib/tag-labels";
+import { useLocalePath } from "@/hooks/use-locale-path";
 
 const navItems = [
   { path: "", key: "new" as const, icon: Sparkles },
@@ -35,6 +36,7 @@ const tags = [
 export function Sidebar() {
   const pathname = usePathname();
   const { locale } = useLocale();
+  const lp = useLocalePath();
 
   const tagMatch = pathname.match(/\/palettes\/([^/]+)/);
 
@@ -45,10 +47,10 @@ export function Sidebar() {
       <div>
         {navItems.map((item) => {
           const Icon = item.icon;
-          const href = `/${locale}${item.path}`;
+          const href = lp(item.path || "/");
           const isActive =
             !activeTag && (
-              (item.path === "" && (pathname === `/${locale}` || pathname === `/${locale}/` || pathname === `/${locale}/new`)) ||
+              (item.path === "" && (pathname === lp("/") || pathname === lp("/") + "/" || pathname === lp("/new"))) ||
               (item.path !== "" && pathname.startsWith(href))
             );
 
@@ -79,7 +81,7 @@ export function Sidebar() {
           return (
             <Link
               key={tag}
-              href={`/${locale}/palettes/${tag.toLowerCase()}`}
+              href={lp(`/palettes/${tag.toLowerCase()}`)}
               className={cn(
                 "flex items-center h-[36px] text-[14px] rounded-[10px] pl-[16px] transition-all duration-200 cursor-pointer",
                 isActive

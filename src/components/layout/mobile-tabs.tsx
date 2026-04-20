@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useLocale } from "@/lib/locale-context";
 import { Sparkles, Flame, Orbit, Bookmark } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useLocalePath } from "@/hooks/use-locale-path";
 
 const items = [
   { path: "", key: "new" as const, icon: Sparkles },
@@ -28,19 +29,20 @@ const labels: Record<string, Record<string, string>> = {
 export function MobileTabs() {
   const pathname = usePathname();
   const { locale } = useLocale();
-  const base = `/${locale}`;
+  const lp = useLocalePath();
+  const base = lp("/");
 
   return (
     <nav className="md:hidden fixed bottom-0 left-0 right-0 z-20 bg-white/95 dark:bg-[#1a1a1a]/95 backdrop-blur border-t border-gray-200/70 dark:border-white/[0.06] pb-[env(safe-area-inset-bottom)]">
       <ul className="flex items-stretch justify-around h-[62px]">
         {items.map((item) => {
           const Icon = item.icon;
-          const href = `${base}${item.path}`;
+          const href = lp(item.path || "/");
           const isActive =
             item.path === ""
-              ? pathname === base || pathname === `${base}/` || pathname === `${base}/new`
+              ? pathname === base || pathname === base + "/" || pathname === lp("/new")
               : item.path === "/collections"
-              ? pathname.startsWith(`${base}/collections`)
+              ? pathname.startsWith(lp("/collections"))
               : pathname.startsWith(href);
           const label = labels[locale]?.[item.key] ?? item.key;
 

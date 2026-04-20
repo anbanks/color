@@ -11,11 +11,13 @@ import {
 import { SignInButton } from "./sign-in-button";
 import { LogOut, Plus, Bookmark } from "lucide-react";
 import { useLocale } from "@/lib/locale-context";
+import { useLocalePath } from "@/hooks/use-locale-path";
 import Link from "next/link";
 
 export function UserButton() {
   const { data: session } = useSession();
-  const { locale, t } = useLocale();
+  const { t } = useLocale();
+  const lp = useLocalePath();
 
   if (!session?.user) {
     return <SignInButton />;
@@ -41,13 +43,13 @@ export function UserButton() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem>
-          <Link href={`/${locale}/create`} className="flex items-center w-full">
+          <Link href={lp("/create")} className="flex items-center w-full">
             <Plus className="h-4 w-4 mr-2" />
             {t.palette.createTitle}
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <Link href={`/${locale}/collections`} className="flex items-center w-full">
+          <Link href={lp("/collections")} className="flex items-center w-full">
             <Bookmark className="h-4 w-4 mr-2" />
             {t.collections.title}
           </Link>

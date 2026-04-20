@@ -55,7 +55,7 @@ function LoginView() {
     });
   };
 
-  const handleGoogle = () => signIn("google", { callbackUrl: `/${locale}` });
+  const handleGoogle = () => signIn("google", { callbackUrl: locale === "en" ? "/" : `/${locale}` });
 
   return (
     <div className="space-y-5">
@@ -142,7 +142,7 @@ function RegisterView() {
     });
   };
 
-  const handleGoogle = () => signIn("google", { callbackUrl: `/${locale}` });
+  const handleGoogle = () => signIn("google", { callbackUrl: locale === "en" ? "/" : `/${locale}` });
 
   return (
     <div className="space-y-5">

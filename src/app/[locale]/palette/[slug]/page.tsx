@@ -23,6 +23,7 @@ import Link from "next/link";
 import { PaletteActions } from "@/components/palette/palette-actions";
 import { getDictionary, locales, type Locale } from "@/lib/i18n";
 import { SITE_URL, SITE_NAME } from "@/lib/site";
+import { localeUrl, localeAlternates } from "@/lib/locale-url";
 
 interface PageProps {
   params: Promise<{ slug: string; locale: string }>;
@@ -65,19 +66,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     const description =
       content?.description ||
       `A beautiful color palette featuring ${colors.join(", ")}.`;
-    const canonical = `${SITE_URL}/${safeLocale}/palette/${slug}`;
+    const canonical = localeUrl(safeLocale, `/palette/${slug}`);
 
     return {
       title,
       description,
       alternates: {
         canonical,
-        languages: {
-          ...Object.fromEntries(
-            locales.map((l) => [l, `${SITE_URL}/${l}/palette/${slug}`])
-          ),
-          "x-default": `${SITE_URL}/en/palette/${slug}`,
-        },
+        languages: localeAlternates(locales, `/palette/${slug}`),
       },
       openGraph: {
         type: "article",
@@ -192,7 +188,7 @@ export default async function PalettePage({ params }: PageProps) {
                     description:
                       content?.description ||
                       `A color palette featuring ${colors.join(", ")}`,
-                    url: `${SITE_URL}/${locale}/palette/${slug}`,
+                    url: `${localeUrl(locale, `/palette/${slug}`)}`,
                     author: { "@type": "Organization", name: SITE_NAME },
                     publisher: { "@type": "Organization", name: SITE_NAME },
                     keywords: colors.join(", "),
@@ -205,19 +201,19 @@ export default async function PalettePage({ params }: PageProps) {
                         "@type": "ListItem",
                         position: 1,
                         name: SITE_NAME,
-                        item: `${SITE_URL}/${locale}`,
+                        item: `${localeUrl(locale)}`,
                       },
                       {
                         "@type": "ListItem",
                         position: 2,
                         name: t.single.relatedPalettes,
-                        item: `${SITE_URL}/${locale}`,
+                        item: `${localeUrl(locale)}`,
                       },
                       {
                         "@type": "ListItem",
                         position: 3,
                         name: content?.title || `Color Palette ${colors.join(" ")}`,
-                        item: `${SITE_URL}/${locale}/palette/${slug}`,
+                        item: `${localeUrl(locale, `/palette/${slug}`)}`,
                       },
                     ],
                   },
