@@ -34,22 +34,39 @@ export function PaletteEditModal({ palette, onClose }: PaletteEditModalProps) {
   const [status, setStatus] = useState(palette.status);
   const [isPending, startTransition] = useTransition();
   const [deleteOpen, setDeleteOpen] = useState(false);
-  const [seo, setSeo] = useState<SeoContent | null>(null);
+  const [seoByLocale, setSeoByLocale] = useState<Record<string, SeoContent | null>>({});
+  const [seoLocale, setSeoLocale] = useState("en");
   const [seoLoading, setSeoLoading] = useState(true);
   const router = useRouter();
-  const { locale, t } = useLocale();
+  const { t } = useLocale();
 
-  // Load existing SEO content for current locale
+  const seo = seoByLocale[seoLocale] ?? null;
+  const setSeo = (val: SeoContent | null) => {
+    setSeoByLocale((prev) => ({ ...prev, [seoLocale]: val }));
+  };
+
+  const LOCALES = ["en", "pt", "es", "fr", "de", "it", "ja", "zh", "hi"] as const;
+
+  // Load all locale content on mount
   useEffect(() => {
-    fetch(`/api/admin/palette-content?id=${palette.id}&locale=${locale}`)
-      .then((r) => r.json())
-      .then((raw) => {
-        const data = raw as { content?: SeoContent };
-        if (data.content) setSeo(data.content);
-        setSeoLoading(false);
-      })
-      .catch(() => setSeoLoading(false));
-  }, [palette.id, locale]);
+    const load = async () => {
+      const result: Record<string, SeoContent | null> = {};
+      await Promise.all(
+        LOCALES.map(async (loc) => {
+          try {
+            const res = await fetch(`/api/admin/palette-content?id=${palette.id}&locale=${loc}`);
+            const data = (await res.json()) as { content?: SeoContent };
+            result[loc] = data.content || null;
+          } catch {
+            result[loc] = null;
+          }
+        })
+      );
+      setSeoByLocale(result);
+      setSeoLoading(false);
+    };
+    load();
+  }, [palette.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const updateColor = (index: number, value: string) => {
     const next = [...colors];
@@ -67,13 +84,16 @@ export function PaletteEditModal({ palette, onClose }: PaletteEditModalProps) {
             body: JSON.stringify({ status: status === "published" ? "approved" : status }),
           });
         }
-        // Save SEO content if it exists
-        if (seo) {
-          await fetch("/api/admin/palette-content", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ paletteId: palette.id, locale, ...seo }),
-          });
+        // Save SEO content for all edited locales
+        for (const loc of LOCALES) {
+          const content = seoByLocale[loc];
+          if (content) {
+            await fetch("/api/admin/palette-content", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ paletteId: palette.id, locale: loc, ...content }),
+            });
+          }
         }
         toast.success("Saved");
         router.refresh();
@@ -108,10 +128,18 @@ export function PaletteEditModal({ palette, onClose }: PaletteEditModalProps) {
         const data = (await res.json()) as { ok?: boolean; error?: string; sample?: string };
         if (data.ok) {
           toast.success(`AI content generated: "${data.sample}"`);
-          // Reload content
-          const r2 = await fetch(`/api/admin/palette-content?id=${palette.id}&locale=${locale}`);
-          const d2 = (await r2.json()) as { content?: SeoContent };
-          if (d2.content) setSeo(d2.content);
+          // Reload all locales
+          const result: Record<string, SeoContent | null> = {};
+          await Promise.all(
+            LOCALES.map(async (loc) => {
+              try {
+                const r2 = await fetch(`/api/admin/palette-content?id=${palette.id}&locale=${loc}`);
+                const d2 = (await r2.json()) as { content?: SeoContent };
+                result[loc] = d2.content || null;
+              } catch { result[loc] = null; }
+            })
+          );
+          setSeoByLocale(result);
         } else {
           toast.error(data.error || "Failed");
         }
@@ -202,7 +230,7 @@ export function PaletteEditModal({ palette, onClose }: PaletteEditModalProps) {
           <div>
             <div className="flex items-center justify-between mb-2">
               <label className="text-[11px] font-semibold uppercase tracking-wider text-gray-400 dark:text-white/35">
-                SEO Content ({locale.toUpperCase()})
+                SEO Content
               </label>
               <button
                 onClick={handleGenerate}
@@ -211,6 +239,29 @@ export function PaletteEditModal({ palette, onClose }: PaletteEditModalProps) {
               >
                 {isPending ? "Generating..." : "✨ Generate AI"}
               </button>
+            </div>
+
+            <div className="flex gap-1 mb-3 flex-wrap">
+              {LOCALES.map((loc) => {
+                const has = !!seoByLocale[loc];
+                return (
+                  <button
+                    key={loc}
+                    onClick={() => setSeoLocale(loc)}
+                    className={cn(
+                      "px-2 py-1 text-[11px] font-medium rounded-md cursor-pointer transition-colors",
+                      seoLocale === loc
+                        ? "bg-gray-900 dark:bg-white text-white dark:text-gray-900"
+                        : has
+                        ? "bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-white/60 hover:bg-gray-200 dark:hover:bg-white/15"
+                        : "text-gray-400 dark:text-white/25 hover:bg-gray-50 dark:hover:bg-white/5"
+                    )}
+                  >
+                    {loc.toUpperCase()}
+                    {has && <span className="ml-0.5 text-green-500">•</span>}
+                  </button>
+                );
+              })}
             </div>
 
             {seoLoading ? (
