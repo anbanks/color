@@ -23,7 +23,7 @@ export async function POST() {
         "X-Title": "Color Grid",
       },
       body: JSON.stringify({
-        model: "google/gemma-2-9b-it:free",
+        model: "google/gemma-4-31b-it:free",
         messages: [
           { role: "user", content: "Reply with exactly: OK" },
         ],
@@ -42,7 +42,7 @@ export async function POST() {
     const data = (await res.json()) as { choices?: { message?: { content?: string } }[] };
     const reply = data.choices?.[0]?.message?.content?.trim() || "";
 
-    return Response.json({ ok: true, reply, model: "gemma-2-9b-it (free)" });
+    return Response.json({ ok: true, reply, model: "gemma-4-31b-it (free)" });
   } catch (e) {
     return Response.json({ ok: false, error: String(e) });
   }
