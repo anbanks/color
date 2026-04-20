@@ -19,6 +19,7 @@ interface PaletteRow {
   slug: string;
   colors: string[];
   tags?: string[];
+  contentCount?: number;
   status: string;
   likesCount: number;
   createdAt: string;
@@ -63,6 +64,7 @@ export function PaletteTable({ palettes }: PaletteTableProps) {
               <TableHead className="text-[13px] text-gray-500 dark:text-white/40">{t.admin.table.date}</TableHead>
               <TableHead className="text-[13px] text-gray-500 dark:text-white/40">{t.admin.table.palette}</TableHead>
               <TableHead className="text-[13px] text-gray-500 dark:text-white/40">Tags</TableHead>
+              <TableHead className="text-[13px] text-gray-500 dark:text-white/40">AI</TableHead>
               <TableHead className="text-[13px] text-gray-500 dark:text-white/40">{t.admin.table.status}</TableHead>
               <TableHead className="text-[13px] text-gray-500 dark:text-white/40 text-right">{t.admin.table.likes}</TableHead>
             </TableRow>
@@ -101,6 +103,18 @@ export function PaletteTable({ palettes }: PaletteTableProps) {
                         </span>
                       ))}
                     </div>
+                  </TableCell>
+                  <TableCell>
+                    <span className={cn(
+                      "text-[11px] font-medium tabular-nums",
+                      (p.contentCount || 0) >= 9
+                        ? "text-green-600 dark:text-green-400"
+                        : (p.contentCount || 0) > 0
+                        ? "text-amber-600 dark:text-amber-400"
+                        : "text-gray-400 dark:text-white/25"
+                    )}>
+                      {p.contentCount || 0}/9
+                    </span>
                   </TableCell>
                   <TableCell>
                     <Badge variant="secondary" className={cn("text-[11px] font-medium", statusColors[p.status])}>

@@ -1,7 +1,7 @@
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { getDb } from "@/db";
-import { palettes } from "@/db/schema";
-import { desc, sql } from "drizzle-orm";
+import { palettes, paletteContent } from "@/db/schema";
+import { desc, eq, sql } from "drizzle-orm";
 import { PaletteTableWithFilters } from "@/components/admin/palette-table-filters";
 import { getDictionary, type Locale } from "@/lib/i18n";
 
@@ -20,11 +20,20 @@ async function getAllPalettes() {
     const counts: Record<string, number> = {};
     for (const row of statusCounts) counts[row.status] = row.count;
 
+    // Count translations per palette
+    const contentCounts = await db
+      .select({ paletteId: paletteContent.paletteId, n: sql<number>`count(*)` })
+      .from(paletteContent)
+      .groupBy(paletteContent.paletteId);
+    const contentMap = new Map<string, number>();
+    for (const row of contentCounts) contentMap.set(row.paletteId, row.n);
+
     return {
       palettes: r.map((p) => ({
         id: p.id, slug: p.slug, status: p.status,
         colors: JSON.parse(p.colors) as string[],
         tags: p.tags ? JSON.parse(p.tags) as string[] : [],
+        contentCount: contentMap.get(p.id) || 0,
         likesCount: p.likesCount,
         createdAt: p.createdAt ? new Date(p.createdAt).toISOString() : new Date().toISOString(),
       })),

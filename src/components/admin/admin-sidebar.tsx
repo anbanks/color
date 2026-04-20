@@ -53,7 +53,7 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
   ];
 
   return (
-    <Sidebar collapsible="icon" className="bg-[#ffffff] dark:bg-[#1a1a1a] border-r border-gray-200/60 dark:border-white/[0.06]">
+    <Sidebar collapsible="icon" className="bg-[#ffffff] dark:bg-[#1a1a1a] border-r border-gray-200/60 dark:border-white/[0.06] [&_*:focus-visible]:ring-0 [&_*:focus-visible]:outline-none">
       <SidebarHeader>
         <Link
           href={base}
