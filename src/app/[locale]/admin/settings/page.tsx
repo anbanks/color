@@ -12,12 +12,20 @@ interface Settings {
   RESEND_API_KEY: string;
   RESEND_FROM_EMAIL: string;
   OPENROUTER_API_KEY: string;
+  OPENROUTER_MODEL: string;
+}
+
+interface ModelOption {
+  id: string;
+  name: string;
+  free: boolean;
 }
 
 export default function SettingsPage() {
-  const [settings, setSettings] = useState<Settings>({ RESEND_API_KEY: "", RESEND_FROM_EMAIL: "", OPENROUTER_API_KEY: "" });
+  const [settings, setSettings] = useState<Settings>({ RESEND_API_KEY: "", RESEND_FROM_EMAIL: "", OPENROUTER_API_KEY: "", OPENROUTER_MODEL: "" });
   const [loading, setLoading] = useState(true);
   const [pending, startTransition] = useTransition();
+  const [models, setModels] = useState<ModelOption[]>([]);
   const [testEmail, setTestEmail] = useState("");
   const [testPending, startTestTransition] = useTransition();
   const [aiTestPending, startAiTestTransition] = useTransition();
@@ -31,6 +39,21 @@ export default function SettingsPage() {
         setLoading(false);
       })
       .catch(() => setLoading(false));
+
+    fetch("https://openrouter.ai/api/v1/models")
+      .then((r) => r.json())
+      .then((data: { data?: { id: string; name: string; pricing?: { prompt?: string; completion?: string } }[] }) => {
+        const all = (data.data || [])
+          .filter((m) => !m.id.includes("lyria") && !m.id.includes("elephant"))
+          .map((m) => ({
+            id: m.id,
+            name: m.name,
+            free: m.pricing?.prompt === "0" && m.pricing?.completion === "0",
+          }))
+          .sort((a, b) => (a.free === b.free ? a.name.localeCompare(b.name) : a.free ? -1 : 1));
+        setModels(all);
+      })
+      .catch(() => {});
   }, []);
 
   const handleSave = () => {
@@ -207,10 +230,36 @@ export default function SettingsPage() {
             </p>
           </div>
 
-          <div className="bg-gray-50 dark:bg-white/[0.03] rounded-lg p-3">
-            <p className="text-[12px] text-gray-500 dark:text-white/50">
-              <span className="font-medium text-gray-700 dark:text-white/70">Model:</span> Google Gemma 4 31B (free) — generates title, description, psychology and applications in 9 languages per palette
-            </p>
+          <div>
+            <Label htmlFor="openrouter-model" className="text-[12px] text-gray-500 dark:text-white/40 flex items-center gap-1.5">
+              <Sparkles className="h-3 w-3" /> Model
+            </Label>
+            <select
+              id="openrouter-model"
+              value={settings.OPENROUTER_MODEL || "meta-llama/llama-3.3-70b-instruct:free"}
+              onChange={(e) => setSettings({ ...settings, OPENROUTER_MODEL: e.target.value })}
+              className="mt-1 w-full h-10 px-3 rounded-lg border border-gray-200 dark:border-white/15 bg-white dark:bg-white/5 text-[13px] text-gray-800 dark:text-white/85 cursor-pointer focus:outline-none focus:border-gray-300 dark:focus:border-white/25"
+            >
+              {models.length === 0 && (
+                <option value={settings.OPENROUTER_MODEL || "meta-llama/llama-3.3-70b-instruct:free"}>
+                  Loading models...
+                </option>
+              )}
+              {models.filter((m) => m.free).length > 0 && (
+                <optgroup label="Free">
+                  {models.filter((m) => m.free).map((m) => (
+                    <option key={m.id} value={m.id}>{m.name}</option>
+                  ))}
+                </optgroup>
+              )}
+              {models.filter((m) => !m.free).length > 0 && (
+                <optgroup label="Paid">
+                  {models.filter((m) => !m.free).map((m) => (
+                    <option key={m.id} value={m.id}>{m.name}</option>
+                  ))}
+                </optgroup>
+              )}
+            </select>
           </div>
 
           <div className="flex justify-end gap-2">

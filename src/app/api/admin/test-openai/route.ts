@@ -1,6 +1,8 @@
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { auth } from "@/auth";
 
+const DEFAULT_MODEL = "meta-llama/llama-3.3-70b-instruct:free";
+
 export async function POST() {
   const session = await auth();
   if (!session?.user || (session.user as { role?: string }).role !== "admin") {
@@ -13,6 +15,8 @@ export async function POST() {
     return Response.json({ ok: false, error: "No API key configured" }, { status: 400 });
   }
 
+  const model = (await env.CACHE.get("settings:OPENROUTER_MODEL")) || DEFAULT_MODEL;
+
   try {
     const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
@@ -23,11 +27,11 @@ export async function POST() {
         "X-Title": "Color Grid",
       },
       body: JSON.stringify({
-        model: "google/gemma-4-31b-it:free",
+        model,
         messages: [
-          { role: "user", content: "Reply with exactly: OK" },
+          { role: "user", content: "Reply with exactly one word: OK" },
         ],
-        max_tokens: 5,
+        max_tokens: 10,
       }),
     });
 
@@ -35,14 +39,14 @@ export async function POST() {
       const data = (await res.json().catch(() => ({}))) as { error?: { message?: string } };
       return Response.json({
         ok: false,
-        error: data.error?.message || `OpenAI ${res.status}`,
+        error: data.error?.message || `OpenRouter ${res.status}`,
       });
     }
 
-    const data = (await res.json()) as { choices?: { message?: { content?: string } }[] };
+    const data = (await res.json()) as { choices?: { message?: { content?: string } }[]; model?: string };
     const reply = data.choices?.[0]?.message?.content?.trim() || "";
 
-    return Response.json({ ok: true, reply, model: "gemma-4-31b-it (free)" });
+    return Response.json({ ok: true, reply, model: data.model || model });
   } catch (e) {
     return Response.json({ ok: false, error: String(e) });
   }
