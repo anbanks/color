@@ -35,8 +35,8 @@ export function PaletteTableWithFilters({ palettes, counts }: Props) {
     { key: "approved", label: t.admin.scheduled },
     { key: "pending", label: t.admin.pending },
     { key: "rejected", label: t.admin.rejected },
-    { key: "has-ai", label: "AI ✓" },
-    { key: "no-ai", label: "AI ✗" },
+    { key: "has-ai", label: "With AI" },
+    { key: "no-ai", label: "No AI" },
   ];
 
   const filterCounts: Record<string, number> = {
