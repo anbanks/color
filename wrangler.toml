@@ -22,4 +22,4 @@ binding = "STORAGE"
 bucket_name = "color-assets"
 
 [triggers]
-crons = ["5 * * * *", "*/5 * * * *"]
+crons = ["5 * * * *"]
