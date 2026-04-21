@@ -148,6 +148,14 @@ export default async function PalettePage({ params }: PageProps) {
         <main className="flex-1 min-w-0 pt-[6px] pb-16 box-border">
           {/* Palette expanded */}
           <div className="max-w-[820px] mx-auto px-5">
+            {/* Title + description above palette */}
+            {content && (
+              <div className="mb-4">
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{content.title}</h1>
+                <p className="text-[14px] text-gray-500 dark:text-white/50 mt-1 leading-relaxed">{content.description}</p>
+              </div>
+            )}
+
             {/* Palette card large */}
             <PaletteStrips colors={colors} />
 
