@@ -43,12 +43,35 @@ Rules:
 
 export async function GET() {
   const { env } = await getCloudflareContext({ async: true });
-  const apiKey = await env.CACHE.get("settings:OPENROUTER_API_KEY");
-  if (!apiKey) {
-    return Response.json({ generated: 0, message: "No OpenRouter key configured" });
+
+  // Check if paused
+  const paused = await env.CACHE.get("settings:AI_PAUSED");
+  if (paused === "true") {
+    return Response.json({ generated: 0, message: "AI generation paused" });
   }
 
-  const model = (await env.CACHE.get("settings:OPENROUTER_MODEL")) || DEFAULT_MODEL;
+  // Determine provider
+  const provider = (await env.CACHE.get("settings:AI_PROVIDER")) || "openrouter";
+  let apiKey: string | null = null;
+  let model: string;
+  let baseUrl: string;
+  let extraHeaders: Record<string, string> = {};
+
+  if (provider === "openai") {
+    apiKey = await env.CACHE.get("settings:OPENAI_API_KEY");
+    model = (await env.CACHE.get("settings:OPENAI_MODEL")) || "gpt-4o-mini";
+    baseUrl = "https://api.openai.com/v1/chat/completions";
+  } else {
+    apiKey = await env.CACHE.get("settings:OPENROUTER_API_KEY");
+    model = (await env.CACHE.get("settings:OPENROUTER_MODEL")) || DEFAULT_MODEL;
+    baseUrl = "https://openrouter.ai/api/v1/chat/completions";
+    extraHeaders = { "HTTP-Referer": "https://colorgrid.co", "X-Title": "Color Grid" };
+  }
+
+  if (!apiKey) {
+    return Response.json({ generated: 0, message: `No ${provider} API key configured` });
+  }
+
   const rateStr = await env.CACHE.get(RATE_KEY);
   const rate = rateStr ? Math.min(parseInt(rateStr, 10) || DEFAULT_RATE, 10) : DEFAULT_RATE;
 
@@ -89,13 +112,12 @@ export async function GET() {
         temperature: 0.7,
       };
 
-      const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+      const res = await fetch(baseUrl, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${apiKey}`,
           "Content-Type": "application/json",
-          "HTTP-Referer": "https://colorgrid.co",
-          "X-Title": "Color Grid",
+          ...extraHeaders,
         },
         body: JSON.stringify(requestBody),
       });
