@@ -66,7 +66,7 @@ export async function generatePaletteContent(
   options: GeneratePaletteOptions,
 ): Promise<GeneratePaletteResult> {
   const locales = options.locales ?? ALL_LOCALES;
-  const maxTokens = options.maxTokens ?? 2000;
+  const maxTokens = options.maxTokens ?? 4096;
   const temperature = options.temperature ?? 0.7;
   const prompt = buildPaletteContentPrompt(options.colors, locales);
 

@@ -96,7 +96,7 @@ export async function GET() {
         title: result.content.en?.title,
         prompt: `${palette.colors.length} colors / ${ALL_LOCALES.length} locales`,
         request: result.request,
-        response: result.raw.slice(0, 1500),
+        response: result.raw.slice(0, 5000),
         httpStatus: 200,
       });
       generated++;
@@ -107,7 +107,7 @@ export async function GET() {
         id: palette.id,
         colors: palette.colors,
         localesSaved: [],
-        request: { model: WORKERS_AI_MODEL, max_tokens: 2000, temperature: 0.7 },
+        request: { model: WORKERS_AI_MODEL, max_tokens: 4096, temperature: 0.7 },
         response: String(e).slice(0, 1000),
       });
     }
