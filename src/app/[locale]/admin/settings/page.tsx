@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { Mail, Key, Send, Sparkles } from "lucide-react";
+import { Mail, Key, Send, Sparkles, BarChart3 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -13,13 +13,15 @@ interface Settings {
   RESEND_API_KEY: string;
   RESEND_FROM_EMAIL: string;
   AI_PAUSED: string;
+  GA_MEASUREMENT_ID: string;
 }
 
 export default function SettingsPage() {
-  const [settings, setSettings] = useState<Settings>({ RESEND_API_KEY: "", RESEND_FROM_EMAIL: "", AI_PAUSED: "false" });
+  const [settings, setSettings] = useState<Settings>({ RESEND_API_KEY: "", RESEND_FROM_EMAIL: "", AI_PAUSED: "false", GA_MEASUREMENT_ID: "" });
   const [loading, setLoading] = useState(true);
   const [resendPending, startResendTransition] = useTransition();
   const [aiPending, startAiTransition] = useTransition();
+  const [gaPending, startGaTransition] = useTransition();
   const [testEmail, setTestEmail] = useState("");
   const [testPending, startTestTransition] = useTransition();
   const [aiTestPending, startAiTestTransition] = useTransition();
@@ -182,6 +184,49 @@ export default function SettingsPage() {
           </div>
         </div>
       )}
+
+      {/* Google Analytics Card */}
+      <div className="border border-gray-200 dark:border-white/10 rounded-xl p-5 mb-6">
+        <div className="flex items-center gap-2.5 mb-4">
+          <BarChart3 className="h-5 w-5 text-gray-900 dark:text-white" />
+          <div>
+            <h2 className="text-[15px] font-semibold text-gray-900 dark:text-white">Google Analytics</h2>
+            <p className="text-[12px] text-gray-400 dark:text-white/40">GA4 Measurement ID — enables site-wide tracking and custom events</p>
+          </div>
+          <span className={`ml-auto text-[11px] font-medium px-2 py-0.5 rounded-full ${settings.GA_MEASUREMENT_ID ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400" : "bg-gray-100 text-gray-500 dark:bg-white/10 dark:text-white/50"}`}>
+            {settings.GA_MEASUREMENT_ID ? "Connected" : "Not configured"}
+          </span>
+        </div>
+
+        <div className="space-y-4">
+          <div>
+            <Label htmlFor="ga-id" className="text-[12px] text-gray-500 dark:text-white/40 flex items-center gap-1.5">
+              <Key className="h-3 w-3" /> Measurement ID
+            </Label>
+            <Input
+              id="ga-id"
+              type="text"
+              placeholder="G-XXXXXXXXXX"
+              value={settings.GA_MEASUREMENT_ID}
+              onChange={(e) => setSettings({ ...settings, GA_MEASUREMENT_ID: e.target.value })}
+              className="mt-1 h-10 font-mono text-[13px]"
+            />
+            <p className="text-[11px] text-gray-400 mt-1">
+              Create a GA4 property at{" "}
+              <a href="https://analytics.google.com" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">
+                analytics.google.com
+              </a>
+              , then copy the Measurement ID (starts with <code className="font-mono">G-</code>).
+            </p>
+          </div>
+
+          <div className="flex justify-end">
+            <Button onClick={() => saveSettings(startGaTransition, "Google Analytics")} disabled={gaPending} className="min-w-[120px] cursor-pointer">
+              {gaPending ? "Saving..." : "Save"}
+            </Button>
+          </div>
+        </div>
+      </div>
 
       {/* Workers AI Card */}
       <div className="border border-gray-200 dark:border-white/10 rounded-xl p-5 mb-6">

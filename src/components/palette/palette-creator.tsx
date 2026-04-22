@@ -8,6 +8,7 @@ import { useLocalePath } from "@/hooks/use-locale-path";
 import { Search, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { classifyPalette } from "@/lib/classify-palette";
+import { trackEvent } from "@/lib/gtag";
 
 const SUGGESTION_COLORS = [
   "Blue", "Teal", "Mint", "Green", "Sage", "Yellow", "Beige", "Brown",
@@ -117,6 +118,7 @@ export function PaletteCreator() {
 
         if (res.ok) {
           toast.success("Palette submitted!");
+          trackEvent("palette_create", { colors_count: colors.length, tags_count: tags.length });
           router.push(lp("/"));
         } else {
           const data = (await res.json()) as { error?: string };

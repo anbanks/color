@@ -4,6 +4,7 @@ import { auth } from "@/auth";
 const SETTINGS_KEYS = [
   "RESEND_API_KEY", "RESEND_FROM_EMAIL",
   "AI_PAUSED",
+  "GA_MEASUREMENT_ID",
 ] as const;
 
 export async function GET() {

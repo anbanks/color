@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import { useLocale } from "@/lib/locale-context";
 import { useAuthModal } from "./auth-modal-provider";
 import { LogoDrop } from "@/components/logo-drop";
+import { trackEvent } from "@/lib/gtag";
 
 const GoogleIcon = () => (
   <svg className="h-5 w-5 mr-2" viewBox="0 0 24 24">
@@ -49,13 +50,17 @@ function LoginView() {
       if (result?.error) {
         toast.error(t.auth.invalidCredentials);
       } else {
+        trackEvent("login", { method: "credentials" });
         closeAuth();
         router.refresh();
       }
     });
   };
 
-  const handleGoogle = () => signIn("google", { callbackUrl: locale === "en" ? "/" : `/${locale}` });
+  const handleGoogle = () => {
+    trackEvent("login", { method: "google" });
+    signIn("google", { callbackUrl: locale === "en" ? "/" : `/${locale}` });
+  };
 
   return (
     <div className="space-y-5">
@@ -127,6 +132,7 @@ function RegisterView() {
           toast.error(data.error || "Registration failed");
           return;
         }
+        trackEvent("sign_up", { method: "credentials" });
         const result = await signIn("credentials", { email, password, redirect: false });
         if (result?.error) {
           toast.success("Account created! Please sign in.");
@@ -142,7 +148,10 @@ function RegisterView() {
     });
   };
 
-  const handleGoogle = () => signIn("google", { callbackUrl: locale === "en" ? "/" : `/${locale}` });
+  const handleGoogle = () => {
+    trackEvent("sign_up", { method: "google" });
+    signIn("google", { callbackUrl: locale === "en" ? "/" : `/${locale}` });
+  };
 
   return (
     <div className="space-y-5">

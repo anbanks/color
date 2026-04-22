@@ -21,6 +21,7 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PaletteActions } from "@/components/palette/palette-actions";
+import { TrackPaletteView } from "@/components/analytics/track-palette-view";
 import { getDictionary, locales, type Locale } from "@/lib/i18n";
 import { SITE_URL, SITE_NAME } from "@/lib/site";
 import { localeUrl, localeAlternates } from "@/lib/locale-url";
@@ -131,6 +132,7 @@ export default async function PalettePage({ params }: PageProps) {
 
   return (
     <>
+      <TrackPaletteView paletteId={palette.id} colors={colors} />
       <Suspense>
         <Header />
       </Suspense>

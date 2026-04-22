@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useTransition } from "react";
 import { Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { trackEvent } from "@/lib/gtag";
 
 const LS_KEY = "colorgrid_likes";
 
@@ -91,6 +92,7 @@ export function LikeButton({ paletteId, initialCount, initialLiked = false }: Li
           setPrev(count);
           setCount(data.count);
         }
+        trackEvent("palette_like", { palette_id: paletteId, action: data.liked ? "like" : "unlike" });
       } catch {
         // silently fail
       }
