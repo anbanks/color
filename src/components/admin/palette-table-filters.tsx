@@ -26,8 +26,6 @@ export function PaletteTableWithFilters({ palettes, counts }: Props) {
   const { t } = useLocale();
 
   const withAI = palettes.filter((p) => (p.contentCount || 0) > 0).length;
-  const readyCount = palettes.filter((p) => (p.contentCount || 0) >= 9).length;
-  const noAI = palettes.filter((p) => (p.contentCount || 0) === 0).length;
 
   const filters = [
     { key: "all", label: t.admin.all },
@@ -36,19 +34,16 @@ export function PaletteTableWithFilters({ palettes, counts }: Props) {
     { key: "pending", label: t.admin.pending },
     { key: "rejected", label: t.admin.rejected },
     { key: "has-ai", label: "With AI" },
-    { key: "no-ai", label: "No AI" },
   ];
 
   const filterCounts: Record<string, number> = {
     ...counts,
     "has-ai": withAI,
-    "no-ai": noAI,
   };
 
   const filtered = (() => {
     if (active === "all") return palettes;
     if (active === "has-ai") return palettes.filter((p) => (p.contentCount || 0) > 0);
-    if (active === "no-ai") return palettes.filter((p) => (p.contentCount || 0) === 0);
     return palettes.filter((p) => p.status === active);
   })();
 

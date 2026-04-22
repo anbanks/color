@@ -12,10 +12,13 @@ export type LocaleContentMap = Record<string, PaletteContent>;
 export const ALL_LOCALES = ["en", "pt", "es", "fr", "de", "it", "ja", "zh", "hi"] as const;
 export type Locale = (typeof ALL_LOCALES)[number];
 
+const LOCALES_PER_CALL = 3;
+const PER_CALL_MAX_TOKENS = 1500;
+
 export interface GeneratePaletteOptions {
   colors: string[];
   locales?: readonly string[];
-  maxTokens?: number;
+  maxTokensPerCall?: number;
   temperature?: number;
 }
 
@@ -26,7 +29,10 @@ export interface GeneratePaletteResult {
     model: string;
     max_tokens: number;
     temperature: number;
+    locales_per_call: number;
+    calls: number;
   };
+  chunkErrors: { locales: string[]; error: string }[];
 }
 
 export function buildPaletteContentPrompt(colors: string[], locales: readonly string[]): string {
@@ -61,36 +67,76 @@ function extractJson(raw: string): string {
   return text;
 }
 
+function chunk<T>(arr: readonly T[], size: number): T[][] {
+  const out: T[][] = [];
+  for (let i = 0; i < arr.length; i += size) {
+    out.push(arr.slice(i, i + size));
+  }
+  return out;
+}
+
 export async function generatePaletteContent(
   ai: Ai,
   options: GeneratePaletteOptions,
 ): Promise<GeneratePaletteResult> {
   const locales = options.locales ?? ALL_LOCALES;
-  const maxTokens = options.maxTokens ?? 4096;
-  const temperature = options.temperature ?? 0.7;
-  const prompt = buildPaletteContentPrompt(options.colors, locales);
+  const maxTokens = options.maxTokensPerCall ?? PER_CALL_MAX_TOKENS;
+  const temperature = options.temperature ?? 0.6;
+  const groups = chunk(locales, LOCALES_PER_CALL);
 
-  const response = (await ai.run(WORKERS_AI_MODEL, {
-    messages: [{ role: "user", content: prompt }],
-    max_tokens: maxTokens,
-    temperature,
-  })) as { response?: string };
+  const merged: LocaleContentMap = {};
+  const rawParts: string[] = [];
+  const chunkErrors: { locales: string[]; error: string }[] = [];
 
-  const raw = response.response?.trim() ?? "";
-  if (!raw) {
-    throw new Error("Workers AI returned empty response");
+  for (const group of groups) {
+    const prompt = buildPaletteContentPrompt(options.colors, group);
+    try {
+      const response = (await ai.run(WORKERS_AI_MODEL, {
+        messages: [{ role: "user", content: prompt }],
+        max_tokens: maxTokens,
+        temperature,
+      })) as { response?: string };
+
+      const raw = response.response?.trim() ?? "";
+      rawParts.push(`# ${group.join(",")}\n${raw}`);
+
+      if (!raw) {
+        chunkErrors.push({ locales: [...group], error: "empty response" });
+        continue;
+      }
+
+      const parsed = JSON.parse(extractJson(raw)) as LocaleContentMap;
+      for (const locale of group) {
+        const item = parsed[locale];
+        if (item?.title) {
+          merged[locale] = {
+            title: item.title,
+            description: item.description || "",
+            applications: item.applications || "",
+            psychology: item.psychology || "",
+          };
+        }
+      }
+    } catch (e) {
+      chunkErrors.push({ locales: [...group], error: (e as Error).message });
+    }
   }
 
-  let parsed: LocaleContentMap;
-  try {
-    parsed = JSON.parse(extractJson(raw)) as LocaleContentMap;
-  } catch (e) {
-    throw new Error(`Failed to parse JSON: ${(e as Error).message}`);
+  if (Object.keys(merged).length === 0) {
+    const firstErr = chunkErrors[0]?.error ?? "no content generated";
+    throw new Error(`Workers AI produced no valid locales: ${firstErr}`);
   }
 
   return {
-    content: parsed,
-    raw,
-    request: { model: WORKERS_AI_MODEL, max_tokens: maxTokens, temperature },
+    content: merged,
+    raw: rawParts.join("\n\n---\n\n"),
+    request: {
+      model: WORKERS_AI_MODEL,
+      max_tokens: maxTokens,
+      temperature,
+      locales_per_call: LOCALES_PER_CALL,
+      calls: groups.length,
+    },
+    chunkErrors,
   };
 }
