@@ -19,41 +19,5 @@
       "Bash(cat /c/Users/micro/desktop/projetos/color/src/app/[locale]/collections/page.tsx)",
       "Bash(find:*)"
     ]
-  },
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "Write|Edit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \"C:\\\\Users\\\\micro\\\\Desktop\\\\Projetos\\\\color\\\\.claude\\\\hooks\\\\code-intel-pretool.cjs\"",
-            "timeout": 10
-          }
-        ]
-      }
-    ],
-    "PreCompact": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \"C:\\\\Users\\\\micro\\\\Desktop\\\\Projetos\\\\color\\\\.claude\\\\hooks\\\\precompact-session-digest.cjs\"",
-            "timeout": 10
-          }
-        ]
-      }
-    ],
-    "UserPromptSubmit": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \"C:\\\\Users\\\\micro\\\\Desktop\\\\Projetos\\\\color\\\\.claude\\\\hooks\\\\synapse-engine.cjs\"",
-            "timeout": 10
-          }
-        ]
-      }
-    ]
   }
 }
