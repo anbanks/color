@@ -3,73 +3,22 @@ import { getDb } from "@/db";
 import { palettes, paletteContent } from "@/db/schema";
 import { eq, sql } from "drizzle-orm";
 import { createId } from "@paralleldrive/cuid2";
+import {
+  ALL_LOCALES,
+  generatePaletteContent,
+  WORKERS_AI_MODEL,
+} from "@/lib/generate-content";
 
-const LOCALES = ["en", "pt", "es", "fr", "de", "it", "ja", "zh", "hi"] as const;
-const DEFAULT_MODEL = "meta-llama/llama-3.3-70b-instruct:free";
 const RATE_KEY = "queue:ai_generate_per_run";
 const LOG_KEY = "queue:ai_log";
 const DEFAULT_RATE = 3;
 
-const LOCALE_NAMES: Record<string, string> = {
-  en: "English", pt: "Portuguese", es: "Spanish", fr: "French",
-  de: "German", it: "Italian", ja: "Japanese", zh: "Chinese", hi: "Hindi",
-};
-
-function buildPrompt(colors: string[]): string {
-  return `You are a color palette expert. Given these 4 hex colors: ${colors.join(", ")}
-
-Generate content for this palette in ALL 9 languages. Return ONLY a JSON object (no markdown fences):
-
-{
-  "en": { "title": "...", "description": "...", "applications": "...", "psychology": "..." },
-  "pt": { "title": "...", "description": "...", "applications": "...", "psychology": "..." },
-  "es": { "title": "...", "description": "...", "applications": "...", "psychology": "..." },
-  "fr": { "title": "...", "description": "...", "applications": "...", "psychology": "..." },
-  "de": { "title": "...", "description": "...", "applications": "...", "psychology": "..." },
-  "it": { "title": "...", "description": "...", "applications": "...", "psychology": "..." },
-  "ja": { "title": "...", "description": "...", "applications": "...", "psychology": "..." },
-  "zh": { "title": "...", "description": "...", "applications": "...", "psychology": "..." },
-  "hi": { "title": "...", "description": "...", "applications": "...", "psychology": "..." }
-}
-
-Rules:
-- title: Creative 2-4 word name, NOT "Color Palette", NOT hex codes
-- description: 1-2 sentence SEO description. INCLUDE the hex codes in the description.
-- applications: 1-2 sentences about practical uses
-- psychology: 1-2 sentences about psychological effect
-- Each field in its respective language
-- Valid JSON only`;
-}
-
 export async function GET() {
   const { env } = await getCloudflareContext({ async: true });
 
-  // Check if paused
   const paused = await env.CACHE.get("settings:AI_PAUSED");
   if (paused === "true") {
     return Response.json({ generated: 0, message: "AI generation paused" });
-  }
-
-  // Determine provider
-  const provider = (await env.CACHE.get("settings:AI_PROVIDER")) || "openrouter";
-  let apiKey: string | null = null;
-  let model: string;
-  let baseUrl: string;
-  let extraHeaders: Record<string, string> = {};
-
-  if (provider === "openai") {
-    apiKey = await env.CACHE.get("settings:OPENAI_API_KEY");
-    model = (await env.CACHE.get("settings:OPENAI_MODEL")) || "gpt-4o-mini";
-    baseUrl = "https://api.openai.com/v1/chat/completions";
-  } else {
-    apiKey = await env.CACHE.get("settings:OPENROUTER_API_KEY");
-    model = (await env.CACHE.get("settings:OPENROUTER_MODEL")) || DEFAULT_MODEL;
-    baseUrl = "https://openrouter.ai/api/v1/chat/completions";
-    extraHeaders = { "HTTP-Referer": "https://colorgrid.co", "X-Title": "Color Grid" };
-  }
-
-  if (!apiKey) {
-    return Response.json({ generated: 0, message: `No ${provider} API key configured` });
   }
 
   const rateStr = await env.CACHE.get(RATE_KEY);
@@ -77,7 +26,6 @@ export async function GET() {
 
   const db = getDb(env.DB);
 
-  // Find palettes without complete content (< 9 locales) using subquery
   const needsContent = await db
     .select({ id: palettes.id, colors: palettes.colors })
     .from(palettes)
@@ -104,40 +52,13 @@ export async function GET() {
 
   for (const palette of toProcess) {
     try {
-      const prompt = buildPrompt(palette.colors);
-      const requestBody = {
-        model,
-        messages: [{ role: "user", content: prompt }],
-        max_tokens: 2000,
-        temperature: 0.7,
-      };
-
-      const res = await fetch(baseUrl, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-          "Content-Type": "application/json",
-          ...extraHeaders,
-        },
-        body: JSON.stringify(requestBody),
+      const result = await generatePaletteContent(env.AI, {
+        colors: palette.colors,
+        locales: ALL_LOCALES,
       });
 
-      const rawBody = await res.text();
-
-      if (!res.ok) {
-        errors.push({ id: palette.id, error: `HTTP ${res.status}: ${rawBody.slice(0, 300)}` });
-        details.push({ id: palette.id, colors: palette.colors, localesSaved: [], prompt, request: requestBody, response: rawBody.slice(0, 1000), httpStatus: res.status });
-        continue;
-      }
-
-      const data = JSON.parse(rawBody) as { choices?: { message?: { content?: string } }[] };
-      let content = data.choices?.[0]?.message?.content?.trim() || "";
-      content = content.replace(/^```json?\s*/i, "").replace(/\s*```$/i, "").trim();
-
-      const allLocales = JSON.parse(content) as Record<string, { title: string; description: string; applications: string; psychology: string }>;
-
-      for (const locale of LOCALES) {
-        const fields = allLocales[locale];
+      for (const locale of ALL_LOCALES) {
+        const fields = result.content[locale];
         if (!fields?.title) continue;
 
         const safe = {
@@ -167,29 +88,35 @@ export async function GET() {
         }
       }
 
-      const localesSaved = Object.keys(allLocales).filter(l => allLocales[l]?.title);
+      const localesSaved = Object.keys(result.content).filter((l) => result.content[l]?.title);
       details.push({
         id: palette.id,
         colors: palette.colors,
         localesSaved,
-        title: allLocales.en?.title,
-        prompt: prompt.slice(0, 200),
-        request: { model, max_tokens: 2000, temperature: 0.7 },
-        response: rawBody.slice(0, 1500),
-        httpStatus: res.status,
+        title: result.content.en?.title,
+        prompt: `${palette.colors.length} colors / ${ALL_LOCALES.length} locales`,
+        request: result.request,
+        response: result.raw.slice(0, 1500),
+        httpStatus: 200,
       });
       generated++;
       ids.push(palette.id);
     } catch (e) {
       errors.push({ id: palette.id, error: String(e) });
+      details.push({
+        id: palette.id,
+        colors: palette.colors,
+        localesSaved: [],
+        request: { model: WORKERS_AI_MODEL, max_tokens: 2000, temperature: 0.7 },
+        response: String(e).slice(0, 1000),
+      });
     }
   }
 
   const now = new Date().toISOString();
-  const logEntry = { time: now, generated, errors: errors.length, ids, errorDetails: errors, details, model, rate };
+  const logEntry = { time: now, generated, errors: errors.length, ids, errorDetails: errors, details, model: WORKERS_AI_MODEL, rate };
 
   try {
-    // Keep last 50 log entries
     const prevLog = await env.CACHE.get(LOG_KEY);
     const logs = prevLog ? JSON.parse(prevLog) : [];
     logs.unshift(logEntry);

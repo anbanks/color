@@ -21,5 +21,8 @@ id = "03e54a04595c467e8a0e60b545e8fbcb"
 binding = "STORAGE"
 bucket_name = "color-assets"
 
+[ai]
+binding = "AI"
+
 [triggers]
 crons = ["5 * * * *", "*/5 * * * *"]

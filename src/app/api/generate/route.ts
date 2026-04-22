@@ -6,6 +6,8 @@ import { auth } from "@/auth";
 import { createId } from "@paralleldrive/cuid2";
 import { generatePaletteContent } from "@/lib/generate-content";
 
+const USER_LOCALES = ["en", "pt", "es"] as const;
+
 export async function POST(request: Request) {
   const session = await auth();
   if (!session?.user) {
@@ -20,7 +22,6 @@ export async function POST(request: Request) {
   const { env } = await getCloudflareContext({ async: true });
   const db = getDb(env.DB);
 
-  // Get palette
   const palette = await db
     .select()
     .from(palettes)
@@ -31,7 +32,6 @@ export async function POST(request: Request) {
     return Response.json({ error: "Palette not found" }, { status: 404 });
   }
 
-  // Check if content already exists
   const existing = await db
     .select()
     .from(paletteContent)
@@ -43,30 +43,30 @@ export async function POST(request: Request) {
   }
 
   const colors = JSON.parse(palette[0].colors) as string[];
-  const apiKey = process.env.OPENAI_API_KEY;
-
-  if (!apiKey) {
-    return Response.json({ error: "OpenAI API key not configured" }, { status: 500 });
-  }
 
   try {
-    const content = await generatePaletteContent(colors, apiKey);
+    const result = await generatePaletteContent(env.AI, {
+      colors,
+      locales: USER_LOCALES,
+    });
 
-    // Insert content for all 3 locales
-    const locales = ["en", "pt", "es"] as const;
-    for (const locale of locales) {
+    let saved = 0;
+    for (const locale of USER_LOCALES) {
+      const fields = result.content[locale];
+      if (!fields?.title) continue;
       await db.insert(paletteContent).values({
         id: createId(),
         paletteId: body.paletteId,
         locale,
-        title: content[locale].title,
-        description: content[locale].description,
-        applications: content[locale].applications,
-        psychology: content[locale].psychology,
+        title: fields.title,
+        description: fields.description || "",
+        applications: fields.applications || "",
+        psychology: fields.psychology || "",
       });
+      saved++;
     }
 
-    return Response.json({ success: true, locales: 3 }, { status: 201 });
+    return Response.json({ success: true, locales: saved }, { status: 201 });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Generation failed";
     return Response.json({ error: message }, { status: 500 });

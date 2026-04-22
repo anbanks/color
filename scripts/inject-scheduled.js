@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 // Runs after `opennextjs-cloudflare build` to create a wrapper worker
 // that re-exports the OpenNext fetch handler and adds a scheduled()
 // handler for Cloudflare Cron Triggers.
