@@ -25,4 +25,4 @@ bucket_name = "color-assets"
 binding = "AI"
 
 [triggers]
-crons = ["5 * * * *", "*/5 * * * *"]
+crons = ["5 * * * *", "*/10 * * * *"]

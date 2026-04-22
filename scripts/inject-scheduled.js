@@ -30,8 +30,8 @@ export default {
   fetch: handler.fetch ? handler.fetch.bind(handler) : handler,
   async scheduled(controller, env, ctx) {
     const cron = controller.cron || "";
-    // Every 5 min: generate AI content for palettes
-    if (cron === "*/5 * * * *") {
+    // Every 10 min: generate AI content for palettes
+    if (cron === "*/10 * * * *") {
       const resp = await doFetch("https://colorgrid.co/api/cron/generate-content", env, ctx);
       console.log("Cron AI generate:", resp.status);
       return;
