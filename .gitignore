@@ -41,6 +41,9 @@ yarn-error.log*
 .wrangler/
 .dev.vars
 
+# claude code runtime
+.claude/scheduled_tasks.lock
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
