@@ -189,7 +189,7 @@ export function QueueClient() {
           </h3>
         </div>
         <p className="text-[12px] text-gray-500 dark:text-white/40 mb-4">
-          Runs every 5 minutes. Generates titles, descriptions, applications and psychology in 9 languages for{" "}
+          Runs every 10 minutes. Generates titles, descriptions, applications and psychology in 9 languages for{" "}
           <span className="font-medium text-gray-700 dark:text-white/70">{state.aiRate}</span>{" "}
           palette(s) per run. Only palettes with all 9 translations can be published.
         </p>
